@@ -46,7 +46,6 @@ public:
     Sprite();
 
     Sprite(char filename[], ifstream& inFile);
-    Sprite(char filename[], ifstream& inFile, int totalFrames);
 
     void loadImage(char filename[], ifstream& inFile);
     void draw(SDL_Plotter& plotter);
