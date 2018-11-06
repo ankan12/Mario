@@ -149,9 +149,15 @@ void Sprite::loadImage(char filename[], ifstream& inFile){
 
     frames.resize(0);
 
+    height.resize(0);
+    width.resize(0);
+
     inFile.getline(buffer, 99);
 
     for (int f = 0; f < totalFrames; f++){
+
+        int frameHeight = 0, widthCounter = 0;
+        width.push_back(0);
 
         vector<Color> image;
 
@@ -165,11 +171,26 @@ void Sprite::loadImage(char filename[], ifstream& inFile){
 
             image.push_back(colorFromCharacter(ch));
 
+            if (image[image.size() -1].r == -2){
+
+                if (widthCounter > width[width.size() -1]){
+                    width[width.size() -1] = widthCounter;
+                }
+
+                widthCounter = 0;
+                frameHeight++;
+            }
+            else{
+                widthCounter++;
+            }
+
             ch = inFile.get();
 
             c++;
-
         }
+        Color finalColor = image[image.size() -1];
+
+        height.push_back(frameHeight);
 
         frames.push_back(image);
 
@@ -213,6 +234,12 @@ void Sprite::draw(SDL_Plotter& plotter){
         return;
     }
 
+    if (isMirrored){
+        mirroredDraw(plotter);
+        return;
+    }
+
+
     int f = currentFrame;
 
     int col = 0, row = 0;
@@ -250,5 +277,47 @@ void Sprite::setOffset(int frameNumber, int x, int y){
     }
 
     offset[frameNumber] = {x,y};
+
+}
+
+int Sprite::getHeight(int frameNumber){
+    return height[frameNumber];
+}
+int Sprite::getWidth(int frameNumber){
+    return width[frameNumber];
+}
+
+void Sprite::setMirrored(bool input){
+    isMirrored = input;
+}
+
+void Sprite::mirroredDraw(SDL_Plotter& plotter){
+
+    int f = currentFrame;
+
+    int col = width[f] - 1, row = 0;
+
+    int offx = offset[f].x, offy = offset[f].y;
+
+    for (int c = 0; c < frames[f].size(); c++){
+
+        Color color = frames[f][c];
+
+        if (color.r == -1){
+            col--;
+            continue;
+        }
+
+        if (color.r == -2){
+            col = width[f] - 1;
+            row++;
+            continue;
+        }
+
+        plotSquare(x + (col+offx)*scale,
+                   y + (row+offy)*scale, scale, color, plotter);
+
+        col--;
+    }
 
 }

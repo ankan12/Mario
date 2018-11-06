@@ -41,6 +41,10 @@ private:
 
     Color colorFromCharacter(char input);
 
+    vector<int> height, width;
+
+    bool isMirrored = false;
+
 public:
 
     Sprite();
@@ -69,6 +73,13 @@ public:
     void setScale(int);
 
     void setOffset(int frameNumber, int x, int y);
+
+    int getHeight(int frameNumber);
+    int getWidth(int frameNumber);
+
+    void setMirrored(bool);
+
+    void mirroredDraw(SDL_Plotter&);
 
 };
 
