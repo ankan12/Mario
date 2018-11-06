@@ -1,0 +1,30 @@
+Colors: 3
+r 255 0 0
+g 0 255 0
+b 0 0 255
+Frames: 3
+     r
+    gb
+   r g
+     b
+     r
+     g
+  bgrbrgb
+\end of frame
+    rrrr
+   g    g
+       b
+      r
+     g
+   bbbbbb
+\end of frame
+  rrrrrrrr
+ g        g
+       bbb
+    rrr
+  ggggggg
+         b
+          r
+          g
+  bbbbbbbb
+\end of frame
