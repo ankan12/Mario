@@ -50,8 +50,8 @@ public:
     void loadImage(char filename[], ifstream& inFile);
     void draw(SDL_Plotter& plotter);
 
-    int getx();
-    int gety();
+    int get_x();
+    int get_y();
 
     void set_x(int x);
     void set_y(int y);

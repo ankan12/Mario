@@ -45,13 +45,13 @@ void Sprite::setLocation(int x, int y){
 
 }
 
-int Sprite::getx(){
+int Sprite::get_x(){
 
     return x;
 
 }
 
-int Sprite::gety(){
+int Sprite::get_y(){
 
     return y;
 
