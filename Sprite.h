@@ -45,6 +45,8 @@ private:
 
     bool isMirrored = false;
 
+    void mirroredDraw(SDL_Plotter&);
+
 public:
 
     Sprite();
@@ -78,8 +80,6 @@ public:
     int getWidth(int frameNumber);
 
     void setMirrored(bool);
-
-    void mirroredDraw(SDL_Plotter&);
 
 };
 
