@@ -28,7 +28,7 @@ public:
 
     bool isTouching(const CollisionBox& b);
     bool jumpedOn(const CollisionBox& b);
-    bool hitHeadOn(const CollisionBox& b);
+    bool hitHeadUnder(const CollisionBox& b);
     bool hitTheSideOf(const CollisionBox& b);
 
     //For debugging purposes

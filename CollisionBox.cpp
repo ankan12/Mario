@@ -74,7 +74,7 @@ bool CollisionBox::jumpedOn(const CollisionBox& b){
     }
     return false;
 }
-bool CollisionBox::hitHeadOn(const CollisionBox& b){
+bool CollisionBox::hitHeadUnder(const CollisionBox& b){
 
     if (isTouching(b) && (past_y > b.y + height)){
         return true;
