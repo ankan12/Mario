@@ -11,7 +11,7 @@ struct Color{
 
     int r, g, b;
 
-    bool isEqualTo(Color color);
+    bool isEqualTo(const Color& color);
 
 };
 

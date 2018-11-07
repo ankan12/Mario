@@ -26,10 +26,10 @@ public:
     void resetAtLocation(int,int);
 
 
-    bool isTouching(CollisionBox b);
-    bool jumpedOn(CollisionBox b);
-    bool hitHeadOn(CollisionBox b);
-    bool hitTheSideOf(CollisionBox b);
+    bool isTouching(const CollisionBox& b);
+    bool jumpedOn(const CollisionBox& b);
+    bool hitHeadOn(const CollisionBox& b);
+    bool hitTheSideOf(const CollisionBox& b);
 
     //For debugging purposes
     void drawBox(SDL_Plotter& p);

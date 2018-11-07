@@ -5,7 +5,7 @@
 using namespace std;
 
 
-bool Color::isEqualTo(Color color){
+bool Color::isEqualTo(const Color& color){
 
     if (r == color.r && g == color.g && b == color.b){
         return true;

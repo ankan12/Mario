@@ -50,7 +50,7 @@ void CollisionBox::resetAtLocation(int x, int y){
     this->y = y;
 }
 
-bool CollisionBox::isTouching(CollisionBox b){
+bool CollisionBox::isTouching(const CollisionBox& b){
 
     if (x + width > b.x && y + height > b.y){
         return true;
@@ -67,21 +67,21 @@ bool CollisionBox::isTouching(CollisionBox b){
     return false;
 }
 
-bool CollisionBox::jumpedOn(CollisionBox b){
+bool CollisionBox::jumpedOn(const CollisionBox& b){
 
     if (isTouching(b) && (past_y + height < b.y)){
         return true;
     }
     return false;
 }
-bool CollisionBox::hitHeadOn(CollisionBox b){
+bool CollisionBox::hitHeadOn(const CollisionBox& b){
 
     if (isTouching(b) && (past_y > b.y + height)){
         return true;
     }
     return false;
 }
-bool CollisionBox::hitTheSideOf(CollisionBox b){
+bool CollisionBox::hitTheSideOf(const CollisionBox& b){
 
     if (isTouching(b)){
         if (past_x + width < b.x){
