@@ -90,11 +90,15 @@ bool CollisionBox::hitTheSideOf(const CollisionBox& b){
 }
 
 void CollisionBox::drawBox(SDL_Plotter& p){
-    for (int c = x; c <= width; c++){
+
+    cout << "width: " << width << endl;
+    cout << "height: " << height << endl;
+
+    for (int c = x; c <= x + width; c++){
         p.plotPixel(c, y, 255, 0, 0);
         p.plotPixel(c, y + height, 255, 0, 0);
     }
-    for (int c = y; c <= height; c++){
+    for (int c = y; c <= y + height; c++){
         p.plotPixel(x, c, 255, 0, 0);
         p.plotPixel(x + width, c, 255, 0, 0);
     }
