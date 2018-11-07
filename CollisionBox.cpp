@@ -25,7 +25,7 @@ int CollisionBox::get_y(){
 int CollisionBox::get_past_x(){
     return past_x;
 }
-int CollisionBox::CollisionBox::get_past_y(){
+int CollisionBox::get_past_y(){
     return past_y;
 }
 
