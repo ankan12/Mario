@@ -52,18 +52,13 @@ void CollisionBox::resetAtLocation(int x, int y){
 
 bool CollisionBox::isTouching(const CollisionBox& b){
 
-    if (x + width > b.x && y + height > b.y){
+    if ((x <= b.x + b.width && y <= b.y + b.height)
+        && (x + width >= b.x && y + height >= b.y)){
+
         return true;
-    }
-    if (x < b.x + width && y + height > b.y){
-        return true;
-    }
-    if (x + width > b.x && y < b.y + height){
-        return true;
-    }
-    if (x < b.x + width && y < b.y + height){
-        return true;
-    }
+
+        }
+
     return false;
 }
 
