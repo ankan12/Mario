@@ -81,6 +81,10 @@ public:
 
     void setMirrored(bool);
 
+    Color getPixel(int frameNumber, int col, int row);
+
+    int pixelsInFrame(int frameNumber);
+
 };
 
 #endif // SPRITE_H_INCLUDED
