@@ -321,3 +321,15 @@ void Sprite::mirroredDraw(SDL_Plotter& plotter){
     }
 
 }
+
+Color Sprite::getPixel(int frameNumber, int index){
+
+    return frames[frameNumber][index];
+
+}
+
+int Sprite::pixelsInFrame(int frameNumber){
+
+    return frames[frameNumber].size();
+
+}
