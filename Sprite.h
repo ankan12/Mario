@@ -81,7 +81,7 @@ public:
 
     void setMirrored(bool);
 
-    Color getPixel(int frameNumber, int colorIndex);
+    Color getPixel(int frameNumber, int col, int row);
 
     int pixelsInFrame(int frameNumber);
 
