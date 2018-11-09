@@ -52,8 +52,8 @@ void CollisionBox::resetAtLocation(int x, int y){
 
 bool CollisionBox::isTouching(const CollisionBox& b){
 
-    if ((x <= b.x + b.width && y <= b.y + b.height)
-        && (x + width >= b.x && y + height >= b.y)){
+    if ((x < b.x + b.width-1 && y < b.y + b.height-1)
+        && (x + width-1 > b.x && y + height-1 > b.y)){
 
         return true;
 
@@ -64,14 +64,14 @@ bool CollisionBox::isTouching(const CollisionBox& b){
 
 bool CollisionBox::jumpedOn(const CollisionBox& b){
 
-    if (isTouching(b) && (past_y + height < b.y)){
+    if (isTouching(b) && (past_y + height-1 < b.y)){
         return true;
     }
     return false;
 }
 bool CollisionBox::hitHeadUnder(const CollisionBox& b){
 
-    if (isTouching(b) && (past_y > b.y + height)){
+    if (isTouching(b) && (past_y > b.y + b.height-1)){
         return true;
     }
     return false;
@@ -79,10 +79,10 @@ bool CollisionBox::hitHeadUnder(const CollisionBox& b){
 bool CollisionBox::hitTheSideOf(const CollisionBox& b){
 
     if (isTouching(b)){
-        if (past_x + width < b.x){
+        if (past_x + width-1 < b.x){
             return true;
         }
-        if (past_x > b.x + width){
+        if (past_x > b.x + b.width-1){
             return true;
         }
     }
@@ -91,11 +91,11 @@ bool CollisionBox::hitTheSideOf(const CollisionBox& b){
 
 void CollisionBox::drawBox(SDL_Plotter& p){
 
-    for (int c = x; c <= x + width; c++){
+    for (int c = x; c < x + width; c++){
         p.plotPixel(c, y, 255, 0, 0);
         p.plotPixel(c, y + height, 255, 0, 0);
     }
-    for (int c = y; c <= y + height; c++){
+    for (int c = y; c < y + height; c++){
         p.plotPixel(x, c, 255, 0, 0);
         p.plotPixel(x + width, c, 255, 0, 0);
     }

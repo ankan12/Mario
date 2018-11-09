@@ -147,9 +147,6 @@ void Sprite::loadImage(char filename[], ifstream& inFile){
 
     inFile >> totalFrames;
 
-    height.resize(0);
-    width.resize(0);
-
     pixels.resize(0);
 
     inFile.getline(buffer, 99);
