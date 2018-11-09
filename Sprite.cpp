@@ -147,19 +147,20 @@ void Sprite::loadImage(char filename[], ifstream& inFile){
 
     inFile >> totalFrames;
 
-    frames.resize(0);
-
     height.resize(0);
     width.resize(0);
+
+    pixels.resize(0);
 
     inFile.getline(buffer, 99);
 
     for (int f = 0; f < totalFrames; f++){
 
-        int frameHeight = 0, widthCounter = 0;
-        width.push_back(0);
+        int width = 0, widthCounter = 0;
 
-        vector<Color> image;
+        vector<Color> row;
+
+        vector<vector<Color> > grid;
 
         char ch;
 
@@ -169,18 +170,22 @@ void Sprite::loadImage(char filename[], ifstream& inFile){
 
         while (ch != '\\' && c < 250000){
 
-            image.push_back(colorFromCharacter(ch));
+            if (ch == '\n'){
 
-            if (image[image.size() -1].r == -2){
+                if (!row.empty()){
+                    grid.push_back(row);
+                }
 
-                if (widthCounter > width[width.size() -1]){
-                    width[width.size() -1] = widthCounter;
+                row.resize(0);
+
+                if (widthCounter > width){
+                    width = widthCounter;
                 }
 
                 widthCounter = 0;
-                frameHeight++;
             }
             else{
+                row.push_back(colorFromCharacter(ch));
                 widthCounter++;
             }
 
@@ -188,20 +193,23 @@ void Sprite::loadImage(char filename[], ifstream& inFile){
 
             c++;
         }
-        Color finalColor = image[image.size() -1];
-
-        height.push_back(frameHeight);
-
-        frames.push_back(image);
 
         inFile.getline(buffer, 99);
+
+        for (int r = 0; r < grid.size(); r++){
+
+            grid[r].resize(width, {-1,-1,-1});
+
+        }
+
+        pixels.push_back(grid);
 
     }
 
     inFile.clear();
     inFile.close();
 
-    offset.resize(frames.size(), {0,0});
+    offset.resize(pixels.size(), {0,0});
 
 }
 
@@ -227,52 +235,10 @@ Color Sprite::colorFromCharacter(char input){
     return colors[index];
 }
 
-void Sprite::draw(SDL_Plotter& plotter){
-
-    if (frames.empty()){
-        cout << "draw requires the image to be loaded." << endl;
-        return;
-    }
-
-    if (isMirrored){
-        mirroredDraw(plotter);
-        return;
-    }
-
-
-    int f = currentFrame;
-
-    int col = 0, row = 0;
-
-    int offx = offset[f].x, offy = offset[f].y;
-
-    for (int c = 0; c < frames[f].size(); c++){
-
-        Color color = frames[f][c];
-
-        if (color.r == -1){
-            col++;
-            continue;
-        }
-
-        if (color.r == -2){
-            col = 0;
-            row++;
-            continue;
-        }
-
-        plotSquare(x + (col+offx)*scale,
-                   y + (row+offy)*scale, scale, color, plotter);
-
-        col++;
-    }
-
-}
-
 void Sprite::setOffset(int frameNumber, int x, int y){
 
-    if (frames.empty()){
-        cout << "setOffset requires the images to be loaded." << endl;
+    if (pixels.empty()){
+        cout << "setOffset requires the image to be loaded." << endl;
         return;
     }
 
@@ -281,77 +247,72 @@ void Sprite::setOffset(int frameNumber, int x, int y){
 }
 
 int Sprite::getHeight(int frameNumber){
-    return height[frameNumber];
+    return pixels[frameNumber].size();
 }
 int Sprite::getWidth(int frameNumber){
-    return width[frameNumber];
+    return pixels[frameNumber][0].size();
 }
 
 void Sprite::setMirrored(bool input){
     isMirrored = input;
 }
 
-void Sprite::mirroredDraw(SDL_Plotter& plotter){
-
-    int f = currentFrame;
-
-    int col = width[f] - 1, row = 0;
-
-    int offx = offset[f].x, offy = offset[f].y;
-
-    for (int c = 0; c < frames[f].size(); c++){
-
-        Color color = frames[f][c];
-
-        if (color.r == -1){
-            col--;
-            continue;
-        }
-
-        if (color.r == -2){
-            col = width[f] - 1;
-            row++;
-            continue;
-        }
-
-        plotSquare(x + (col+offx)*scale,
-                   y + (row+offy)*scale, scale, color, plotter);
-
-        col--;
-    }
-
-}
-
 Color Sprite::getPixel(int frameNumber, int col, int row){
 
-    int f = frameNumber;
-
-    for (int i = 0, c = 0, r = 0; i < frames[f].size(); i++){
-
-        Color color = frames[f][i];
-
-        if (color.r == -2){
-            r++;
-            c = -1;
-        }
-
-        if (c == col && r == row){
-            return color;
-        }
-
-        if (r > row){
-            return {-1,-1,-1};
-        }
-
-        c++;
-    }
-
-    return {-1,-1,-1};
+    return pixels[frameNumber][row][col];
 
 }
 
 int Sprite::pixelsInFrame(int frameNumber){
 
-    return frames[frameNumber].size();
+    int f = frameNumber;
+
+    int output = 0;
+
+    for (int r = 0; r < pixels[f].size(); r++){
+        output += pixels[f][r].size();
+    }
+
+    return output;
+
+}
+
+void Sprite::draw(SDL_Plotter& p){
+
+    if (pixels.empty()){
+        cout << "draw requires the image to be loaded." << endl;
+    }
+
+    int px, py = 0;
+
+    int cf = currentFrame;
+
+    int offx = offset[cf].x, offy = offset[cf].y;
+
+    for (int r = 0; r < pixels[cf].size(); r++){
+
+        px = isMirrored ? pixels[cf][r].size() -1 : 0;
+
+        cout << "r: " << r << endl;
+
+        for (int c = 0; c < pixels[cf][r].size(); c++){
+
+            cout << "c: " << c << endl;
+
+            if(pixels[cf][r][c].r == -1){
+                px += isMirrored ? -1 : 1;
+                continue;
+            }
+
+            plotSquare(x + (px + offx) * scale, y + (py + offy) * scale,
+                       scale, pixels[cf][r][c], p);
+
+            px += isMirrored ? -1 : 1;
+
+        }
+
+        py++;
+
+    }
 
 }

@@ -26,7 +26,6 @@ class Sprite{
 private:
 
     int x = 0, y = 0;
-    vector<vector<Color> > frames;
     int currentFrame = 0;
     int totalFrames = 1;
     int scale = 1;
@@ -41,11 +40,9 @@ private:
 
     Color colorFromCharacter(char input);
 
-    vector<int> height, width;
-
     bool isMirrored = false;
 
-    void mirroredDraw(SDL_Plotter&);
+    vector<vector<vector<Color> > > pixels;
 
 public:
 
@@ -54,7 +51,6 @@ public:
     Sprite(char filename[], ifstream& inFile);
 
     void loadImage(char filename[], ifstream& inFile);
-    void draw(SDL_Plotter& plotter);
 
     int get_x();
     int get_y();
@@ -84,6 +80,8 @@ public:
     Color getPixel(int frameNumber, int col, int row);
 
     int pixelsInFrame(int frameNumber);
+
+    void draw(SDL_Plotter& p);
 
 };
 
