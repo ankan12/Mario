@@ -21,6 +21,8 @@ struct Point{
 
 };
 
+void plotSquare(int x, int y, int scale, Color color, SDL_Plotter& p);
+
 class Sprite{
 
 private:
@@ -35,8 +37,6 @@ private:
     vector<Color> colors;
 
     vector<char> characters;
-
-    void plotSquare(int x, int y, int scale, Color color, SDL_Plotter& p);
 
     Color colorFromCharacter(char input);
 
@@ -72,6 +72,8 @@ public:
 
     void setOffset(int frameNumber, int x, int y);
 
+    Point getOffset(int frameNumber);
+
     int getHeight(int frameNumber);
     int getWidth(int frameNumber);
 
@@ -82,6 +84,10 @@ public:
     int pixelsInFrame(int frameNumber);
 
     void draw(SDL_Plotter& p);
+
+    bool mirrored();
+
+    int getTotalFrames();
 
 };
 

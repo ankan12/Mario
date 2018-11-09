@@ -91,7 +91,7 @@ void Sprite::setScale(int scale){
 
 }
 
-void Sprite::plotSquare(int x, int y, int scale, Color color, SDL_Plotter& p){
+void plotSquare(int x, int y, int scale, Color color, SDL_Plotter& p){
 
     for (int c = 0; c < scale; c++){
 
@@ -290,11 +290,7 @@ void Sprite::draw(SDL_Plotter& p){
 
         px = isMirrored ? pixels[cf][r].size() -1 : 0;
 
-        cout << "r: " << r << endl;
-
         for (int c = 0; c < pixels[cf][r].size(); c++){
-
-            cout << "c: " << c << endl;
 
             if(pixels[cf][r][c].r == -1){
                 px += isMirrored ? -1 : 1;
@@ -311,5 +307,23 @@ void Sprite::draw(SDL_Plotter& p){
         py++;
 
     }
+
+}
+
+Point Sprite::getOffset(int frameNumber){
+
+    return offset[frameNumber];
+
+}
+
+bool Sprite::mirrored(){
+
+    return isMirrored;
+
+}
+
+int Sprite::getTotalFrames(){
+
+    return pixels.size();
 
 }
