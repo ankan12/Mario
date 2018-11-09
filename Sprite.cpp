@@ -327,3 +327,38 @@ int Sprite::getTotalFrames(){
     return pixels.size();
 
 }
+
+void Sprite::copyPixelsOnto(Sprite& sprite){
+
+    if (pixels.empty()){
+
+        cout << "The pixels have to be set for the function to work." << endl;
+
+    }
+
+    sprite.pixels.resize(0);
+
+    sprite.offset.resize(pixels.size(), {0,0});
+
+    for (int f = 0; f < pixels.size(); f++){
+
+        vector<vector<Color> > grid;
+
+        for (int r = 0; r < pixels[f].size(); r++){
+
+            vector<Color> row;
+
+            for (int c = 0; c < pixels[f][r].size(); c++){
+
+                row.push_back(pixels[f][r][c]);
+
+            }
+
+            grid.push_back(row);
+
+        }
+
+        sprite.pixels.push_back(grid);
+
+    }
+}

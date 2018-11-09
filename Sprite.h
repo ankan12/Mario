@@ -89,6 +89,8 @@ public:
 
     int getTotalFrames();
 
+    void copyPixelsOnto(Sprite& sprite);
+
 };
 
 #endif // SPRITE_H_INCLUDED
