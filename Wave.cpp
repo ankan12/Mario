@@ -6,6 +6,8 @@ Wave::Wave(char filename[], ifstream& inFile){
 
     sprite.loadImage(filename, inFile);
 
+    columnLocations.resize(sprite.getTotalFrames());
+
     for (int f = 0; f < sprite.getTotalFrames(); f++){
 
         columnLocations[f].resize(sprite.getWidth(f), 0);
@@ -14,7 +16,7 @@ Wave::Wave(char filename[], ifstream& inFile){
 
 }
 
-Sprite Wave::getSprite(){
+Sprite& Wave::getSprite(){
 
     return sprite;
 
@@ -43,12 +45,16 @@ void Wave::draw(SDL_Plotter& p){
 
         int py = columnLocations[cf][c];
 
-        for (int r = 0; r < sprite.getHeight(cf); r++){
+        for (int r = 0; r < sprite.getHeight(cf); r++, py++){
+
+            Color color = sprite.getPixel(cf,c,r);
+
+            if (color.r == -1){
+                continue;
+            }
 
             plotSquare(x + (px + offx) * scale, y + (py + offy) * scale, scale,
                        sprite.getPixel(cf,c,r), p);
-
-            py++;
 
         }
 

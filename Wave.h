@@ -17,7 +17,7 @@ private:
 public:
     Wave(char filename[], ifstream& inFile);
 
-    Sprite getSprite();
+    Sprite& getSprite();
 
     void setSpriteLocation(int, int);
 
