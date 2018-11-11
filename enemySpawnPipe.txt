@@ -1,0 +1,36 @@
+Colors: 3
+l 152 232 0
+d 56 104 0
+w 255 255 255
+Frames: 1
+............................................lllw
+............................................lllw
+........................lllllllllllllllllllddddl
+......................llddddddddddddddddddddlllw
+.....................lldllllllllllllllllllldwwww
+....................lldllwwwwwwwwwwwwwwwwwwdwwww
+....................ldllwwwwwwwwwwwwwwwwwwwdlllw
+...................ldllwwwllllllllllllllllldlllw
+...................ldlwwwlllllllllllllllllldlllw
+...................ldlwwllllllllllllllllllldlllw
+...................ldlwwllllddddddddddddddddlllw
+...................ldlwwllldddddddddddddddddlddl
+............lllw..lldlwwllddddddddddddddddddlddl
+lllllllllllddddwllldllwwllddddddddddddddddddlddl
+ddddddddddddlllwdddlllwwlldddddlllllllllllldlddl
+llllllllllldwwwwlllllwwwlldddlllllllllllllldlddl
+wwwwwwwwwwwdwwwwwwwwwwwlllddllldddddddddddddllll
+wwwwwwwwwwwdlllwwwwwwwllllddlldlllllllllllldllll
+llllllllllldlllwllllllllllddldll............lddl
+llllllllllldlllwllllllllllddldl.............llll
+llllllllllldlllwllllllllldddldl
+ddddddddddddlllwddddddddddddldl
+ddddddddddddlddldddddddddddlldl
+ddddddddddddlddldddddddddddlldl
+ddddddddddddlddlddddddddddlldll
+llllllllllldlddllllllllllllldl
+llllllllllldllllllllllllllldll
+ddddddddddddlllldddddddddddll
+llllllllllldlddlllllllllllll
+............llll
+\end of frame
