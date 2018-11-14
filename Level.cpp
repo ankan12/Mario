@@ -1,93 +1,175 @@
 #include "Level.h"
 
-Level::Level(){
-}
 
-void Level::draw(SDL_Plotter& p){
+Platform::Platform(int x, int y){
 
-    for (int i = 0; i < blocks.size(); i++){
-
-        blocks[i].draw(p);
-
-    }
-}
-
-void Level::placeBlock(int x, int y, Sprite& sprite){
-
-    int width = sprite.getWidth(0) * sprite.getScale();
-    int height = sprite.getHeight(0) * sprite.getScale();
-
-    Block block(x, y, width, height);
-
-    sprite.copyPixelsOnto(block.getWave().getSprite());
-
-    block.getWave().resetColumnLocations();
-
-    blocks.push_back(block);
-
+    this->x = x;
+    this->y = y;
 
 }
 
-void Level::placeBlock(int x, int y){
+int Platform::get_x(){
 
-    placeBlock(x, y, blockSprite);
-
-}
-
-void Level::placeBlock(int x, int y, BlockType type){
-
-    switch(type){
-
-    case leftEdge:
-        placeBlock(x, y, leftEdgeSprite);
-        return;
-
-    case rightEdge:
-        placeBlock(x, y, rightEdgeSprite);
-        return;
-
-    case middle:
-        placeBlock(x, y);
-        return;
-
-    }
+    return x;
 
 }
 
-Block& Level::getBlock(int index){
+int Platform::get_y(){
+
+    return y;
+
+}
+
+Block& Platform::getBlock(int index){
 
     return blocks[index];
 
 }
 
-Block& Level::getBlock(int x, int y){
+int Platform::numOfBlocks(){
 
-    for (int i = 0; i < blocks.size(); i++){
+    return blocks.size();
 
-        if (blocks[i].get_x() == x && blocks[i].get_y() == y){
+}
 
-            return blocks[i];
+void Platform::addBlock(Sprite& sprite){
+
+    int width = sprite.getScaledWidth(0);
+    int height = sprite.getScaledHeight(0);
+
+    int bX = x;
+
+    for (int b = 0; b < blocks.size(); b++){
+
+        bX += blocks[b].getWidth();
+
+    }
+
+    int bY = y;
+
+    Block block(bX, bY, width, height);
+
+    sprite.copyPixelsOnto(block.getWave().getSprite());
+
+    block.getWave().resetColumnLocations();
+
+    block.getWave().getSprite().setScale(sprite.getScale());
+
+    blocks.push_back(block);
+
+}
+
+Level::Level(){
+}
+
+void Level::draw(SDL_Plotter& p){
+
+    for (int i = 0; i < platforms.size(); i++){
+
+        for (int b = 0; b < platforms[i].numOfBlocks(); b++){
+
+            platforms[i].getBlock(b).draw(p);
 
         }
+    }
+}
+
+
+void Level::setBlockSprite(char filename[], ifstream& inFile, int scale){
+
+    blockSprite.loadImage(filename, inFile);
+    blockSprite.setScale(scale);
+}
+
+void Level::setLeftEdgeSprite(char filename[], ifstream& inFile, int scale){
+
+    leftEdgeSprite.loadImage(filename, inFile);
+    leftEdgeSprite.setScale(scale);
+
+}
+
+void Level::setRightEdgeSprite(char filename[], ifstream& inFile, int scale){
+
+    rightEdgeSprite.loadImage(filename, inFile);
+    rightEdgeSprite.setScale(scale);
+
+}
+
+bool Level::containsEdgeSprites(){
+
+    if (leftEdgeSprite.getTotalFrames() == 0 ||
+    rightEdgeSprite.getTotalFrames() == 0){
+
+        return false;
+
+    }
+
+    return true;
+
+}
+
+Sprite& Level::getSprite(){
+
+    return blockSprite;
+
+}
+
+Sprite& Level::getSprite(BlockType type){
+
+    switch (type){
+
+    case leftEdge:
+        return  leftEdgeSprite;
+
+    case rightEdge:
+        return rightEdgeSprite;
+
+    default:
+        return getSprite();
 
     }
 
 }
 
-void Level::setBlockSprite(char filename[], ifstream& inFile){
+void Level::placePlatform(int x, int y, int numOfBlocks){
 
-    blockSprite.loadImage(filename, inFile);
+    Platform platform(x, y);
+
+    if (containsEdgeSprites()){
+
+        platform.addBlock(leftEdgeSprite);
+
+        for (int b = 1; b < numOfBlocks; b++){
+
+            platform.addBlock(blockSprite);
+
+        }
+
+        platform.addBlock(rightEdgeSprite);
+
+    }
+
+    else {
+
+        for (int b = 0; b < numOfBlocks; b++){
+
+            platform.addBlock(blockSprite);
+
+        }
+    }
+
+    platforms.push_back(platform);
 
 }
 
-void Level::setLeftEdgeSprite(char filename[], ifstream& inFile){
+int Level::numOfPlatforms(){
 
-    leftEdgeSprite.loadImage(filename, inFile);
+    return platforms.size();
 
 }
 
-void Level::setRightEdgeSprite(char filename[], ifstream& inFile){
+Platform& Level::getPlatform(int index){
 
-    rightEdgeSprite.loadImage(filename, inFile);
+    return platforms[index];
 
 }

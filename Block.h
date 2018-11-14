@@ -37,6 +37,9 @@ public:
     int get_x();
     int get_y();
 
+    int getWidth();
+    int getHeight();
+
 };
 
 #endif // BLOCK_H_INCLUDED

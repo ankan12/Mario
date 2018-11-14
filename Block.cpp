@@ -69,3 +69,15 @@ int Block::get_y(){
     return y;
 
 }
+
+int Block::getWidth(){
+
+    return width;
+
+}
+
+int Block::getHeight(){
+
+    return height;
+
+}

@@ -15,7 +15,7 @@ void drawBlackBackground(int screenWidth, int screenHeight, SDL_Plotter& p){
 
     for (int y = 0; y < screenHeight; y++){
 
-        for (int x = 0; x < screenHeight; x++){
+        for (int x = 0; x < screenWidth; x++){
 
             p.plotPixel(x, y, 0, 0, 0);
 

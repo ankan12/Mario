@@ -98,6 +98,9 @@ public:
 
     void plotSquare(int x, int y, int scale, Color color, SDL_Plotter& p);
 
+    int getScaledWidth(int frameNumber);
+    int getScaledHeight(int frameNumber);
+
 };
 
 #endif // SPRITE_H_INCLUDED

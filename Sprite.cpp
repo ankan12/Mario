@@ -404,3 +404,15 @@ void Sprite::set_yCrop(int yCrop){
     this->yCrop = yCrop;
 
 }
+
+int Sprite::getScaledWidth(int frameNumber){
+
+    return pixels[frameNumber][0].size() * scale;
+
+}
+
+int Sprite::getScaledHeight(int frameNumber){
+
+    return pixels[frameNumber].size() * scale;
+
+}

@@ -6,15 +6,37 @@
 #include <fstream>
 #include <vector>
 
+class Platform{
+
+private:
+
+    int x, y;
+
+    vector<Block> blocks;
+
+public:
+
+    Platform(int x, int y);
+
+    Block& getBlock(int index);
+
+    int numOfBlocks();
+
+    int get_x();
+
+    int get_y();
+
+    void addBlock(Sprite& sprite);
+
+};
+
 class Level{
 
 private:
-    vector<Block> blocks;
+    vector<Platform> platforms;
     Sprite blockSprite;
     Sprite leftEdgeSprite;
     Sprite rightEdgeSprite;
-
-    void placeBlock(int x, int y, Sprite& sprite);
 
 public:
 
@@ -22,16 +44,20 @@ public:
 
     void draw(SDL_Plotter& p);
 
-    void placeBlock(int x, int y);
-    void placeBlock(int x, int y, BlockType type);
+    void placePlatform(int x, int y, int numOfBlocks);
 
-    void setBlockSprite(char[], ifstream&);
-    void setLeftEdgeSprite(char[], ifstream&);
-    void setRightEdgeSprite(char[], ifstream&);
+    void setBlockSprite(char[], ifstream&, int scale);
+    void setLeftEdgeSprite(char[], ifstream&, int scale);
+    void setRightEdgeSprite(char[], ifstream&, int scale);
 
-    Block& getBlock(int index);
+    bool containsEdgeSprites();
 
-    Block& getBlock(int x, int y);
+    Sprite& getSprite();
+    Sprite& getSprite(BlockType type);
+
+    int numOfPlatforms();
+
+    Platform& getPlatform(int index);
 
 };
 
