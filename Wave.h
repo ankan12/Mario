@@ -17,6 +17,8 @@ private:
 public:
     Wave(char filename[], ifstream& inFile);
 
+    Wave();
+
     Sprite& getSprite();
 
     void setSpriteLocation(int, int);
@@ -24,6 +26,8 @@ public:
     void offsetColumn(int columnNumber, int y);
 
     void draw(SDL_Plotter& p);
+
+    void resetColumnLocations();
 
 };
 

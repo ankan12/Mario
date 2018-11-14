@@ -119,7 +119,7 @@ void Sprite::plotSquare(int x, int y, int scale, Color color, SDL_Plotter& p){
         for (int c2 = 0; c2 < scale; c2++){
 
             if (xCrop != -1 && (x + c2) > (this->x + xCrop)){
-                continue;
+                break;
             }
 
             int r, g, b;
@@ -362,6 +362,13 @@ void Sprite::copyPixelsOnto(Sprite& sprite){
     sprite.pixels.resize(0);
 
     sprite.offset.resize(pixels.size(), {0,0});
+
+    for (int f = 0; f < pixels.size(); f++){
+
+        sprite.offset[f].x = offset[f].x;
+        sprite.offset[f].y = offset[f].y;
+
+    }
 
     for (int f = 0; f < pixels.size(); f++){
 

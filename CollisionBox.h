@@ -12,6 +12,7 @@ private:
 
 public:
     CollisionBox(int width, int height, int x, int y);
+    CollisionBox();
 
     int getWidth();
     int getHeight();

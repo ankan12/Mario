@@ -2,6 +2,9 @@
 
 using namespace std;
 
+CollisionBox::CollisionBox(){
+}
+
 CollisionBox::CollisionBox(int width, int height, int x, int y){
 
     setWidth(width);
