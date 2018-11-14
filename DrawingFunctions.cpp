@@ -10,3 +10,17 @@ void plotSquare(int x, int y, int scale, int r, int g, int b, SDL_Plotter& p){
         }
     }
 }
+
+void drawBlackBackground(int screenWidth, int screenHeight, SDL_Plotter& p){
+
+    for (int y = 0; y < screenHeight; y++){
+
+        for (int x = 0; x < screenHeight; x++){
+
+            p.plotPixel(x, y, 0, 0, 0);
+
+        }
+
+    }
+
+}

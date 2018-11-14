@@ -29,6 +29,8 @@ public:
 
     void resetColumnLocations();
 
+    int numberOfColumns(int frameNumber);
+
 };
 
 

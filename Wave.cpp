@@ -92,3 +92,9 @@ void Wave::resetColumnLocations(){
     }
 
 }
+
+int Wave::numberOfColumns(int frameNumber){
+
+    return columnLocations[frameNumber].size();
+
+}
