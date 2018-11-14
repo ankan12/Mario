@@ -2,41 +2,62 @@
 #include <fstream>
 #include "SDL_Plotter.h"
 #include "Sprite.h"
+#include "CollisionBox.h"
+#include "Wave.h"
+#include "Number.h"
+#include "Video.h"
+#include "Level.h"
+#include "DrawingFunctions.h"
 using namespace std;
 
 int main(int argc, char ** argv)
 {
-    cout << "Hello world!" << endl;
+    const int screenWidth = 800, screenHeight = 800;
 
-    SDL_Plotter p(500, 500);
+    SDL_Plotter p(screenWidth, screenHeight);
 
     ifstream inFile;
 
-    Sprite sprite("example_sprite", inFile);
+    Sprite spawnPipeLeft("animatedPipe.txt", inFile);
+    spawnPipeLeft.setScale(2);
 
-    sprite.setLocation(250, 250);
+    Sprite spawnPipeRight("animatedPipe.txt", inFile);
+    spawnPipeRight.setMirrored(true);
+    spawnPipeRight.setScale(2);
+    spawnPipeRight.set_x(screenWidth - spawnPipeRight.getWidth(0) *
+                         spawnPipeRight.getScale());
 
-    sprite.setScale(4);
+    Sprite brickFloor("brickFloor.txt", inFile);
+    brickFloor.setScale(2);
+    brickFloor.set_y(screenHeight - brickFloor.getHeight(0) *
+                           brickFloor.getScale());
 
-    sprite.draw(p);
+    Level level1;
+    level1.setBlockSprite("blueBlock.txt", inFile);
+
+
 
     while (!p.getQuit()){
 
+
         if (p.kbhit()){
-
-            switch (p.getKey()){
-
-            case ' ':
-                p.clear();
-                sprite.nextFrame();
-                sprite.draw(p);
-                break;
+            switch(p.getKey()){
 
             }
-
         }
 
+        p.clear();
+
+        drawBlackBackground(screenWidth, screenHeight, p);
+
+        spawnPipeLeft.draw(p);
+        spawnPipeRight.draw(p);
+
+        horizontalTile(brickFloor, 0, screenWidth, p);
+
         p.update();
+
+        p.Sleep(1);
 
     }
 
