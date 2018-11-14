@@ -105,9 +105,32 @@ void plotSquare(int x, int y, int scale, Color color, SDL_Plotter& p){
             p.plotPixel(x + c2, y + c, r, g, b);
 
         }
-
     }
+}
 
+void Sprite::plotSquare(int x, int y, int scale, Color color, SDL_Plotter& p){
+
+    for (int c = 0; c < scale; c++){
+
+        if (yCrop != -1 && (y + c) > (this->y + yCrop)){
+            return;
+        }
+
+        for (int c2 = 0; c2 < scale; c2++){
+
+            if (xCrop != -1 && (x + c2) > (this->x + xCrop)){
+                continue;
+            }
+
+            int r, g, b;
+            r = color.r;
+            g = color.g;
+            b = color.b;
+
+            p.plotPixel(x + c2, y + c, r, g, b);
+
+        }
+    }
 }
 
 void Sprite::loadImage(char filename[], ifstream& inFile){
@@ -361,4 +384,16 @@ void Sprite::copyPixelsOnto(Sprite& sprite){
         sprite.pixels.push_back(grid);
 
     }
+}
+
+void Sprite::set_xCrop(int xCrop){
+
+    this->xCrop = xCrop;
+
+}
+
+void Sprite::set_yCrop(int yCrop){
+
+    this->yCrop = yCrop;
+
 }

@@ -31,6 +31,7 @@ private:
     int currentFrame = 0;
     int totalFrames = 1;
     int scale = 1;
+    int xCrop = -1, yCrop = -1;
 
     vector<Point> offset;
 
@@ -90,6 +91,12 @@ public:
     int getTotalFrames();
 
     void copyPixelsOnto(Sprite& sprite);
+
+    void set_xCrop(int xCrop);
+
+    void set_yCrop(int yCrop);
+
+    void plotSquare(int x, int y, int scale, Color color, SDL_Plotter& p);
 
 };
 
