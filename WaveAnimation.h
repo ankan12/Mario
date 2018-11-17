@@ -19,6 +19,8 @@ private:
 
     double distance = 30.0;
 
+    double height = 8.0;
+
     int platformNumber;
 
 public:
@@ -43,6 +45,8 @@ public:
     bool finished();
 
     int platformNum();
+
+    void setHeight(double height);
 
 };
 
