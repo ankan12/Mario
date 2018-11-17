@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <fstream>
 #include "SDL_Plotter.h"
@@ -8,10 +9,15 @@
 #include "Video.h"
 #include "Level.h"
 #include "DrawingFunctions.h"
+#include "WaveAnimation.h"
+#include <cstdlib>
 using namespace std;
+
 
 int main(int argc, char ** argv)
 {
+    cout << "Hello!" << endl;
+
     const int screenWidth = 800, screenHeight = 400;
     SDL_Plotter p(screenHeight, screenWidth);
 
@@ -63,11 +69,25 @@ int main(int argc, char ** argv)
     bottomRightPipe.setLocation(800 - bottomRightPipe.getScaledWidth(0),
                                 bottomLeftPipe.get_y());
 
-    while (!p.getQuit()){
+    WaveAnimation wa(0, 50);
+    wa.setSpeed_1sthalf(0.2);
+    wa.setSpeed_2ndhalf(0.2);
 
+    vector<WaveAnimation> wAnimations;
+
+    while (!p.getQuit()){
 
         if (p.kbhit()){
             switch(p.getKey()){
+            case ' ':
+
+                int p = rand() % level1.numOfPlatforms();
+
+                int col = rand() % level1.getPlatform(p).getColLocations().size();
+
+                WaveAnimation wa(p, col);
+
+                wAnimations.push_back(wa);
 
             }
         }
@@ -83,6 +103,23 @@ int main(int argc, char ** argv)
         bottomRightPipe.draw(p);
 
         horizontalTile(brickFloor, 0, screenWidth, p);
+
+        wa.setNextFrame(level1.getPlatform(0).getColLocations());
+
+        for (int w = 0; w < wAnimations.size(); w++){
+
+            WaveAnimation& wa = wAnimations[w];
+
+            if (wa.finished()){
+                wAnimations.erase(wAnimations.begin() + w);
+                continue;
+            }
+
+            Platform& p = level1.getPlatform(wa.platformNum());
+
+            wa.setNextFrame(p.getColLocations());
+
+        }
 
         level1.draw(p);
 

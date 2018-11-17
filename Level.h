@@ -13,6 +13,7 @@ private:
     int x, y;
 
     vector<Block> blocks;
+    vector<int> columnLocations;
 
 public:
 
@@ -27,6 +28,8 @@ public:
     int get_y();
 
     void addBlock(Sprite& sprite);
+
+    vector<int>& getColLocations();
 
 };
 
