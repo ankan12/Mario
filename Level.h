@@ -15,6 +15,8 @@ private:
     vector<Block> blocks;
     vector<int> columnLocations;
 
+    CollisionBox cBox;
+
 public:
 
     Platform(int x, int y);
@@ -23,6 +25,8 @@ public:
 
     int numOfBlocks();
 
+    int numOfColumns();
+
     int get_x();
 
     int get_y();
@@ -30,6 +34,8 @@ public:
     void addBlock(Sprite& sprite);
 
     vector<int>& getColLocations();
+
+    CollisionBox& getCollisionBox();
 
 };
 

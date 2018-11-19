@@ -65,6 +65,18 @@ vector<int>& Platform::getColLocations(){
 
 }
 
+CollisionBox& Platform::getCollisionBox(){
+
+    return cBox;
+
+}
+
+int Platform::numOfColumns(){
+
+    return columnLocations.size();
+
+}
+
 Level::Level(){
 }
 
@@ -159,6 +171,8 @@ void Level::placePlatform(int x, int y, int numOfBlocks){
 
     Platform platform(x, y);
 
+    int width = 0;
+
     int numOfColumns = 0;
 
     if (containsEdgeSprites()){
@@ -167,10 +181,13 @@ void Level::placePlatform(int x, int y, int numOfBlocks){
 
         numOfColumns += platform.getBlock(0).getWave().numberOfColumns(0);
 
+        width += leftEdgeSprite.getScaledWidth(0);
+
         for (int b = 1; b < numOfBlocks - 1; b++){
 
             platform.addBlock(blockSprite);
             numOfColumns += platform.getBlock(b).getWave().numberOfColumns(0);
+            width += blockSprite.getScaledWidth(0);
 
         }
 
@@ -180,6 +197,7 @@ void Level::placePlatform(int x, int y, int numOfBlocks){
 
         numOfColumns += rightEdge.getWave().numberOfColumns(0);
 
+        width += rightEdgeSprite.getScaledWidth(0);
     }
 
     else {
@@ -188,11 +206,16 @@ void Level::placePlatform(int x, int y, int numOfBlocks){
 
             platform.addBlock(blockSprite);
             numOfColumns += platform.getBlock(b).getWave().numberOfColumns(0);
+            width += blockSprite.getScaledWidth(0);
 
         }
     }
 
     platform.getColLocations().resize(numOfColumns, 0);
+
+    platform.getCollisionBox().setWidth(width);
+    platform.getCollisionBox().setHeight(blockSprite.getScaledHeight(0));
+    platform.getCollisionBox().resetAtLocation(x, y);
 
     platforms.push_back(platform);
 
