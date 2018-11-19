@@ -3,7 +3,7 @@ w 255 255 255
 Frames: 10
   www
  w  ww
-ww   ww
+ww   ww.
 ww   ww
 ww   ww
  ww  w
@@ -15,7 +15,7 @@ ww   ww
   ww
   ww
   ww
-wwwwww
+wwwwww.
 \end of frame
  wwwww
 ww   ww
@@ -23,9 +23,9 @@ ww   ww
   wwww
  wwww
 www
-wwwwwww
+wwwwwww.
 \end of frame
- wwwwww
+ wwwwww.
     ww
    ww
   wwww
@@ -37,14 +37,14 @@ ww   ww
   wwww
  ww ww
 ww  ww
-wwwwwww
+wwwwwww.
     ww
     ww
 \end of frame
 wwwwww
 ww
 wwwwww
-     ww
+     ww.
      ww
 ww   ww
  wwwww
@@ -53,11 +53,11 @@ ww   ww
  ww
 ww
 wwwwww
-ww   ww
+ww   ww.
 ww   ww
  wwwww
 \end of frame
-wwwwwww
+wwwwwww.
 ww   ww
     ww
    ww
@@ -69,12 +69,12 @@ ww   ww
 ww   w
 www  w
  wwww
-w    ww
+w    ww.
 w    ww
  wwwww
 \end of frame
  wwwww
-ww   ww
+ww   ww.
 ww   ww
  wwwwww
      ww
