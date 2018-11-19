@@ -10,6 +10,12 @@ private:
     int width, height;
     int past_x = 0, past_y = 0;
 
+    int horizontalWrap = -1;
+    int verticalWrap = -1;
+
+    int xWrap(int);
+    int yWrap(int);
+
 public:
     CollisionBox(int width, int height, int x, int y);
     CollisionBox();
@@ -26,6 +32,8 @@ public:
     void moveToLocation(int,int);
     void resetAtLocation(int,int);
 
+    void setHorizontalWrap(int screenWidth);
+    void setVerticalWrap(int screenHeight);
 
     bool isTouching(const CollisionBox& b);
     bool jumpedOn(const CollisionBox& b);
