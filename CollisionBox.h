@@ -39,6 +39,8 @@ public:
     bool jumpedOn(const CollisionBox& b);
     bool hitHeadUnder(const CollisionBox& b);
     bool hitTheSideOf(const CollisionBox& b);
+    bool hitTheLeftOf(const CollisionBox& b);
+    bool hitTheRightOf(const CollisionBox& b);
 
     //For debugging purposes
     void drawBox(SDL_Plotter& p);

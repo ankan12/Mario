@@ -92,6 +92,26 @@ bool CollisionBox::hitTheSideOf(const CollisionBox& b){
     return false;
 }
 
+bool CollisionBox::hitTheLeftOf(const CollisionBox& b){
+
+    if (isTouching(b)){
+        if (xWrap(past_x + width-1) < xWrap(b.x)){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool CollisionBox::hitTheRightOf(const CollisionBox& b){
+
+    if (isTouching(b)){
+        if (xWrap(past_x) > xWrap(b.x + b.width-1)){
+            return true;
+        }
+    }
+    return false;
+}
+
 void CollisionBox::drawBox(SDL_Plotter& p){
 
     for (int c = x; c < x + width; c++){
