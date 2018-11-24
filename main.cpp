@@ -87,8 +87,10 @@ int main(int argc, char ** argv)
         }
         p.clear();
 
+        // Draw Black
         drawBlackBackground(screenWidth, screenHeight, p);
 
+        // Draw Player
         plotSquare(square_x,square_y,20,100,200,100,p);
 
         // Test Falling
@@ -123,8 +125,7 @@ int main(int argc, char ** argv)
             falling = true;
         }
 
-        // Test Side Collision and Head Collision
-
+        // Test Side Collision
         if (test.hitTheSideOf(top_left)){
             touching_side_right = false;
             touching_side_left = true;
@@ -210,6 +211,7 @@ int main(int argc, char ** argv)
         else {
             hit_head = false;
         }
+
         // Get User Input
         key_pressed = p.getKey();
 
@@ -262,7 +264,6 @@ int main(int argc, char ** argv)
         }
 
 
-
         // Drawing
         test.moveToLocation(square_x,square_y);
 
@@ -277,7 +278,6 @@ int main(int argc, char ** argv)
         level1.draw(p);
 
         // Debug
-
         if (square_x <= 2){
             square_x = 780;
             square_y -= 4;
@@ -285,10 +285,6 @@ int main(int argc, char ** argv)
         if (square_x >= 800){
             square_x = 20;
             square_y -= 4;
-        }
-
-        if (touching_side_left || touching_side_right){
-            plotSquare(0,0,10,200,0,0,p);
         }
 
         // Update Screen
