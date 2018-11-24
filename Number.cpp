@@ -3,12 +3,20 @@
 using namespace std;
 
 Number::Number(char filename[], ifstream& inFile){
+    number = 0;
+    x = 0;
+    y = 0;
+    scale = 1;
 
     sprite.loadImage(filename, inFile);
 
 }
 
 void Number::setNumber(int number){
+    number = 0;
+    x = 0;
+    y = 0;
+    scale = 1;
 
     this->number = number;
 

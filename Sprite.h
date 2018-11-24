@@ -27,11 +27,11 @@ class Sprite{
 
 private:
 
-    int x = 0, y = 0;
-    int currentFrame = 0;
-    int totalFrames = 1;
-    int scale = 1;
-    int xCrop = -1, yCrop = -1;
+    int x, y;
+    int currentFrame;
+    int totalFrames;
+    int scale;
+    int xCrop, yCrop;
 
     vector<Point> offset;
 
@@ -41,7 +41,7 @@ private:
 
     Color colorFromCharacter(char input);
 
-    bool isMirrored = false;
+    bool isMirrored;
 
     vector<vector<vector<Color> > > pixels;
 

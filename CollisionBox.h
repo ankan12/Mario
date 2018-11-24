@@ -6,9 +6,9 @@
 class CollisionBox{
 
 private:
-    int x = 0, y = 0;
+    int x, y;
     int width, height;
-    int past_x = 0, past_y = 0;
+    int past_x, past_y;
 
 public:
     CollisionBox(int width, int height, int x, int y);

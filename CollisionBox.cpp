@@ -3,9 +3,15 @@
 using namespace std;
 
 CollisionBox::CollisionBox(){
+    x = 0;
+    y = 0;
+    past_x = 0;
+    past_y = 0;
 }
 
 CollisionBox::CollisionBox(int width, int height, int x, int y){
+    past_x = 0;
+    past_y = 0;
 
     setWidth(width);
     setHeight(height);
@@ -74,19 +80,25 @@ bool CollisionBox::jumpedOn(const CollisionBox& b){
 }
 bool CollisionBox::hitHeadUnder(const CollisionBox& b){
 
-    if (isTouching(b) && (past_y > b.y + b.height-1)){
-        return true;
+    if (isTouching(b)){
+        if (past_y > b.y && (past_y < b.y + b.height-1)){
+            return true;
+        }
     }
     return false;
 }
 bool CollisionBox::hitTheSideOf(const CollisionBox& b){
 
     if (isTouching(b)){
-        if (past_x + width-1 < b.x){
-            return true;
+        if (past_x < b.x + b.width-1){
+            if (past_y > b.y && past_y < b.y + b.height){
+                return true;
+            }
         }
         if (past_x > b.x + b.width-1){
-            return true;
+            if (past_y > b.y && past_y < b.y + b.height){
+                return true;
+            }
         }
     }
     return false;
