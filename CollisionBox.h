@@ -4,46 +4,33 @@
 #include "SDL_Plotter.h"
 
 class CollisionBox{
-
-private:
+ private:
     int x, y;
     int width, height;
     int past_x, past_y;
-
-    int horizontalWrap;
-    int verticalWrap;
-
-    int xWrap(int);
-    int yWrap(int);
-
-public:
+ public:
     CollisionBox(int width, int height, int x, int y);
-    CollisionBox();
+     CollisionBox();
 
-    int getWidth();
-    int getHeight();
-    int get_x();
-    int get_y();
-    int get_past_x();
-    int get_past_y();
+     int getWidth();
+     int getHeight();
+     int get_x();
+     int get_y();
+     int get_past_x();
+     int get_past_y();
 
-    void setWidth(int);
-    void setHeight(int);
-    void moveToLocation(int,int);
-    void resetAtLocation(int,int);
+     void setWidth(int);
+     void setHeight(int);
+     void moveToLocation(int,int);
+     void resetAtLocation(int,int);
 
-    void setHorizontalWrap(int screenWidth);
-    void setVerticalWrap(int screenHeight);
 
-    bool isTouching(const CollisionBox& b);
-    bool jumpedOn(const CollisionBox& b);
-    bool hitHeadUnder(const CollisionBox& b);
-    bool hitTheSideOf(const CollisionBox& b);
-    bool hitTheLeftOf(const CollisionBox& b);
-    bool hitTheRightOf(const CollisionBox& b);
+     bool isTouching(const CollisionBox& b);
+     bool jumpedOn(const CollisionBox& b);
+     bool hitHeadUnder(const CollisionBox& b);
+     bool hitTheSideOf(const CollisionBox& b);
 
-    //For debugging purposes
-    void drawBox(SDL_Plotter& p);
-};
-
+     //For debugging purposes
+     void drawBox(SDL_Plotter& p);
+ };
 #endif // COLLISIONBOX_H_INCLUDED
