@@ -7,6 +7,9 @@ CollisionBox::CollisionBox(){
     y = 0;
     past_x = 0;
     past_y = 0;
+
+    horizontalWrap = -1;
+    verticalWrap = -1;
 }
 
 CollisionBox::CollisionBox(int width, int height, int x, int y){

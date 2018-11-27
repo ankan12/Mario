@@ -10,8 +10,8 @@ private:
     int width, height;
     int past_x, past_y;
 
-    int horizontalWrap = -1;
-    int verticalWrap = -1;
+    int horizontalWrap;
+    int verticalWrap;
 
     int xWrap(int);
     int yWrap(int);

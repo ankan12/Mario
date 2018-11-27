@@ -7,6 +7,13 @@ using namespace std;
 
 WaveAnimation::WaveAnimation(int platformNumber, int startX){
 
+    a = 0.0;
+    speed_1sthalf = 0.1;
+    speed_2ndhalf = 0.1;
+    w = 10/3.14159;
+    distance = 30.0;
+    height = 8.0;
+
     this->startX = startX;
     this->platformNumber = platformNumber;
 

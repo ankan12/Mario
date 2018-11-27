@@ -17,7 +17,7 @@ private:
 
     CollisionBox cBox;
 
-    bool frozen = false;
+    bool frozen;
 
 public:
 

@@ -9,17 +9,17 @@ using namespace std;
 class WaveAnimation{
 
 private:
-    double a = 0.0;
+    double a;
     int startX;
 
-    double speed_1sthalf = 0.1;
-    double speed_2ndhalf = 0.1;
+    double speed_1sthalf;
+    double speed_2ndhalf;
 
-    double w = 10/3.14159;
+    double w;
 
-    double distance = 30.0;
+    double distance;
 
-    double height = 8.0;
+    double height;
 
     int platformNumber;
 

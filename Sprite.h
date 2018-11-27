@@ -33,7 +33,7 @@ private:
     int scale;
     int xCrop, yCrop;
 
-    int t = 0;
+    int t;
 
     vector<Point> offset;
 

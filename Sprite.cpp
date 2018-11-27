@@ -17,6 +17,7 @@ bool Color::isEqualTo(const Color& color){
 Sprite::Sprite(){
     x = 0;
     y = 0;
+    t = 0;
     currentFrame = 0;
     totalFrames = 1;
     scale = 1;
@@ -28,6 +29,7 @@ Sprite::Sprite(){
 Sprite::Sprite(char filename[], ifstream& inFile){
     x = 0;
     y = 0;
+    t = 0;
     currentFrame = 0;
     totalFrames = 1;
     scale = 1;
