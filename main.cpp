@@ -72,9 +72,11 @@ int main(int argc, char ** argv)
     bool jumping = false, hit_max_jump = false;
     bool falling = true, touching_side_left = false, touching_side_right = false, hit_head = false;
     int jump_measure;
+    // Platform Collision Boxes
     CollisionBox top_left(350,16,0,110), top_right(350,16,450,110), center_middle(420,16,190,200),
                  center_left(140,16,0,210), center_right(140,16,660,210), Screen_top (800,10,0,0),
                  bottom_left(280,16,0,290), bottom_right(280,16,520,290), floor(800,30,0,370);
+    // Pipe Collision Boxes
     CollisionBox top_left_pipe (98,110,0,0), top_right_pipe (98,110,702,0),
                  bottom_left_pipe (65,64,0,306), bottom_right_pipe (65,64,735,306);
 
