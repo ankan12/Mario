@@ -2,6 +2,9 @@
 
 Block::Block(int x, int y, int width, int height){
 
+    type = middle;
+    icy = false;
+
     this->x = x;
     this->y = y;
 
@@ -17,6 +20,9 @@ Block::Block(int x, int y, int width, int height){
 }
 
 Block::Block(int x, int y, int width, int height, BlockType type){
+
+    type = middle;
+    icy = false;
 
     this->x = x;
     this->y = y;

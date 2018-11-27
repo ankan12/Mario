@@ -15,9 +15,9 @@ private:
     CollisionBox cBox;
     int x, y;
     int width, height;
-    BlockType type = middle;
+    BlockType type;
     Wave wave;
-    bool icy = false;
+    bool icy;
 
 public:
     Block(int x, int y, int width, int height);

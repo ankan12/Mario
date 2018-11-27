@@ -8,11 +8,11 @@
 class Number{
 
 private:
-    int number = 0;
+    int number;
     Sprite sprite;
-    int x = 0, y = 0;
+    int x, y;
     vector<int> digits;
-    int scale = 1;
+    int scale;
 
 public:
 
