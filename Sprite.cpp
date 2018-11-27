@@ -15,12 +15,25 @@ bool Color::isEqualTo(const Color& color){
 }
 
 Sprite::Sprite(){
-
-
-
+    x = 0;
+    y = 0;
+    currentFrame = 0;
+    totalFrames = 1;
+    scale = 1;
+    xCrop = -1;
+    yCrop = -1;
+    isMirrored = false;
 }
 
 Sprite::Sprite(char filename[], ifstream& inFile){
+    x = 0;
+    y = 0;
+    currentFrame = 0;
+    totalFrames = 1;
+    scale = 1;
+    xCrop = -1;
+    yCrop = -1;
+    isMirrored = false;
 
     loadImage(filename, inFile);
 
