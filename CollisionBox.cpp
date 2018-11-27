@@ -48,21 +48,21 @@ void CollisionBox::moveToLocation(int x, int y){
     past_x = this->x;
     past_y = this->y;
 
-    this->x = x;
-    this->y = y;
+    this->x = xWrap(x);
+    this->y = yWrap(y);
 }
 
 void CollisionBox::resetAtLocation(int x, int y){
-    past_x = x;
-    past_y = y;
-    this->x = x;
-    this->y = y;
+    past_x = xWrap(x);
+    past_y = yWrap(y);
+    this->x = xWrap(x);
+    this->y = yWrap(y);
 }
 
 bool CollisionBox::isTouching(const CollisionBox& b){
 
-    if ((x < b.x + b.width-1 && y < b.y + b.height-1)
-        && (x + width-1 > b.x && y + height-1 > b.y)){
+    if ((xWrap(x) < xWrap(b.x+b.width-1) && yWrap(y) < yWrap(b.y+b.height-1))
+        && (xWrap(x+width-1) > xWrap(b.x) && yWrap(y+height-1) > yWrap(b.y))){
 
         return true;
 
@@ -73,12 +73,13 @@ bool CollisionBox::isTouching(const CollisionBox& b){
 
 bool CollisionBox::jumpedOn(const CollisionBox& b){
 
-    if (isTouching(b) && (past_y + height-1 < b.y)){
+    if (isTouching(b) && (yWrap(past_y + height-1) < yWrap(b.y))){
         return true;
     }
     return false;
 }
 bool CollisionBox::hitHeadUnder(const CollisionBox& b){
+
 
     if (isTouching(b)){
         if (past_y > b.y && (past_y < b.y + b.height-1)){
@@ -107,11 +108,43 @@ bool CollisionBox::hitTheSideOf(const CollisionBox& b){
 void CollisionBox::drawBox(SDL_Plotter& p){
 
     for (int c = x; c < x + width; c++){
-        p.plotPixel(c, y, 255, 0, 0);
-        p.plotPixel(c, y + height-1, 255, 0, 0);
+        p.plotPixel(xWrap(c), yWrap(y), 255, 0, 0);
+        p.plotPixel(xWrap(c), yWrap(y + height-1), 255, 0, 0);
     }
     for (int c = y; c < y + height; c++){
-        p.plotPixel(x, c, 255, 0, 0);
-        p.plotPixel(x + width-1, c, 255, 0, 0);
+        p.plotPixel(xWrap(x), yWrap(c), 255, 0, 0);
+        p.plotPixel(xWrap(x + width-1), yWrap(c), 255, 0, 0);
     }
+}
+
+void CollisionBox::setHorizontalWrap(int screenWidth){
+
+    horizontalWrap = screenWidth;
+
+}
+
+void CollisionBox::setVerticalWrap(int screenHeight){
+
+    verticalWrap = screenHeight;
+
+}
+
+int CollisionBox::xWrap(int xValue){
+
+    if (horizontalWrap <= 0){
+        return xValue;
+    }
+
+    return xValue % horizontalWrap;
+
+}
+
+int CollisionBox::yWrap(int yValue){
+
+    if (verticalWrap <= 0){
+        return yValue;
+    }
+
+    return yValue & verticalWrap;
+
 }

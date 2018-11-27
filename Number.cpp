@@ -56,8 +56,6 @@ void Number::setLocation(int x, int y){
 
 void Number::draw(SDL_Plotter& p){
 
-    int width = sprite.getWidth(0);
-
     sprite.setLocation(x,y);
 
     for (int d = 0; d < digits.size(); d++){
@@ -66,7 +64,9 @@ void Number::draw(SDL_Plotter& p){
 
         sprite.draw(p);
 
-        sprite.set_x(sprite.get_x() + (width * sprite.getScale()));
+        int cf = sprite.getCurrentFrame();
+
+        sprite.set_x(sprite.get_x() + sprite.getScaledWidth(cf));
 
     }
 

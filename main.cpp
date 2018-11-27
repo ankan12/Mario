@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <fstream>
 #include "SDL_Plotter.h"
@@ -9,8 +10,10 @@
 #include "Level.h"
 #include "DrawingFunctions.h"
 #include "Block.h"
-
+#include "WaveAnimation.h"
+#include <cstdlib>
 using namespace std;
+
 
 int main(int argc, char ** argv)
 {
@@ -82,7 +85,12 @@ int main(int argc, char ** argv)
 
     while (!p.getQuit()){
 
+        WaveAnimation wa(0, 50);
+        wa.setSpeed_1sthalf(0.2);
+        wa.setSpeed_2ndhalf(0.2);
 
+        vector<WaveAnimation> wAnimations;
+        
         if (p.kbhit()){
             switch(p.getKey()){
             }
@@ -276,6 +284,23 @@ int main(int argc, char ** argv)
         bottomRightPipe.draw(p);
 
         horizontalTile(brickFloor, 0, screenWidth, p);
+
+        wa.setNextFrame(level1.getPlatform(0).getColLocations());
+
+        for (int w = 0; w < wAnimations.size(); w++){
+
+            WaveAnimation& wa = wAnimations[w];
+
+            if (wa.finished()){
+                wAnimations.erase(wAnimations.begin() + w);
+                continue;
+            }
+
+            Platform& p = level1.getPlatform(wa.platformNum());
+
+            wa.setNextFrame(p.getColLocations());
+
+        }
 
         level1.draw(p);
 

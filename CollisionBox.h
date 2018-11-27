@@ -10,6 +10,12 @@ private:
     int width, height;
     int past_x, past_y;
 
+    int horizontalWrap = -1;
+    int verticalWrap = -1;
+
+    int xWrap(int);
+    int yWrap(int);
+
 public:
     CollisionBox(int width, int height, int x, int y);
     CollisionBox();
@@ -26,11 +32,15 @@ public:
     void moveToLocation(int,int);
     void resetAtLocation(int,int);
 
+    void setHorizontalWrap(int screenWidth);
+    void setVerticalWrap(int screenHeight);
 
     bool isTouching(const CollisionBox& b);
     bool jumpedOn(const CollisionBox& b);
     bool hitHeadUnder(const CollisionBox& b);
     bool hitTheSideOf(const CollisionBox& b);
+    bool hitTheLeftOf(const CollisionBox& b);
+    bool hitTheRightOf(const CollisionBox& b);
 
     //For debugging purposes
     void drawBox(SDL_Plotter& p);

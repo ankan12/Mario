@@ -1,5 +1,5 @@
 #include "Level.h"
-
+#include <vector>
 
 Platform::Platform(int x, int y){
 
@@ -59,6 +59,24 @@ void Platform::addBlock(Sprite& sprite){
 
 }
 
+vector<int>& Platform::getColLocations(){
+
+    return columnLocations;
+
+}
+
+CollisionBox& Platform::getCollisionBox(){
+
+    return cBox;
+
+}
+
+int Platform::numOfColumns(){
+
+    return columnLocations.size();
+
+}
+
 Level::Level(){
 }
 
@@ -66,11 +84,29 @@ void Level::draw(SDL_Plotter& p){
 
     for (int i = 0; i < platforms.size(); i++){
 
+        vector<int>& colLoc = platforms[i].getColLocations();
+        int colIndex = 0;
+
         for (int b = 0; b < platforms[i].numOfBlocks(); b++){
 
-            platforms[i].getBlock(b).draw(p);
+            Block& block = platforms[i].getBlock(b);
+
+
+            for (int c = 0; c < block.getWave().numberOfColumns(0); c++){
+
+                block.getWave().offsetColumn(c, colLoc[colIndex]);
+                colIndex++;
+
+            }
+
+            block.draw(p);
 
         }
+
+        int numOfColumns = colLoc.size();
+        colLoc.clear();
+        colLoc.resize(numOfColumns, 0);
+
     }
 }
 
@@ -135,18 +171,33 @@ void Level::placePlatform(int x, int y, int numOfBlocks){
 
     Platform platform(x, y);
 
+    int width = 0;
+
+    int numOfColumns = 0;
+
     if (containsEdgeSprites()){
 
         platform.addBlock(leftEdgeSprite);
 
-        for (int b = 1; b < numOfBlocks; b++){
+        numOfColumns += platform.getBlock(0).getWave().numberOfColumns(0);
+
+        width += leftEdgeSprite.getScaledWidth(0);
+
+        for (int b = 1; b < numOfBlocks - 1; b++){
 
             platform.addBlock(blockSprite);
+            numOfColumns += platform.getBlock(b).getWave().numberOfColumns(0);
+            width += blockSprite.getScaledWidth(0);
 
         }
 
         platform.addBlock(rightEdgeSprite);
 
+        Block& rightEdge = platform.getBlock(numOfBlocks - 1);
+
+        numOfColumns += rightEdge.getWave().numberOfColumns(0);
+
+        width += rightEdgeSprite.getScaledWidth(0);
     }
 
     else {
@@ -154,9 +205,17 @@ void Level::placePlatform(int x, int y, int numOfBlocks){
         for (int b = 0; b < numOfBlocks; b++){
 
             platform.addBlock(blockSprite);
+            numOfColumns += platform.getBlock(b).getWave().numberOfColumns(0);
+            width += blockSprite.getScaledWidth(0);
 
         }
     }
+
+    platform.getColLocations().resize(numOfColumns, 0);
+
+    platform.getCollisionBox().setWidth(width);
+    platform.getCollisionBox().setHeight(blockSprite.getScaledHeight(0));
+    platform.getCollisionBox().resetAtLocation(x, y);
 
     platforms.push_back(platform);
 

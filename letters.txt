@@ -1,59 +1,69 @@
 Colors: 1
 w 255 255 255
-Frames: 26
-...ww...
-...ww...
-..w..w..
-..w..w..
-.wwwwww.
-.ww..ww.
-.ww..ww.
-........
+Frames: 38
+.......
+.......
+.......
+.......
+.......
+.......
+.......
+.......
+.......
 \end of frame
-.wwwww..
-.ww..ww.
-.ww..ww.
-.wwwww..
-.ww..ww.
-.ww..ww.
-.wwwww..
-........
+..ww...
+..ww...
+.w..w..
+.w..w..
+wwwwww.
+ww..ww.
+ww..ww.
+.......
 \end of frame
-...wwww.
-..ww....
-.ww.....
-.ww.....
-.ww.....
-..ww....
-...wwww.
-........
+wwwww..
+ww..ww.
+ww..ww.
+wwwww..
+ww..ww.
+ww..ww.
+wwwww..
+.......
 \end of frame
-.wwww...
-.ww.ww..
-.ww..ww.
-.ww..ww.
-.ww..ww.
-.ww.ww..
-.wwww...
-........
+..wwww.
+.ww....
+ww.....
+ww.....
+ww.....
+.ww....
+..wwww.
+.......
 \end of frame
-.wwwww..
-.ww.....
-.ww.....
-.wwww...
-.ww.....
-.ww.....
-.wwwww..
-........
+wwww...
+ww.ww..
+ww..ww.
+ww..ww.
+ww..ww.
+ww.ww..
+wwww...
+.......
 \end of frame
-.wwwww..
-.ww.....
-.ww.....
-.wwww...
-.ww.....
-.ww.....
-.ww.....
-........
+wwwww.
+ww....
+ww....
+wwww..
+ww....
+ww....
+wwwww.
+......
+\end of frame
+wwwww.
+ww....
+ww....
+wwww..
+ww....
+ww....
+ww....
+......
 \end of frame
 ..wwwww.
 .ww.....
@@ -64,172 +74,250 @@ ww...ww.
 ..wwwww.
 ........
 \end of frame
-.ww..ww.
-.ww..ww.
-.ww..ww.
-.wwwwww.
-.ww..ww.
-.ww..ww.
-.ww..ww.
-........
+ww..ww.
+ww..ww.
+ww..ww.
+wwwwww.
+ww..ww.
+ww..ww.
+ww..ww.
+.......
 \end of frame
-.ww..
-.ww..
-.ww..
-.ww..
-.ww..
-.ww..
-.ww..
-.....
+ww.
+ww.
+ww.
+ww.
+ww.
+ww.
+ww.
+...
 \end of frame
-....ww..
-....ww..
-....ww..
-....ww..
-....ww..
-....ww..
-.wwww...
-........
+...ww.
+...ww.
+...ww.
+...ww.
+...ww.
+...ww.
+wwww..
+......
 \end of frame
-........
-.ww..ww.
-.ww.ww..
-.wwww...
-.www....
-.wwww...
-.ww.ww..
-.ww..ww.
+ww..ww.
+ww.ww..
+wwww...
+www....
+wwww...
+ww.ww..
+ww..ww.
 \end of frame
-........
-.ww.....
-.ww.....
-.ww.....
-.ww.....
-.ww.....
-.ww.....
-.wwww...
+ww...
+ww...
+ww...
+ww...
+ww...
+ww...
+wwww.
 \end of frame
-........
-www..www
-www..www
-wwwwwwww
-wwwwwwww
-wwwwwwww
-ww.ww.ww
-ww.ww.ww
+www..www.
+www..www.
+wwwwwwww.
+wwwwwwww.
+wwwwwwww.
+ww.ww.ww.
+ww.ww.ww.
 \end of frame
-........
-.www.ww.
-.www.ww.
-.wwwwww.
-.wwwwww.
-.ww.www.
-.ww.www.
-.ww..ww.
+www.ww.
+www.ww.
+wwwwww.
+wwwwww.
+ww.www.
+ww.www.
+ww..ww.
 \end of frame
-........
-..wwww..
-.ww..ww.
-ww....ww
-ww....ww
-ww....ww
-.ww..ww.
-..wwww..
+..wwww...
+.ww..ww..
+ww....ww.
+ww....ww.
+ww....ww.
+.ww..ww..
+..wwww...
 \end of frame
-........
-.wwwww..
-.ww..ww.
-.ww..ww.
-.wwwww..
-.ww.....
-.ww.....
-.ww.....
+wwwww..
+ww..ww.
+ww..ww.
+wwwww..
+ww.....
+ww.....
+ww.....
 \end of frame
-........
-..wwww..
-.ww..ww.
-ww....ww
-ww....ww
-ww....ww
-.ww..ww.
-..wwww..
-.....www
+..wwww...
+.ww..ww..
+ww....ww.
+ww....ww.
+ww....ww.
+.ww..ww..
+..wwww...
+.....www.
 \end of frame
-.wwwww..
-.ww..ww.
-.ww..ww.
-.wwwww..
-.ww.ww..
-.ww..ww.
-.ww..ww.
+wwwww..
+ww..ww.
+ww..ww.
+wwwww..
+ww.ww..
+ww..ww.
+ww..ww.
 \end of frame
-........
-..wwwww.
-.ww.....
-.ww.....
-..wwww..
-.....ww.
-.....ww.
-.wwwww..
+.wwwww.
+ww.....
+ww.....
+.wwww..
+....ww.
+....ww.
+wwwww..
 \end of frame
-........
-.wwwwww.
-...ww...
-...ww...
-...ww...
-...ww...
-...ww...
-...ww...
+wwwwww.
+..ww...
+..ww...
+..ww...
+..ww...
+..ww...
+..ww...
 \end of frame
-........
-.ww..ww.
-.ww..ww.
-.ww..ww.
-.ww..ww.
-.ww..ww.
-.ww..ww.
-..wwww..
+ww..ww.
+ww..ww.
+ww..ww.
+ww..ww.
+ww..ww.
+ww..ww.
+.wwww..
 \end of frame
-.ww..ww.
-.ww..ww.
-.ww..ww.
-..wwww..
-..wwww..
-...ww...
-...ww...
+ww..ww.
+ww..ww.
+ww..ww.
+.wwww..
+.wwww..
+..ww...
+..ww...
 \end of frame
-ww..ww..ww
-ww..ww..ww
- wwwwwwww
- wwwwwwww
- wwwwwwww
- .ww..ww.
- .ww..ww.
+ww..ww..ww.
+ww..ww..ww.
+ wwwwwwww..
+ wwwwwwww..
+ wwwwwwww..
+ .ww..ww...
+ .ww..ww...
 \end of frame
-.ww..ww.
-.ww..ww.
-..wwww..
-...ww...
-..wwww..
-.ww..ww.
-.ww..ww.
-........
+ww..ww.
+ww..ww.
+.wwww..
+..ww...
+.wwww..
+ww..ww.
+ww..ww.
+.......
 \end of frame
-.ww..ww.
-.ww..ww.
-..wwww..
-...ww...
-...ww...
-...ww...
-...ww...
-........
+ww..ww.
+ww..ww.
+.wwww..
+..ww...
+..ww...
+..ww...
+..ww...
+.......
 \end of frame
-.wwwww..
-....ww..
-...ww...
-..ww....
-.ww.....
-.ww.....
-.wwwww..
-........
+wwwww..
+...ww..
+..ww...
+.ww....
+ww.....
+ww.....
+wwwww..
+.......
+\end of frame
+  www
+ w  ww
+ww   ww.
+ww   ww.
+ww   ww.
+ ww  w
+  www
+\end of frame
+  ww
+ www
+  ww
+  ww
+  ww
+  ww
+wwwwww.
+\end of frame
+ wwwww
+ww   ww
+    www
+  wwww
+ wwww
+www
+wwwwwww.
+\end of frame
+ wwwwww.
+    ww
+   ww
+  wwww
+     ww
+ww   ww
+ wwwww
+\end of frame
+   www
+  wwww
+ ww ww
+ww  ww
+wwwwwww.
+    ww
+    ww
+\end of frame
+wwwwww
+ww
+wwwwww
+     ww.
+     ww
+ww   ww
+ wwwww
+\end of frame
+  wwww
+ ww
+ww
+wwwwww
+ww   ww.
+ww   ww
+ wwwww
+\end of frame
+wwwwwww.
+ww   ww
+    ww
+   ww
+  ww
+  ww
+  ww
+\end of frame
+ wwww
+ww   w
+www  w
+ wwww
+w    ww.
+w    ww
+ wwwww
+\end of frame
+ wwwww
+ww   ww.
+ww   ww
+ wwwwww
+     ww
+    ww
+ wwww
+\end of frame
+www.
+www
+www
+ww
+..
+ww
+ww
 \end of frame
