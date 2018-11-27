@@ -33,6 +33,8 @@ private:
     int scale;
     int xCrop, yCrop;
 
+    int t = 0;
+
     vector<Point> offset;
 
     vector<Color> colors;
@@ -62,6 +64,7 @@ public:
     void setLocation(int x, int y);
 
     void nextFrame();
+    void nextFrame(int wait);
 
     void setCurrentFrame(int currentFrame);
 

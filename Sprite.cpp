@@ -86,6 +86,18 @@ void Sprite::nextFrame(){
 
 }
 
+void Sprite::nextFrame(int wait){
+
+
+    if (t == wait){
+        nextFrame();
+        t = 0;
+    }
+
+    t++;
+
+}
+
 void Sprite::setCurrentFrame(int currentFrame){
 
     this->currentFrame = currentFrame % totalFrames;

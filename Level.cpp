@@ -77,6 +77,18 @@ int Platform::numOfColumns(){
 
 }
 
+bool Platform::isFrozen(){
+
+    return frozen;
+
+}
+
+void Platform::setFrozen(){
+
+    frozen = true;
+
+}
+
 Level::Level(){
 }
 

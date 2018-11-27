@@ -17,6 +17,8 @@ private:
 
     CollisionBox cBox;
 
+    bool frozen = false;
+
 public:
 
     Platform(int x, int y);
@@ -36,6 +38,10 @@ public:
     vector<int>& getColLocations();
 
     CollisionBox& getCollisionBox();
+
+    bool isFrozen();
+
+    void setFrozen();
 
 };
 
