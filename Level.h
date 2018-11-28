@@ -5,7 +5,7 @@
 #include "Block.h"
 #include <fstream>
 #include <vector>
-
+#include "WaveAnimation.h"
 class Platform{
 
 private:
@@ -52,6 +52,7 @@ private:
     Sprite blockSprite;
     Sprite leftEdgeSprite;
     Sprite rightEdgeSprite;
+    vector<WaveAnimation> waveAnimations;
 
 public:
 
@@ -73,6 +74,9 @@ public:
     int numOfPlatforms();
 
     Platform& getPlatform(int index);
+
+    void addWaveAnimation(int platNumber, int startX);
+    void addFreezeAnimation(int platNumber, int startX);
 
 };
 

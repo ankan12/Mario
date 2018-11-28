@@ -170,6 +170,15 @@ bool CollisionBox::solidInteraction(CollisionBox& b, double direction){
 
 }
 
+void CollisionBox::fitToSprite(Sprite& sprite){
+
+    int cf = sprite.getCurrentFrame();
+    setWidth(sprite.getScaledWidth(cf));
+    setHeight(sprite.getScaledHeight(cf));
+    resetAtLocation(sprite.get_x(), sprite.get_y());
+
+}
+
  void CollisionBox::drawBox(SDL_Plotter& p){
 
      for (int c = x; c < x + width; c++){

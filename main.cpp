@@ -7,7 +7,6 @@
 #include "CollisionBox.h"
 #include "Wave.h"
 #include "Number.h"
-//#include "Video.h"
 #include "Level.h"
 #include "DrawingFunctions.h"
 #include "Block.h"
@@ -15,30 +14,13 @@
 #include "Shellcreeper.h"
 #include <cstdlib>
 #include <cmath>
+#include "Plumber.h"
+
 using namespace std;
 
 
 int main(int argc, char ** argv)
 {
-
-    int numbers[5];
-
-    int& x = numbers[1];
-
-    x = 10;
-
-    cout << numbers[1] << endl;
-
-    x = 11;
-
-    cout << numbers[1] << endl;
-
-    int y = numbers[1];
-
-    y = 12;
-
-    cout << numbers[1] << endl;
-
 
     char key_pressed;
 
@@ -93,137 +75,109 @@ int main(int argc, char ** argv)
     bottomRightPipe.setLocation(800 - bottomRightPipe.getScaledWidth(0),
                                 bottomLeftPipe.get_y());
 
+    Plumber player("mario_sprite_sheet.txt", inFile, 2, 395, 150);
 
-    bool jumping = false, hit_max_jump = false;
-    bool falling = true, touching_side_left = false, touching_side_right = false, hit_head = false;
-    int jump_measure;
+    CollisionBox cPipe1, cPipe2, cPipe3, cPipe4, cFloor;
+    cPipe1.fitToSprite(spawnPipeLeft);
+    cPipe2.fitToSprite(spawnPipeRight);
+    cPipe3.fitToSprite(bottomLeftPipe);
+    cPipe4.fitToSprite(bottomRightPipe);
 
-    Sprite turtle("turtle.txt", inFile);
+    cFloor.fitToSprite(brickFloor);
+    cFloor.setWidth(800);
 
-    Sprite mario("mario_sprite_sheet.txt",inFile);
-    mario.setScale(2);
+    CollisionBox cCeiling(800,5,0,0);
 
-    double square_x = 395,square_y = 150;
-    CollisionBox test(mario.getScaledWidth(0),mario.getScaledHeight(0),square_x,square_y);
-    test.setDirection(-90);
+    vector<CollisionBox> solids;
 
-    Shellcreeper creeper("turtle.txt", inFile, 30, 30, 2);
+    solids.push_back(cPipe1);
+    solids.push_back(cPipe2);
+    solids.push_back(cPipe3);
+    solids.push_back(cPipe4);
+    solids.push_back(cFloor);
+    solids.push_back(cCeiling);
 
-    int timer = 0;
+    for (int i = 0; i < level1.numOfPlatforms(); i++){
+        solids.push_back(level1.getPlatform(i).getCollisionBox());
+    }
 
-    double yVelocity = 0;
-    double yAccel = 0.05;
-    double xVelocity = 0;
+    vector<CollisionBox> creepBoxes;
 
-    falling = true;
-
-    Number numDirection("digits.txt",inFile);
-    numDirection.setScale(1);
-
-    test.setDirection(-90);
-
-    int groundStart=0;
-    int groundEnd=800;
+    vector<Shellcreeper> creepers;
+    int enemySpawnTimer = 0;
 
     while (!p.getQuit()){
 
-        timer++;
-        timer %= 100;
-
-        if (falling && yVelocity < 5){
-            yVelocity += yAccel;
+        creepBoxes.clear();
+        for (int i = 0; i < creepers.size(); i++){
+            creepBoxes.push_back(creepers[i].getCBox());
         }
 
-        if (((test.get_x() + test.getWidth() < groundStart) ||
-            (test.get_x() > groundEnd)) && !falling){
+        if (enemySpawnTimer == 100){
+            Shellcreeper creeper("turtle.txt", inFile, 2, rand()%2);
+            creepers.push_back(creeper);
+            creepBoxes.push_back(creeper.getCBox());
+            enemySpawnTimer = 0;
+        }
 
-            if (!falling){
-                falling = true;
+        enemySpawnTimer++;
+
+        player.updateLocation();
+        player.solidCollisions(solids, level1);
+
+        for (int i = 0; i < creepers.size(); i++){
+
+            CollisionBox& hBox = creepers[i].getHitBox();
+            CollisionBox& c = player.getCBox();
+
+            CollisionBox& b = creepers[i].getCBox();
+
+            if (c.hitHeadUnder(hBox)){
+                creepers[i].setXVel(0);
+                creepers[i].setYVel(-2);
+                creepers[i].getSprite().setCurrentFrame(8);
+                creepers[i].setFalling(true);
+                creepers[i].setBumped(true);
             }
-            groundStart = 0;
-            groundEnd = 800;
+
+            if (c.isTouching(b)){
+
+                if (creepers[i].getBumped() && !creepers[i].getDead()){
+                    creepers[i].setYVel(-2);
+                    creepers[i].setXVel(player.getXVel()/2.0);
+                    creepers[i].setYAccel(0.2);
+                    creepers[i].setDead(true);
+                    creepers[i].setFalling(true);
+                }
+
+            }
+
         }
 
-        square_y += yVelocity;
-        square_x += xVelocity;
-        test.moveToLocation(square_x, square_y);
+        for (int i = 0; i < creepers.size(); i++){
 
-        WaveAnimation wa(0, 50);
-        wa.setSpeed_1sthalf(0.2);
-        wa.setSpeed_2ndhalf(0.2);
-
-        vector<WaveAnimation> wAnimations;
-
-        if (p.kbhit()){
-            switch(p.getKey()){
+            if (creepers[i].getDead() && creepers[i].getY() > 0){
+                creepers.erase(creepers.begin() + i);
+            }
+            creepers[i].updateLocation();
+            if (!creepers[i].getDead()){
+                creepers[i].solidCollisions(solids, level1);
             }
         }
-        p.clear();
-
-
 
         // Draw Black
         drawBlackBackground(screenWidth, screenHeight, p);
 
-        CollisionBox cBox(100,100,20,0);
-
-        cBox.drawBox(p);
-        creeper.draw(p);
-        creeper.getSprite().nextFrame(10);
-
-
-
         // Get User Input
+        p.kbhit();
         key_pressed = p.getKey();
+        player.onKeyPress(key_pressed);
 
-        if (key_pressed == ' '){
-            yVelocity = 0;
-        }
-
-        if (key_pressed != 'D' && key_pressed != 'A'){
-            mario.setCurrentFrame(0);
-            xVelocity = 0;
-        }
-
-        // Side to Side Movement
-            if (key_pressed == 'D'){
-                test.setDirection(0);
-
-                xVelocity = 2;
-
-                if(!mario.mirrored()){
-                    mario.setMirrored(true);
-                }
-                if (timer%10 == 0){
-                    mario.setCurrentFrame(mario.getCurrentFrame()+1);
-                    if (mario.getCurrentFrame() == 4){
-                        mario.setCurrentFrame(1);
-                    }
-
-                }
+        for (int i = 0; i < creepers.size(); i++){
+            if (!(creepers[i].getDead() && creepers[i].getY() > 350)){
+                creepers[i].draw(p);
             }
 
-            if (key_pressed == 'A'){
-
-                test.setDirection(180);
-                xVelocity = -2;;
-
-                if (mario.mirrored()){
-                    mario.setMirrored(false);
-                }
-                if (timer%10 == 0){
-                    mario.setCurrentFrame(mario.getCurrentFrame()+1);
-                    if (mario.getCurrentFrame() == 4){
-                        mario.setCurrentFrame(1);
-                    }
-                }
-            }
-
-
-        if (key_pressed == 'W'&& !falling){
-            test.setDirection(90);
-            yVelocity = -3.5;
-            falling = true;
         }
 
         spawnPipeLeft.draw(p);
@@ -232,87 +186,12 @@ int main(int argc, char ** argv)
         bottomLeftPipe.draw(p);
         bottomRightPipe.draw(p);
 
-
         horizontalTile(brickFloor, 0, screenWidth, p);
-
-        wa.setNextFrame(level1.getPlatform(0).getColLocations());
-
-        for (int w = 0; w < wAnimations.size(); w++){
-
-            WaveAnimation& wa = wAnimations[w];
-
-            if (wa.finished()){
-                wAnimations.erase(wAnimations.begin() + w);
-                continue;
-            }
-
-            Platform& p = level1.getPlatform(wa.platformNum());
-
-            wa.setNextFrame(p.getColLocations());
-
-        }
 
         level1.draw(p);
 
-        for (int i = 0; i < level1.numOfPlatforms(); i++){
-            level1.getPlatform(i).getCollisionBox().drawBox(p);
-        }
+        player.draw(p);
 
-        for (int i = 0; i < level1.numOfPlatforms(); i++){
-
-            CollisionBox& b = level1.getPlatform(i).getCollisionBox();
-
-            if (test.hitHeadUnder(b)){
-                cout << "hit" << endl;
-                yVelocity = 0;
-                test.solidInteraction(b,90);
-
-            }
-
-            if (test.hitLeftOf(b)){
-                xVelocity = 0;
-                test.solidInteraction(b,0);
-            }
-            if (test.hitRightOf(b)){
-                xVelocity = 0;
-                test.solidInteraction(b,180);
-            }
-
-            if (test.jumpedOn(b)){
-                falling = false;
-                yVelocity = 0;
-                test.solidInteraction(b,-90);
-                groundStart = b.get_x();
-                groundEnd = b.get_x()+b.getWidth();
-            }
-
-
-        }
-        square_x = test.get_x();
-        square_y = test.get_y();
-
-        // Debug
-        if (square_x <= 2){
-            square_x = 780;
-            square_y -= 4;
-        }
-        if (square_x >= 800){
-            square_x = 20;
-            square_y -= 4;
-        }
-
-
-        turtle.nextFrame(100);
-
-        turtle.draw(p);
-
-        mario.setLocation(square_x, square_y);
-
-        mario.draw(p);
-        test.drawBox(p);
-
-        //test.setDirection(-90);
-        numDirection.draw(p);
 
         // Update Screen
         p.update();

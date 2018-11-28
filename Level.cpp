@@ -96,7 +96,24 @@ Level::Level(){
 
 void Level::draw(SDL_Plotter& p){
 
+    for (int w = 0; w < waveAnimations.size(); w++){
+
+        WaveAnimation& wa = waveAnimations[w];
+
+        if (wa.finished()){
+            waveAnimations.erase(waveAnimations.begin() + w);
+            continue;
+        }
+
+        Platform& p = platforms[wa.platformNum()];
+
+        wa.setNextFrame(p.getColLocations());
+
+    }
+
     for (int i = 0; i < platforms.size(); i++){
+
+        platforms[i].getCollisionBox().drawBox(p);
 
         vector<int>& colLoc = platforms[i].getColLocations();
         int colIndex = 0;
@@ -231,6 +248,9 @@ void Level::placePlatform(int x, int y, int numOfBlocks){
     platform.getCollisionBox().setHeight(blockSprite.getScaledHeight(0));
     platform.getCollisionBox().resetAtLocation(x, y);
 
+    platform.getCollisionBox().type = "platform";
+    platform.getCollisionBox().ID = platforms.size();
+
     platforms.push_back(platform);
 
 }
@@ -244,5 +264,18 @@ int Level::numOfPlatforms(){
 Platform& Level::getPlatform(int index){
 
     return platforms[index];
+
+}
+
+void Level::addWaveAnimation(int platNumber, int startX){
+
+    cout << "Add waveAnimation" << endl;
+    WaveAnimation wa(platNumber, startX);
+
+    waveAnimations.push_back(wa);
+
+}
+
+void Level::addFreezeAnimation(int platNumber, int startX){
 
 }

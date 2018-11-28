@@ -3,6 +3,7 @@
 
 #include "SDL_Plotter.h"
 #include <vector>
+#include "Sprite.h"
 
 using namespace std;
 
@@ -49,6 +50,8 @@ class CollisionBox{
      int getDirection();
 
      bool solidInteraction(CollisionBox& b, double);
+
+     void fitToSprite(Sprite& sprite);
 
      //For debugging purposes
      void drawBox(SDL_Plotter& p);
