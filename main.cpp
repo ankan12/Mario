@@ -12,12 +12,34 @@
 #include "DrawingFunctions.h"
 #include "Block.h"
 #include "WaveAnimation.h"
+#include "Shellcreeper.h"
 #include <cstdlib>
+#include <cmath>
 using namespace std;
 
 
 int main(int argc, char ** argv)
 {
+
+    int numbers[5];
+
+    int& x = numbers[1];
+
+    x = 10;
+
+    cout << numbers[1] << endl;
+
+    x = 11;
+
+    cout << numbers[1] << endl;
+
+    int y = numbers[1];
+
+    y = 12;
+
+    cout << numbers[1] << endl;
+
+
     char key_pressed;
 
     const int screenWidth = 800, screenHeight = 400;
@@ -71,22 +93,60 @@ int main(int argc, char ** argv)
     bottomRightPipe.setLocation(800 - bottomRightPipe.getScaledWidth(0),
                                 bottomLeftPipe.get_y());
 
-    int square_x = 395,square_y = 150;
-    CollisionBox test(20,20,square_x,square_y);
+
     bool jumping = false, hit_max_jump = false;
     bool falling = true, touching_side_left = false, touching_side_right = false, hit_head = false;
     int jump_measure;
-    // Platform Collision Boxes
-    CollisionBox top_left(350,16,0,110), top_right(350,16,450,110), center_middle(420,16,190,200),
-                 center_left(140,16,0,210), center_right(140,16,660,210), Screen_top (800,10,0,0),
-                 bottom_left(280,16,0,290), bottom_right(280,16,520,290), floor(800,30,0,370);
-    // Pipe Collision Boxes
-    CollisionBox top_left_pipe (98,110,0,0), top_right_pipe (98,110,702,0),
-                 bottom_left_pipe (65,64,0,306), bottom_right_pipe (65,64,735,306);
 
     Sprite turtle("turtle.txt", inFile);
 
+    Sprite mario("mario_sprite_sheet.txt",inFile);
+    mario.setScale(2);
+
+    double square_x = 395,square_y = 150;
+    CollisionBox test(mario.getScaledWidth(0),mario.getScaledHeight(0),square_x,square_y);
+    test.setDirection(-90);
+
+    Shellcreeper creeper("turtle.txt", inFile, 30, 30, 2);
+
+    int timer = 0;
+
+    double yVelocity = 0;
+    double yAccel = 0.05;
+    double xVelocity = 0;
+
+    falling = true;
+
+    Number numDirection("digits.txt",inFile);
+    numDirection.setScale(1);
+
+    test.setDirection(-90);
+
+    int groundStart=0;
+    int groundEnd=800;
+
     while (!p.getQuit()){
+
+        timer++;
+        timer %= 100;
+
+        if (falling && yVelocity < 5){
+            yVelocity += yAccel;
+        }
+
+        if (((test.get_x() + test.getWidth() < groundStart) ||
+            (test.get_x() > groundEnd)) && !falling){
+
+            if (!falling){
+                falling = true;
+            }
+            groundStart = 0;
+            groundEnd = 800;
+        }
+
+        square_y += yVelocity;
+        square_x += xVelocity;
+        test.moveToLocation(square_x, square_y);
 
         WaveAnimation wa(0, 50);
         wa.setSpeed_1sthalf(0.2);
@@ -100,185 +160,71 @@ int main(int argc, char ** argv)
         }
         p.clear();
 
+
+
         // Draw Black
         drawBlackBackground(screenWidth, screenHeight, p);
 
-        // Draw Player
-        plotSquare(square_x,square_y,20,100,200,100,p);
+        CollisionBox cBox(100,100,20,0);
 
-        // Test Falling
-        if (test.isTouching(floor) && !jumping){
-            falling = false;
-        }
-        else if (test.isTouching(top_left) && !jumping){
-            falling = false;
-        }
-        else if (test.isTouching(top_right) && !jumping){
-            falling = false;
-        }
-        else if (test.isTouching(center_middle) && !jumping){
-            falling = false;
-        }
-        else if (test.isTouching(center_left) && !jumping){
-            falling = false;
-        }
-        else if (test.isTouching(center_right) && !jumping){
-            falling = false;
-        }
-        else if (test.isTouching(bottom_left) && !jumping){
-            falling = false;
-        }
-        else if (test.isTouching(bottom_right) && !jumping){
-            falling = false;
-        }
-        else if(jumping){
-            falling = false;
-        }
-        else {
-            falling = true;
-        }
+        cBox.drawBox(p);
+        creeper.draw(p);
+        creeper.getSprite().nextFrame(10);
 
-        // Test Side Collision
-        if (test.hitTheSideOf(top_left)){
-            touching_side_right = false;
-            touching_side_left = true;
-        }
-        else if (test.hitTheSideOf(top_right)){
-            touching_side_right = true;
-            touching_side_left = false;
-        }
-        else if (test.hitTheSideOf(center_left)){
-            touching_side_right = false;
-            touching_side_left = true;
-        }
-        else if (test.hitTheSideOf(center_right)){
-            touching_side_right = true;
-            touching_side_left = false;
-        }
-        else if (test.hitTheSideOf(center_left)){
-            touching_side_right = false;
-            touching_side_left = true;
-        }
-        else if (test.hitTheSideOf(center_right)){
-            touching_side_right = true;
-            touching_side_left = false;
-        }
-        else if (test.hitTheSideOf(bottom_left)){
-            touching_side_right = false;
-            touching_side_left = true;
-        }
-        else if (test.hitTheSideOf(bottom_right)){
-            touching_side_right = true;
-            touching_side_left = false;
-        }
-        else if (test.hitTheSideOf(center_middle)){
-            touching_side_right = true;
-            touching_side_left = true;
-        }
-        else if (test.hitTheSideOf(top_left_pipe)){
-            touching_side_right = false;
-            touching_side_left = true;
-        }
-        else if (test.hitTheSideOf(top_right_pipe)){
-            touching_side_right = true;
-            touching_side_left = false;
-        }
-        else if (test.hitTheSideOf(bottom_left_pipe)){
-            touching_side_right = false;
-            touching_side_left = true;
-        }
-        else if (test.hitTheSideOf(bottom_right_pipe)){
-            touching_side_right = true;
-            touching_side_left = false;
-        }
-        else {
-            touching_side_right = false;
-            touching_side_left = false;
-        }
 
-        // Test Hit Head
-        if (test.hitHeadUnder(top_left)){
-            hit_head = true;
-        }
-        else if (test.hitHeadUnder(top_right)){
-            hit_head = true;
-        }
-        else if (test.hitHeadUnder(center_left)){
-            hit_head = true;
-        }
-        else if (test.hitHeadUnder(center_middle)){
-            hit_head = true;
-        }
-        else if (test.hitHeadUnder(center_right)){
-            hit_head = true;
-        }
-        else if (test.hitHeadUnder(bottom_left)){
-            hit_head = true;
-        }
-        else if (test.hitHeadUnder(bottom_right)){
-            hit_head = true;
-        }
-        else if (test.hitHeadUnder(Screen_top)) {
-            hit_head = true;
-        }
-        else {
-            hit_head = false;
-        }
 
         // Get User Input
         key_pressed = p.getKey();
 
+        if (key_pressed == ' '){
+            yVelocity = 0;
+        }
+
+        if (key_pressed != 'D' && key_pressed != 'A'){
+            mario.setCurrentFrame(0);
+            xVelocity = 0;
+        }
+
         // Side to Side Movement
-        if (!touching_side_right){
             if (key_pressed == 'D'){
-                square_x += 2;
-            }
-        }
-        else square_x -= 2;
+                test.setDirection(0);
 
-        if (!touching_side_left){
+                xVelocity = 2;
+
+                if(!mario.mirrored()){
+                    mario.setMirrored(true);
+                }
+                if (timer%10 == 0){
+                    mario.setCurrentFrame(mario.getCurrentFrame()+1);
+                    if (mario.getCurrentFrame() == 4){
+                        mario.setCurrentFrame(1);
+                    }
+
+                }
+            }
+
             if (key_pressed == 'A'){
-                square_x -= 2;
-            }
-        }
-        else square_x += 2;
 
-        // Jumping
-        if (!falling){
-            if(!jumping){
-                if (key_pressed == 'W'){
-                    jumping = true;
-                    square_y -= 4;
-                    jump_measure = 4;
+                test.setDirection(180);
+                xVelocity = -2;;
+
+                if (mario.mirrored()){
+                    mario.setMirrored(false);
+                }
+                if (timer%10 == 0){
+                    mario.setCurrentFrame(mario.getCurrentFrame()+1);
+                    if (mario.getCurrentFrame() == 4){
+                        mario.setCurrentFrame(1);
+                    }
                 }
             }
-            if (jumping && !hit_max_jump){
-                square_y -= 3;
-                jump_measure += 3;
-                if (hit_head){
-                    hit_max_jump = true;
-                    jumping = false;
-                    square_y += 10;
-                }
-                else if (jump_measure >= 105){
-                    hit_max_jump = true;
-                    jumping = false;
-                }
-            }
-            if (jumping && hit_max_jump){
-                jump_measure -= 3;
-                if (jump_measure <= 0){
-                    hit_max_jump = false;
-                }
-            }
-        }
-        else if (falling){
-            square_y += 2;
-        }
 
 
-        // Drawing
-        test.moveToLocation(square_x,square_y);
+        if (key_pressed == 'W'&& !falling){
+            test.setDirection(90);
+            yVelocity = -3.5;
+            falling = true;
+        }
 
         spawnPipeLeft.draw(p);
         spawnPipeRight.draw(p);
@@ -308,6 +254,43 @@ int main(int argc, char ** argv)
 
         level1.draw(p);
 
+        for (int i = 0; i < level1.numOfPlatforms(); i++){
+            level1.getPlatform(i).getCollisionBox().drawBox(p);
+        }
+
+        for (int i = 0; i < level1.numOfPlatforms(); i++){
+
+            CollisionBox& b = level1.getPlatform(i).getCollisionBox();
+
+            if (test.hitHeadUnder(b)){
+                cout << "hit" << endl;
+                yVelocity = 0;
+                test.solidInteraction(b,90);
+
+            }
+
+            if (test.hitLeftOf(b)){
+                xVelocity = 0;
+                test.solidInteraction(b,0);
+            }
+            if (test.hitRightOf(b)){
+                xVelocity = 0;
+                test.solidInteraction(b,180);
+            }
+
+            if (test.jumpedOn(b)){
+                falling = false;
+                yVelocity = 0;
+                test.solidInteraction(b,-90);
+                groundStart = b.get_x();
+                groundEnd = b.get_x()+b.getWidth();
+            }
+
+
+        }
+        square_x = test.get_x();
+        square_y = test.get_y();
+
         // Debug
         if (square_x <= 2){
             square_x = 780;
@@ -323,10 +306,18 @@ int main(int argc, char ** argv)
 
         turtle.draw(p);
 
+        mario.setLocation(square_x, square_y);
+
+        mario.draw(p);
+        test.drawBox(p);
+
+        //test.setDirection(-90);
+        numDirection.draw(p);
+
         // Update Screen
         p.update();
 
-        p.Sleep(1);
+        p.Sleep(10);
 
     }
 
