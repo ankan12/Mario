@@ -72,6 +72,7 @@ int main(int argc, char ** argv)
                                 bottomLeftPipe.get_y());
 
     int square_x = 395,square_y = 150;
+    int square_x_enemy = 400, square_y_enemy = 300;
     CollisionBox test(20,20,square_x,square_y);
     bool jumping = false, hit_max_jump = false;
     bool falling = true, touching_side_left = false, touching_side_right = false, hit_head = false;
@@ -85,6 +86,22 @@ int main(int argc, char ** argv)
                  bottom_left_pipe (65,64,0,306), bottom_right_pipe (65,64,735,306);
 
     Sprite turtle("turtle.txt", inFile);
+
+    //collison box for the pow box
+    CollisionBox a(40, 20, 400, 300);
+
+    //booleans for enemies
+    bool jumping_enemy = false;
+    bool falling_enemy = true, touching_side_left_enemy = false, touching_side_right_enemy = false;
+
+    //collision box for enemy
+    CollisionBox enemy(20, 20, square_x_enemy, square_y_enemy);
+
+
+
+
+
+
 
     while (!p.getQuit()){
 
@@ -105,6 +122,9 @@ int main(int argc, char ** argv)
 
         // Draw Player
         plotSquare(square_x,square_y,20,100,200,100,p);
+
+        //draw enemy
+        plotSquare(square_x_enemy, square_y_enemy, 20, 255, 0, 0, p);
 
         // Test Falling
         if (test.isTouching(floor) && !jumping){
@@ -137,6 +157,54 @@ int main(int argc, char ** argv)
         else {
             falling = true;
         }
+
+
+        // Test Falling enemy
+        if (enemy.isTouching(floor)){
+            falling_enemy = false;
+        }
+        else if (enemy.isTouching(top_left)){
+            falling_enemy = false;
+        }
+        else if (enemy.isTouching(top_right)){
+            falling_enemy = false;
+        }
+        else if (enemy.isTouching(center_middle)){
+            falling_enemy = false;
+        }
+        else if (enemy.isTouching(center_left)){
+            falling_enemy = false;
+        }
+        else if (enemy.isTouching(center_right)){
+            falling_enemy = false;
+        }
+        else if (enemy.isTouching(bottom_left)){
+            falling_enemy = false;
+        }
+        else if (enemy.isTouching(bottom_right)){
+            falling_enemy = false;
+        }
+        else {
+            falling_enemy = true;
+        }
+
+
+        //make the enemy fall if the falling variable is true
+        if(falling_enemy == true)
+        {
+            square_y_enemy +=2;
+        }
+
+        //make enemy respawn
+        if(enemy.isTouching(bottom_right_pipe) || enemy.isTouching(bottom_left_pipe))
+           {
+
+               square_x_enemy=98;
+               square_y_enemy= 80;
+
+           }
+
+
 
         // Test Side Collision
         if (test.hitTheSideOf(top_left)){
@@ -196,6 +264,70 @@ int main(int argc, char ** argv)
             touching_side_left = false;
         }
 
+
+        // Test Side Collision for enemy
+        if (enemy.hitTheSideOf(top_left)){
+            touching_side_right_enemy = false;
+            touching_side_left_enemy = true;
+        }
+        else if (enemy.hitTheSideOf(top_right)){
+            touching_side_right_enemy = true;
+            touching_side_left_enemy = false;
+        }
+        else if (enemy.hitTheSideOf(center_left)){
+            touching_side_right_enemy = false;
+            touching_side_left_enemy = true;
+        }
+        else if (enemy.hitTheSideOf(center_right)){
+            touching_side_right_enemy = true;
+            touching_side_left_enemy = false;
+        }
+        else if (enemy.hitTheSideOf(center_left)){
+            touching_side_right_enemy = false;
+            touching_side_left_enemy = true;
+        }
+        else if (enemy.hitTheSideOf(center_right)){
+            touching_side_right_enemy = true;
+            touching_side_left_enemy = false;
+        }
+        else if (enemy.hitTheSideOf(bottom_left)){
+            touching_side_right_enemy = false;
+            touching_side_left_enemy = true;
+        }
+        else if (enemy.hitTheSideOf(bottom_right)){
+            touching_side_right_enemy = true;
+            touching_side_left_enemy = false;
+        }
+        else if (enemy.hitTheSideOf(center_middle)){
+            touching_side_right_enemy = true;
+            touching_side_left_enemy = true;
+        }
+        else if (enemy.hitTheSideOf(top_left_pipe)){
+            touching_side_right_enemy = false;
+            touching_side_left_enemy = true;
+        }
+        else if (enemy.hitTheSideOf(top_right_pipe)){
+            touching_side_right_enemy = true;
+            touching_side_left_enemy = false;
+        }
+        else if (enemy.hitTheSideOf(bottom_left_pipe)){
+            touching_side_right_enemy = false;
+            touching_side_left_enemy = true;
+        }
+        else if (enemy.hitTheSideOf(bottom_right_pipe)){
+            touching_side_right_enemy = true;
+            touching_side_left_enemy = false;
+        }
+        else {
+            touching_side_right_enemy = false;
+            touching_side_left_enemy = false;
+        }
+
+
+        //test if
+
+
+
         // Test Hit Head
         if (test.hitHeadUnder(top_left)){
             hit_head = true;
@@ -221,6 +353,9 @@ int main(int argc, char ** argv)
         else if (test.hitHeadUnder(Screen_top)) {
             hit_head = true;
         }
+        else if (test.hitHeadUnder(a)) {
+            hit_head = true;
+        }
         else {
             hit_head = false;
         }
@@ -242,6 +377,10 @@ int main(int argc, char ** argv)
             }
         }
         else square_x += 2;
+
+        //enemy movement
+        square_x_enemy += 1;
+
 
         // Jumping
         if (!falling){
@@ -279,6 +418,10 @@ int main(int argc, char ** argv)
 
         // Drawing
         test.moveToLocation(square_x,square_y);
+
+        //enemy drawing
+
+        enemy.moveToLocation(square_x_enemy, square_y_enemy);
 
         spawnPipeLeft.draw(p);
         spawnPipeRight.draw(p);
@@ -323,12 +466,21 @@ int main(int argc, char ** argv)
 
         turtle.draw(p);
 
+
+        a.drawBox(p);
+        if(a.isTouching(test))
+        {
+            plotSquare(0,0,10,200,0,0,p);
+        }
+
         // Update Screen
         p.update();
 
         p.Sleep(1);
 
+
     }
+
 
     return 0;
 }
