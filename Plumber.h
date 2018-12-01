@@ -21,6 +21,12 @@ private:
     double animationSpeed;
     double a;
 
+    bool dead;
+
+    bool invincible;
+
+    int invincibleTimer;
+
     CollisionBox cBox;
 
 public:
@@ -52,6 +58,12 @@ public:
     void updateLocation();
 
     void onKeyPress(char keyPress);
+
+    void setDead(bool);
+    bool getDead();
+
+    void setInvincible(bool);
+    bool getInvincible();
 
 };
 

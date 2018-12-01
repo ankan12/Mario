@@ -113,8 +113,6 @@ void Level::draw(SDL_Plotter& p){
 
     for (int i = 0; i < platforms.size(); i++){
 
-        platforms[i].getCollisionBox().drawBox(p);
-
         vector<int>& colLoc = platforms[i].getColLocations();
         int colIndex = 0;
 

@@ -166,6 +166,7 @@ bool CollisionBox::solidInteraction(CollisionBox& b, double direction){
         y -= sin((direction + 180.0) * (PI / 180.0));
 
     }
+    resetAtLocation(x, y);
     return true;
 
 }

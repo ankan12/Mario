@@ -28,6 +28,12 @@ Plumber::Plumber(char filename[], ifstream& inFile, int scale, int x, int y){
     groundStart = 0;
     groundEnd= 800;
 
+    dead = false;
+
+    invincible = false;
+
+    invincibleTimer = 0;
+
 }
 
 double Plumber::getX(){
@@ -74,7 +80,24 @@ Sprite& Plumber::getSprite(){
 }
 
 void Plumber::draw(SDL_Plotter& p){
+
     sprite.setLocation(x, y);
+
+    if (invincible){
+        if (invincibleTimer % 5 == 0){
+            sprite.draw(p);
+        }
+        invincibleTimer++;
+        a += animationSpeed;
+
+        if (invincibleTimer > 100){
+            invincible = false;
+            invincibleTimer = 0;
+        }
+
+        return;
+    }
+
     sprite.draw(p);
     a += animationSpeed;
 }
@@ -84,6 +107,10 @@ CollisionBox& Plumber::getCBox(){
 }
 
 void Plumber::solidCollisions(vector<CollisionBox>& solids, Level& level){
+
+    if (dead){
+        return;
+    }
 
     for (int i = 0; i < solids.size(); i++){
 
@@ -133,6 +160,25 @@ void Plumber::solidCollisions(vector<CollisionBox>& solids, Level& level){
 
 void Plumber::updateLocation(){
 
+    if (dead && y > 400){
+        dead = false;
+        x = 395;
+        y = 150;
+        cBox.resetAtLocation(x, y);
+        falling = true;
+        xVelocity = 0.0;
+        yVelocity = 0.0;
+        yAccel = 0.05;
+
+        groundStart = 0;
+        groundEnd= 800;
+
+        sprite.setCurrentFrame(0);
+
+        invincible = true;
+
+    }
+
     if (falling && yVelocity < 5){
             yVelocity += yAccel;
         }
@@ -163,12 +209,13 @@ void Plumber::updateLocation(){
             falling = true;
         }
         cBox.moveToLocation(x, y);
-
-
-
 }
 
 void Plumber::onKeyPress(char key_pressed){
+
+    if (dead){
+        return;
+    }
 
     if (key_pressed != 'D' && key_pressed != 'A'){
         if (!falling){
@@ -218,4 +265,24 @@ void Plumber::onKeyPress(char key_pressed){
         yVelocity = -3.5;
         falling = true;
     }
+}
+
+void Plumber::setDead(bool value){
+
+    dead = value;
+
+}
+
+bool Plumber::getDead(){
+
+    return dead;
+
+}
+
+void Plumber::setInvincible(bool value){
+    invincible = value;
+}
+
+bool Plumber::getInvincible(){
+    return invincible;
 }

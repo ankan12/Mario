@@ -15,6 +15,7 @@
 #include <cstdlib>
 #include <cmath>
 #include "Plumber.h"
+#include <ctime>
 
 using namespace std;
 
@@ -75,6 +76,8 @@ int main(int argc, char ** argv)
     bottomRightPipe.setLocation(800 - bottomRightPipe.getScaledWidth(0),
                                 bottomLeftPipe.get_y());
 
+
+
     Plumber player("mario_sprite_sheet.txt", inFile, 2, 395, 150);
 
     CollisionBox cPipe1, cPipe2, cPipe3, cPipe4, cFloor;
@@ -90,12 +93,33 @@ int main(int argc, char ** argv)
 
     vector<CollisionBox> solids;
 
-    solids.push_back(cPipe1);
-    solids.push_back(cPipe2);
-    solids.push_back(cPipe3);
-    solids.push_back(cPipe4);
+//    solids.push_back(cPipe1);
+//    solids.push_back(cPipe2);
+//    solids.push_back(cPipe3);
+//    solids.push_back(cPipe4);
     solids.push_back(cFloor);
     solids.push_back(cCeiling);
+
+    Pipe pipe0;
+    pipe0.direction = "right";
+    pipe0.entrance.resetAtLocation(cPipe4.get_x() - 2, cPipe4.get_y());
+    pipe0.entrance.setWidth(2);
+    pipe0.entrance.setHeight(cPipe4.getHeight());
+    pipe0.entranceX = cPipe4.get_x();
+    pipe0.entranceY = cPipe4.get_y() + 1;
+    pipe0.exitX = cPipe1.get_x() + cPipe1.getWidth();
+    pipe0.exitY = cPipe1.get_y();
+
+    Pipe pipe1;
+    pipe1.direction = "left";
+    pipe1.entrance.resetAtLocation(cPipe3.get_x() + cPipe3.getWidth(), cPipe3.get_y());
+    pipe1.entrance.setWidth(2);
+    pipe1.entrance.setHeight(cPipe3.getHeight());
+    pipe1.entranceX = cPipe3.get_x() + cPipe3.getWidth();
+    pipe1.entranceY = cPipe3.get_y() + 1;
+    pipe1.exitX = cPipe2.get_x();
+    pipe1.exitY = cPipe2.get_y();
+
 
     for (int i = 0; i < level1.numOfPlatforms(); i++){
         solids.push_back(level1.getPlatform(i).getCollisionBox());
@@ -105,6 +129,15 @@ int main(int argc, char ** argv)
 
     vector<Shellcreeper> creepers;
     int enemySpawnTimer = 0;
+    int enemies = 0;
+
+    Sprite pow("pow.txt", inFile);
+    pow.setScale(2);
+    pow.setLocation(400-16, 250);
+    CollisionBox powBox;
+    powBox.fitToSprite(pow);
+    powBox.type = "pow";
+    solids.push_back(powBox);
 
     while (!p.getQuit()){
 
@@ -113,57 +146,109 @@ int main(int argc, char ** argv)
             creepBoxes.push_back(creepers[i].getCBox());
         }
 
-        if (enemySpawnTimer == 100){
-            Shellcreeper creeper("turtle.txt", inFile, 2, rand()%2);
+        if (enemySpawnTimer == 150 && enemies < 3){
+            Shellcreeper creeper("turtle.txt", inFile, 2, rand()%2, pipe0, pipe1);
+            creeper.getCBox().ID = creepers.size();
             creepers.push_back(creeper);
             creepBoxes.push_back(creeper.getCBox());
             enemySpawnTimer = 0;
+            enemies++;
         }
 
         enemySpawnTimer++;
 
         player.updateLocation();
-        player.solidCollisions(solids, level1);
 
-        for (int i = 0; i < creepers.size(); i++){
+        if (player.getCBox().hitHeadUnder(powBox) && pow.getCurrentFrame() < 3){
 
-            CollisionBox& hBox = creepers[i].getHitBox();
-            CollisionBox& c = player.getCBox();
+            for (int t = 0; t < 300; t++){
 
-            CollisionBox& b = creepers[i].getCBox();
+                int randPlat = rand()%level1.numOfPlatforms();
+                int randX = rand()&level1.getPlatform(randPlat).numOfColumns();
+                level1.addWaveAnimation(randPlat,randX);
 
-            if (c.hitHeadUnder(hBox)){
-                creepers[i].setXVel(0);
-                creepers[i].setYVel(-2);
-                creepers[i].getSprite().setCurrentFrame(8);
-                creepers[i].setFalling(true);
-                creepers[i].setBumped(true);
             }
 
-            if (c.isTouching(b)){
+            for (int i = 0; i < creepers.size(); i++){
+                creepers[i].setState(bumpedAndFalling);
+                creepers[i].setYVel(-2);
+            }
 
-                if (creepers[i].getBumped() && !creepers[i].getDead()){
+            p.Sleep(10);
+            pow.nextFrame();
+            if (pow.getCurrentFrame() == 3){
+                for (int i = 0; i < solids.size(); i++){
+                    if (solids[i].type == "pow"){
+                        solids.erase(solids.begin() + i);
+                    }
+                }
+            }
+        }
+
+
+        player.solidCollisions(solids, level1);
+        if (!player.getDead()){
+            for (int i = 0; i < creepers.size(); i++){
+
+                CollisionBox& hBox = creepers[i].getHitBox();
+                CollisionBox& c = player.getCBox();
+
+                CollisionBox& b = creepers[i].getCBox();
+
+                if (c.hitHeadUnder(hBox)){
+                    creepers[i].setXVel(creepers[i].getXVel()*-1);
                     creepers[i].setYVel(-2);
-                    creepers[i].setXVel(player.getXVel()/2.0);
-                    creepers[i].setYAccel(0.2);
-                    creepers[i].setDead(true);
-                    creepers[i].setFalling(true);
+                    creepers[i].getSprite().setCurrentFrame(8);
+                    creepers[i].setState(bumpedAndFalling);
+                }
+
+                if (c.isTouching(b)){
+
+                    if (creepers[i].getState() == bumpedAndGrounded){
+                        creepers[i].setYVel(-2);
+                        creepers[i].setXVel(player.getXVel()/2.0);
+                        creepers[i].setYAccel(0.2);
+                        creepers[i].setState(deadAndFalling);
+
+                    }
+                    if ( !player.getInvincible() && (creepers[i].getState() == grounded || creepers[i].getState() == aliveAndFalling) ){
+                        player.setYVel(-2);
+                        player.setXVel(0);
+                        //player.setYAccel(2);
+                        player.setFalling(true);
+                        player.getSprite().setCurrentFrame(6);
+                        player.setDead(true);
+                    }
+
                 }
 
             }
-
         }
-
         for (int i = 0; i < creepers.size(); i++){
 
-            if (creepers[i].getDead() && creepers[i].getY() > 0){
+            if (creepers[i].getState() == deadAndFalling && creepers[i].getY() > 400){
+                creepers[i].setState(deadAndInvisible);
                 creepers.erase(creepers.begin() + i);
             }
-            creepers[i].updateLocation();
-            if (!creepers[i].getDead()){
-                creepers[i].solidCollisions(solids, level1);
+            creepers[i].updateLocation2();
+            creepers[i].solidCollisions2(solids);
+            //creepers[i].solidCollisions2(creepBoxes);
+            if (creepers[i].getState() == grounded){
+                for (int i = 0; i < creepBoxes.size(); i++){
+                    CollisionBox& b = creepBoxes[i];
+                    CollisionBox& cBox = creepers[i].getCBox();
+                    if (b.ID == cBox.ID){
+                        continue;
+                    }
+                    if (cBox.hitTheSideOf(b)){
+                        creepers[i].setState(turningAround);
+                        creepers[i].setXVel(creepers[i].getXVel()*-1);
+                    }
+                }
             }
         }
+
+
 
         // Draw Black
         drawBlackBackground(screenWidth, screenHeight, p);
@@ -173,10 +258,15 @@ int main(int argc, char ** argv)
         key_pressed = p.getKey();
         player.onKeyPress(key_pressed);
 
+        horizontalTile(brickFloor, 0, screenWidth, p);
+
         for (int i = 0; i < creepers.size(); i++){
-            if (!(creepers[i].getDead() && creepers[i].getY() > 350)){
-                creepers[i].draw(p);
-            }
+//            if (!(creepers[i].getDead() && creepers[i].getY() > 350)){
+//                creepers[i].draw(p);
+//            }
+            creepers[i].draw2(p);
+//            creepers[i].getCBox().drawBox(p);
+//            creepers[i].getHitBox().drawBox(p);
 
         }
 
@@ -186,12 +276,19 @@ int main(int argc, char ** argv)
         bottomLeftPipe.draw(p);
         bottomRightPipe.draw(p);
 
-        horizontalTile(brickFloor, 0, screenWidth, p);
-
         level1.draw(p);
+        pow.draw(p);
 
         player.draw(p);
 
+        pipe0.entrance.drawBox(p);
+        pipe1.entrance.drawBox(p);
+
+
+//        plotSquare(pipe0.entranceX, pipe0.entranceY, 2, 0, 0, 255, p);
+//        plotSquare(pipe0.exitX, pipe0.exitY, 2, 0, 255, 0, p);
+//        plotSquare(pip0.entranceX, pip0.entranceY, 2, 0, 0, 255, b);
+//        plotSquare(pip0.entranceX, pip0.entranceY, 2, 0, 0, 255, b);
 
         // Update Screen
         p.update();

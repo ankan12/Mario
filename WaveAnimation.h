@@ -2,7 +2,6 @@
 #define WAVEANIMATION_H_INCLUDED
 
 #include <vector>
-#include "Level.h"
 
 using namespace std;
 

@@ -7,6 +7,8 @@
 #include "CollisionBox.h"
 #include <vector>
 #include "Level.h"
+#include "EnemyState.h"
+#include "Pipe.h"
 
 using namespace std;
 
@@ -31,25 +33,23 @@ private:
 
     double speedFactor;
 
-    bool spawning;
-
-    double spawnX, spawnY;
-    double exitX, exitY;
-
-    int pipe;
-    int pipeQueue;
-
     CollisionBox cBox;
     CollisionBox hitBox;
 
-    void spawn();
+    Pipe pipe0, pipe1;
+    Pipe pipeThatIAmIn;
 
-    bool turningAround;
-    bool bumped;
-    bool dead;
+    double pipeSpeed;
+
+    string directionInsidePipe;
+
+    EnemyState state;
+
+    double distanceInPipe;
 
 public:
     Shellcreeper(char[], ifstream&, int scale, int pipe);
+    Shellcreeper(char[], ifstream&, int scale, int pipe, Pipe& pipe0, Pipe& pipe1);
 
     double getX();
     double getY();
@@ -69,11 +69,13 @@ public:
     Sprite& getSprite();
 
     void draw(SDL_Plotter& p);
+    void draw2(SDL_Plotter& p);
 
     CollisionBox& getCBox();
     CollisionBox& getHitBox();
 
     void solidCollisions(vector<CollisionBox>& solids, Level& level);
+    void solidCollisions2(vector<CollisionBox>& solids);
 
     void updateLocation();
 
@@ -86,6 +88,13 @@ public:
 
     bool getDead();
     void setDead(bool);
+
+    void setState(EnemyState state);
+    EnemyState getState();
+
+    void updateLocation2();
+
+    void printState();
 
 };
 

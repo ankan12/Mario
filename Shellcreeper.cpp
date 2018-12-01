@@ -3,63 +3,45 @@
 #include <cmath>
 using namespace std;
 
-Shellcreeper::Shellcreeper(char filename[], ifstream& inFile, int scale, int pipe){
+Shellcreeper::Shellcreeper(char filename[], ifstream& inFile, int scale, int pipe, Pipe& pipe0, Pipe& pipe1){
 
     sprite.loadImage(filename, inFile);
     sprite.setScale(scale);
 
-    if (pipe == 0){
-        spawnX = 64;
-        spawnY = 50;
-        x = spawnX;
-        y = spawnY;
-        xVelocity = 0.75;
-    }
-    else{
-        spawnX = 800-64-34;
-        spawnY = 50;
-        x = spawnX;
-        y = spawnY;
-        xVelocity = -0.75;
-        sprite.setMirrored(true);
-    }
-
-    this->pipe = pipe;
-    pipeQueue = queueUpdated.size();
-    queueUpdated.push_back(false);
-
-    sprite.setLocation(x, y);
-
-    cBox.setWidth(34);
-    cBox.setHeight(sprite.getScaledHeight(0));
-    hitBox.setWidth(34);
+    cBox.fitToSprite(sprite);
+    cBox.type = "enemy";
+    hitBox.setWidth(cBox.getWidth());
     hitBox.setHeight(24);
 
-    cBox.type == "enemy";
+    this->pipe0.assignToPipe(pipe0);
+    this->pipe1.assignToPipe(pipe1);
 
-    cBox.resetAtLocation(x, y);
-    hitBox.resetAtLocation(x, y + cBox.getHeight());
+    yVelocity = 0;
+    yAccel = 0.1;
 
-    falling = true;
-    spawning = true;
-    bumped = false;
-    dead = false;
+    groundStart = 0;
+    groundEnd = 800;
+
+    distanceInPipe = -1;
 
     a = 0.0;
     animationSpeed = 0.1;
 
-    yVelocity = 0.0;
-    yAccel = 0.1;
-
-    groundStart = 0;
-    groundEnd= 800;
+    pipeSpeed =  0.3;
 
     speedFactor = 1;
 
-    exitX = 740;
-    exitY = 320;
+    setState(exitingPipe);
 
-    turningAround = false;
+    if (pipe == 0){
+        pipeThatIAmIn.assignToPipe(pipe0);
+        xVelocity = 0.75;
+    }
+    else{
+        pipeThatIAmIn.assignToPipe(pipe1);
+        xVelocity = -0.75;
+        sprite.setMirrored(true);
+    }
 
 }
 
@@ -95,13 +77,6 @@ void Shellcreeper::setYAccel(double yAccel){
     this->yAccel = yAccel;
 }
 
-void Shellcreeper::setExit(double x, double y){
-
-    exitX = x;
-    exitY = y;
-
-}
-
 void Shellcreeper::setFalling(bool falling){
     this->falling = falling;
 }
@@ -113,200 +88,447 @@ Sprite& Shellcreeper::getSprite(){
     return sprite;
 }
 
-void Shellcreeper::draw(SDL_Plotter& p){
+void Shellcreeper::draw2(SDL_Plotter& p){
 
-    if (dead && y > 350){
+    if (state == deadAndInvisible){
         return;
     }
 
-    if (!falling && a > 1 && !bumped){
-        int cf = sprite.getCurrentFrame();
-        sprite.setCurrentFrame(cf+1);
-        if (sprite.getCurrentFrame()>3){
+    int cf = sprite.getCurrentFrame();
+
+    switch (state){
+
+    case aliveAndFalling:
+        if (cf != 0){
+            sprite.setCurrentFrame(0);
+            a = 0;
+        }
+        break;
+
+    case grounded:
+        if (a > 1){
+            sprite.setCurrentFrame(cf+1);
+            if (sprite.getCurrentFrame() > 3){
+                sprite.setCurrentFrame(0);
+            }
+            a = 0;
+        }
+        break;
+
+    case bumpedAndFalling:
+
+        if (sprite.mirrored()){
+            sprite.setMirrored(false);
+        }
+
+        if (cf != 8){
+            sprite.setCurrentFrame(8);
+            a = 0;
+        }
+        break;
+
+    case bumpedAndGrounded:
+        if (a > 3){
+            a = 0;
+            if (cf == 15){
+                sprite.setCurrentFrame(0);
+                state = grounded;
+                if (xVelocity == 0){
+                    cout << "000000000000" << endl;
+                }
+                if (xVelocity > 0){
+                    sprite.setMirrored(false);
+                }
+                else{
+                    sprite.setMirrored(true);
+                }
+            }
+            else{
+                sprite.setCurrentFrame(cf+1);
+            }
+        }
+        break;
+
+    case turningAround:
+
+        if (a > 2){
+            a = 0;
+            if (cf == 7){
+                sprite.setCurrentFrame(0);
+                state = grounded;
+                if (sprite.mirrored()){
+                    sprite.setMirrored(false);
+                }
+                else{
+                    sprite.setMirrored(true);
+                }
+
+            }
+            else{
+                sprite.setCurrentFrame(cf + 1);
+            }
+        }
+        break;
+
+    case deadAndFalling:
+        if (cf != 12){
+            sprite.setCurrentFrame(12);
+        }
+        break;
+
+    case enteringPipe:
+        if (cf != 0){
             sprite.setCurrentFrame(0);
         }
-        a = 0;
+        break;
 
+    case exitingPipe:
+        if (cf != 0){
+            sprite.setCurrentFrame(0);
+        }
+        break;
+
+    default:
+        break;
     }
 
     sprite.setLocation(x, y);
     sprite.draw(p);
     a += animationSpeed;
+
 }
 
 CollisionBox& Shellcreeper::getCBox(){
     return cBox;
 }
 
-void Shellcreeper::solidCollisions(vector<CollisionBox>& solids, Level& level){
+void Shellcreeper::solidCollisions2(vector<CollisionBox>& solids){
 
-    if (dead){
+    if (!(state == aliveAndFalling || state == grounded || state == bumpedAndFalling)){
         return;
+    }
+
+    if (state == aliveAndFalling){
+        cout << "aliveAndFalling" << endl;
+    }
+    if (state == enteringPipe){
+        cout << "AAAAAAAAAAAAAH" << endl;
     }
 
     for (int i = 0; i < solids.size(); i++){
 
         CollisionBox& b = solids[i];
 
-        if (b.type == "enemy"){
-            if (cBox.hitLeftOf(b)){
-                cBox.solidInteraction(b, 180);
-                xVelocity*=-1;
-                sprite.setMirrored(true);
-            }
-            if (cBox.hitRightOf(b)){
-                cBox.solidInteraction(b, 0);
-                xVelocity*=-1;
-                sprite.setMirrored(false);
+        if (cBox.type == b.type && cBox.ID == b.ID){
+            cout << "myself" << endl;
+            continue;
+        }
+
+        if (b.type == "ignore"){
+            continue;
+        }
+
+        if (cBox.jumpedOn(b) && state != grounded){
+            cout << "creeper landed" << endl;
+            cBox.solidInteraction(b, -90);
+            yVelocity = 0;
+            groundStart = b.get_x();
+            groundEnd = b.get_x() + b.getWidth();
+
+            switch (state){
+
+            case aliveAndFalling:
+                state = grounded;
+                sprite.setCurrentFrame(0);
+                break;
+
+            case bumpedAndFalling:
+                state = bumpedAndGrounded;
+                break;
+
+            default:
+                break;
             }
             continue;
 
         }
+        if (cBox.hitRightOf(b)){
+            cBox.solidInteraction(b, 180);
 
-        if (cBox.jumpedOn(b)){
-            cout << "Landed" << endl;
-            falling = false;
-            if (!bumped){
-                sprite.setCurrentFrame(0);
+            xVelocity = 0.75  * speedFactor;
+
+            switch(state){
+
+            case aliveAndFalling:
+                if (sprite.mirrored()){
+                    sprite.setMirrored(false);
+                }
+                else{
+                    sprite.setMirrored(true);
+                }
+                break;
+
+            case grounded:
+                sprite.setCurrentFrame(5);
+                state = turningAround;
+                break;
+
+            default:
+                break;
             }
-            yVelocity = 0;
-            cBox.solidInteraction(b,-90);
-            groundStart = b.get_x();
-            groundEnd = b.get_x()+b.getWidth();
+
+        }
+        if (cBox.hitLeftOf(b)){
+            cBox.solidInteraction(b, 0);
+
+            xVelocity = -0.75 * speedFactor;
+
+            switch(state){
+
+            case aliveAndFalling:
+                if (sprite.mirrored()){
+                    sprite.setMirrored(false);
+                }
+                else{
+                    sprite.setMirrored(true);
+                }
+                break;
+
+            case grounded:
+                sprite.setCurrentFrame(5);
+                state = turningAround;
+                break;
+
+            default:
+                break;
+            }
+
         }
         if (cBox.hitHeadUnder(b)){
+            cBox.solidInteraction(b, 90);
             yVelocity = 0;
-            cBox.solidInteraction(b,90);
         }
 
-//        if (cBox.hitLeftOf(b)){
-//            sprite.setMirrored(true);
-//            xVelocity = -0.75;
-//        }
-//        if (cBox.hitRightOf(b)){
-//            sprite.setMirrored(false);
-//            xVelocity = 0.75;
-//        }
-
-
     }
-    x = cBox.get_x();
-    y = cBox.get_y();
+
+    if (cBox.isTouching(pipe0.entrance)){
+        cout << "entering pipe 0" << endl;
+        pipeThatIAmIn.assignToPipe(pipe0);
+        state = enteringPipe;
+        speedFactor += 0.2;
+        xVelocity = 0.75 * speedFactor;
+        sprite.setMirrored(false);
+        cBox.type = "ignore";
+    }
+
+    if (cBox.isTouching(pipe1.entrance)){
+        cout << "entering pipe 1" << endl;
+        pipeThatIAmIn.assignToPipe(pipe1);
+        state = enteringPipe;
+        speedFactor += 0.2;
+        xVelocity = -0.75 * speedFactor;
+        sprite.setMirrored(true);
+        cBox.type = "ignore";
+    }
+
 }
 
-void Shellcreeper::updateLocation(){
+void Shellcreeper::updateLocation2(){
+    switch (state){
+    case aliveAndFalling:
 
-    if (dead && y > 350){
-        yAccel = 0;
-        xVelocity = 0;
-        yVelocity = 0;
-        //sprite.setCurrentFrame(sprite.getTotalFrames()-1);
-        return;
-    }
-
-    if (abs(static_cast<double>(x)) > exitX && abs(static_cast<double>(y)) > exitY){
-
-        if (x < 400.0){
-            spawnX = 800-64-34;
-            pipe = 1;
-            xVelocity = -0.75;
-            sprite.setMirrored(true);
-        }
-        else{
-            spawnX = 64;
-            pipe = 0;
-            xVelocity = 0.75;
-            sprite.setMirrored(false);
-        }
-
-        x = spawnX;
-        y = spawnY;
-        spawning = true;
-        falling = true;
-
-    }
-
-    if (spawning == true){
-        if (pipe == 0){
-            if (x > spawnX + cBox.getWidth()){
-                spawning = false;
-            }
-        }
-        else{
-            if (x + cBox.getWidth() < spawnX){
-                spawning = false;
-            }
-        }
-    }
-
-
-
-    if (spawning){
-        spawn();
-    }
-
-    if (falling && yVelocity < 5){
+        if (yVelocity < 5){
             yVelocity += yAccel;
         }
+        x += xVelocity;
+        y += yVelocity;
+        break;
 
-        if (((cBox.get_x() + cBox.getWidth() < groundStart) ||
-            (cBox.get_x() > groundEnd)) && !falling){
+    case grounded:
 
-            falling = true;
+        if (yVelocity != 0){
+            yVelocity = 0;
+        }
 
-            sprite.setCurrentFrame(0);
+        x += xVelocity;
 
+        if (x > groundEnd || x + cBox.getWidth() < groundStart){
+            state = aliveAndFalling;
             groundStart = 0;
             groundEnd = 800;
         }
 
-        x += xVelocity * speedFactor;
-        y += yVelocity * speedFactor;
+        break;
+
+    case exitingPipe:
+        if (distanceInPipe == -1){
+            cout << "exiting" << endl;
+            if (pipeThatIAmIn.direction == "right"){
+                x = pipeThatIAmIn.exitX - cBox.getWidth();
+                y = pipeThatIAmIn.exitY;
+                cBox.resetAtLocation(x, y);
+            }
+            else {
+                x = pipeThatIAmIn.exitX;
+                y = pipeThatIAmIn.exitY;
+            }
+
+            distanceInPipe = 0;
+        }
+
+        if (pipeThatIAmIn.direction == "right"){
+            x += pipeSpeed;
+        }
+        else{
+            x-= pipeSpeed;
+        }
+
+        distanceInPipe += pipeSpeed;
+
+        if (distanceInPipe > cBox.getWidth()){
+            distanceInPipe = -1;
+            state = aliveAndFalling;
+            cBox.resetAtLocation(x, y);
+            cBox.type = "enemy";
+        }
+        cout << "distance: " << distanceInPipe;
+        break;
+
+    case enteringPipe:
+        if (distanceInPipe == -1){
+            cout << "entered pipe - 1" << endl;
+            if (pipeThatIAmIn.direction == "right"){
+                x = pipeThatIAmIn.entranceX - cBox.getWidth();
+                y = pipeThatIAmIn.entranceY;
+                cBox.resetAtLocation(x, y);
+                xVelocity = 0.75 * speedFactor;
+            }
+            else {
+                x = pipeThatIAmIn.entranceX;
+                y = pipeThatIAmIn.entranceY;
+                xVelocity = -0.75 * speedFactor;
+            }
+
+            distanceInPipe = 0;
+        }
+
+        if (pipeThatIAmIn.direction == "right"){
+            x += pipeSpeed;
+        }
+        else{
+            x-= pipeSpeed;
+        }
+
+        distanceInPipe += pipeSpeed;
+        cout << "distance increased: " << distanceInPipe << endl;
+
+        printState();
+
+        if (distanceInPipe > cBox.getWidth()){
+            distanceInPipe = -1;
+            state = exitingPipe;
+        }
+        break;
+
+    case bumpedAndFalling:
+        if (yVelocity < 5){
+            yVelocity += yAccel;
+        }
+        y += yVelocity;
+        break;
+
+    case bumpedAndGrounded:
+
+        if (yVelocity != 0){
+            yVelocity = 0;
+        }
+
+        break;
+
+    case deadAndFalling:
+        if (yVelocity < 5){
+            yVelocity += yAccel;
+        }
+        x += xVelocity;
+        y += yVelocity;
+        break;
+
+    case deadAndInvisible:
+        if (yVelocity != 0){
+            yVelocity = 0;
+        }
+        if (xVelocity != 0){
+            xVelocity = 0;
+        }
+        break;
+
+    default:
+        break;
+
+    }
 
         if (x < 0){
             x = 800 + x;
-            y -= 4;
-            falling = true;
-
+            y -= 8;
+            if (state == grounded){
+                state = aliveAndFalling;
+            }
         }
-        if (x >= 800){
+        if (x > 800){
             x = x - 800;
-            y -= 4;
-            falling = true;
+            y -= 8;
+            if (state == grounded){
+                state = aliveAndFalling;
+            }
         }
 
-
-        cBox.moveToLocation(x, y);
-        hitBox.moveToLocation(x, y + cBox.getHeight());
-
-}
-
-void Shellcreeper::turnAround(){
-
-
-
-}
-
-void Shellcreeper::spawn(){
-
-    x += xVelocity/2.0;
     cBox.moveToLocation(x, y);
-    return;
+    hitBox.moveToLocation(x, y + cBox.getHeight());
+
 }
+
 
 CollisionBox& Shellcreeper::getHitBox(){
 
     return hitBox;
 }
-bool Shellcreeper::getBumped(){
-    return bumped;
+
+void Shellcreeper::setState(EnemyState state){
+    this->state = state;
 }
-void Shellcreeper::setBumped(bool value){
-    bumped = value;
+
+EnemyState Shellcreeper::getState(){
+    return state;
 }
-bool Shellcreeper::getDead(){
-    return dead;
-}
-void Shellcreeper::setDead(bool value){
-    dead = value;
+
+void Shellcreeper::printState(){
+
+    switch(state){
+    case grounded:
+        cout << "grounded" << endl;
+        return;
+    case aliveAndFalling:
+        cout << "aliveAndFalling" << endl;
+        return;
+    case bumpedAndFalling:
+        cout << "bumpedAndFalling" << endl;
+        return;
+    case bumpedAndGrounded:
+        cout << "bumpedAndGrounded" << endl;
+        return;
+    case enteringPipe:
+        cout << "enteringPipe" << endl;
+        return;
+    case exitingPipe:
+        cout << "exitingPipe" << endl;
+        return;
+    case deadAndFalling:
+        cout << "deadAndFalling" << endl;
+        return;
+    case deadAndInvisible:
+        cout << "deadAndInvisible" << endl;
+        return;
+
+    }
+
 }

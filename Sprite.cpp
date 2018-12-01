@@ -143,6 +143,10 @@ void Sprite::plotSquare(int x, int y, int scale, Color color, SDL_Plotter& p){
             return;
         }
 
+        if ( (y + c >= 400) || (y + c < 0)){
+            return;
+        }
+
         for (int c2 = 0; c2 < scale; c2++){
 
             if (xCrop != -1 && (x + c2) > (this->x + xCrop)){
