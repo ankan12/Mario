@@ -1,0 +1,594 @@
+# depslib dependency file v1.0
+1541477215 source:c:\users\samuel kim\documents\code_blocks_projects\mario_project\main.cpp
+	<iostream>
+	"SDL_Plotter.h"
+
+1541477065 source:c:\users\samuel kim\documents\code_blocks_projects\mario_project\sdl_plotter.cpp
+	<SDL.h>
+	<SDL_mixer.h>
+	<string.h>
+	<iostream>
+	<string>
+	<string.h>
+	<map>
+	"SDL_Plotter.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl.h
+	"SDL_main.h"
+	"SDL_stdinc.h"
+	"SDL_assert.h"
+	"SDL_atomic.h"
+	"SDL_audio.h"
+	"SDL_clipboard.h"
+	"SDL_cpuinfo.h"
+	"SDL_endian.h"
+	"SDL_error.h"
+	"SDL_events.h"
+	"SDL_filesystem.h"
+	"SDL_gamecontroller.h"
+	"SDL_haptic.h"
+	"SDL_hints.h"
+	"SDL_joystick.h"
+	"SDL_loadso.h"
+	"SDL_log.h"
+	"SDL_messagebox.h"
+	"SDL_mutex.h"
+	"SDL_power.h"
+	"SDL_render.h"
+	"SDL_rwops.h"
+	"SDL_sensor.h"
+	"SDL_shape.h"
+	"SDL_system.h"
+	"SDL_thread.h"
+	"SDL_timer.h"
+	"SDL_version.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_main.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_stdinc.h
+	"SDL_config.h"
+	<sys/types.h>
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<stdarg.h>
+	<stdlib.h>
+	<malloc.h>
+	<stddef.h>
+	<stdarg.h>
+	<memory.h>
+	<string.h>
+	<strings.h>
+	<wchar.h>
+	<inttypes.h>
+	<stdint.h>
+	<ctype.h>
+	<math.h>
+	<float.h>
+	<alloca.h>
+	<malloc.h>
+	<malloc.h>
+	<malloc.h>
+	<stdlib.h>
+	<sal.h>
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_config.h
+	"SDL_platform.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_platform.h
+	"AvailabilityMacros.h"
+	"TargetConditionals.h"
+	<winapifamily.h>
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\begin_code.h
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\close_code.h
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_assert.h
+	"SDL_config.h"
+	"begin_code.h"
+	<signal.h>
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_atomic.h
+	"SDL_stdinc.h"
+	"SDL_platform.h"
+	"begin_code.h"
+	<mbarrier.h>
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_audio.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_endian.h"
+	"SDL_mutex.h"
+	"SDL_thread.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_error.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_endian.h
+	"SDL_stdinc.h"
+	<endian.h>
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_mutex.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_thread.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_atomic.h"
+	"SDL_mutex.h"
+	"begin_code.h"
+	<process.h>
+	<process.h>
+	<stdlib.h>
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_rwops.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_clipboard.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_cpuinfo.h
+	"SDL_stdinc.h"
+	<intrin.h>
+	<intrin.h>
+	<altivec.h>
+	<arm_neon.h>
+	<mm3dnow.h>
+	<immintrin.h>
+	<mmintrin.h>
+	<xmmintrin.h>
+	<emmintrin.h>
+	<pmmintrin.h>
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_events.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"SDL_keyboard.h"
+	"SDL_mouse.h"
+	"SDL_joystick.h"
+	"SDL_gamecontroller.h"
+	"SDL_quit.h"
+	"SDL_gesture.h"
+	"SDL_touch.h"
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_video.h
+	"SDL_stdinc.h"
+	"SDL_pixels.h"
+	"SDL_rect.h"
+	"SDL_surface.h"
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_pixels.h
+	"SDL_stdinc.h"
+	"SDL_endian.h"
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_rect.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_pixels.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_surface.h
+	"SDL_stdinc.h"
+	"SDL_pixels.h"
+	"SDL_rect.h"
+	"SDL_blendmode.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_blendmode.h
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_keyboard.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_keycode.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_keycode.h
+	"SDL_stdinc.h"
+	"SDL_scancode.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_scancode.h
+	"SDL_stdinc.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_mouse.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_joystick.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_gamecontroller.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_rwops.h"
+	"SDL_joystick.h"
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_quit.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_gesture.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"SDL_touch.h"
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_touch.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_filesystem.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_haptic.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_joystick.h"
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_hints.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_loadso.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_log.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_messagebox.h
+	"SDL_stdinc.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_power.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_render.h
+	"SDL_stdinc.h"
+	"SDL_rect.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_sensor.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_shape.h
+	"SDL_stdinc.h"
+	"SDL_pixels.h"
+	"SDL_rect.h"
+	"SDL_surface.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_system.h
+	"SDL_stdinc.h"
+	"SDL_keyboard.h"
+	"SDL_render.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_timer.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1540998544 c:\mingw_dev_lib\sdl2-2.0.9\i686-w64-mingw32\include\sdl2\sdl_version.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1540997992 c:\mingw_dev_lib\sdl2_mixer-2.0.4\i686-w64-mingw32\include\sdl2\sdl_mixer.h
+	"SDL_stdinc.h"
+	"SDL_rwops.h"
+	"SDL_audio.h"
+	"SDL_endian.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1541477104 c:\users\samuel kim\documents\code_blocks_projects\mario_project\sdl_plotter.h
+	<SDL.h>
+	<SDL_mixer.h>
+	<string.h>
+	<iostream>
+	<string>
+	<string.h>
+	<map>
+
+1543706859 source:c:\users\samuel kim\documents\no\main.cpp
+	<iostream>
+	<fstream>
+	"SDL_Plotter.h"
+	"Sprite.h"
+	"CollisionBox.h"
+	"Wave.h"
+	"Number.h"
+	"Level.h"
+	"DrawingFunctions.h"
+	"Block.h"
+	"WaveAnimation.h"
+	"Shellcreeper.h"
+	<cstdlib>
+	<cmath>
+	"Plumber.h"
+	<ctime>
+
+1541521393 c:\users\samuel kim\documents\no\sdl_plotter.h
+	<SDL.h>
+	<SDL_mixer.h>
+	<string.h>
+	<iostream>
+	<string>
+	<string.h>
+	<map>
+
+1541477065 source:c:\users\samuel kim\documents\no\sdl_plotter.cpp
+	<SDL.h>
+	<SDL_mixer.h>
+	<string.h>
+	<iostream>
+	<string>
+	<string.h>
+	<map>
+	"SDL_Plotter.h"
+
+1543700401 source:c:\users\samuel kim\documents\no\sprite.cpp
+	"Sprite.h"
+	<vector>
+	<iostream>
+
+1543287398 c:\users\samuel kim\documents\no\sprite.h
+	<fstream>
+	"SDL_Plotter.h"
+	<vector>
+
+1542227122 source:c:\users\samuel kim\documents\no\drawingfunctions.cpp
+	"DrawingFunctions.h"
+	"Sprite.h"
+
+1542178513 c:\users\samuel kim\documents\no\drawingfunctions.h
+	"SDL_Plotter.h"
+	"Sprite.h"
+
+1543691583 source:c:\users\samuel kim\documents\no\collisionbox.cpp
+	"CollisionBox.h"
+	<cmath>
+
+1543425458 c:\users\samuel kim\documents\no\collisionbox.h
+	"SDL_Plotter.h"
+	<vector>
+	"Sprite.h"
+
+1542173008 source:c:\users\samuel kim\documents\no\wave.cpp
+	"Wave.h"
+
+1542173642 c:\users\samuel kim\documents\no\wave.h
+	"Sprite.h"
+	"SDL_Plotter.h"
+
+1543283878 source:c:\users\samuel kim\documents\no\number.cpp
+	"Number.h"
+
+1543283878 c:\users\samuel kim\documents\no\number.h
+	"SDL_Plotter.h"
+	"Sprite.h"
+	<vector>
+
+1542672161 source:c:\users\samuel kim\documents\no\video.cpp
+	"Video.h"
+	"DrawingFunctions.h"
+
+1541995801 c:\users\samuel kim\documents\no\video.h
+	<fstream>
+	"SDL_Plotter.h"
+
+1543283878 source:c:\users\samuel kim\documents\no\block.cpp
+	"Block.h"
+
+1543283878 c:\users\samuel kim\documents\no\block.h
+	"Sprite.h"
+	"CollisionBox.h"
+	"SDL_Plotter.h"
+	"Wave.h"
+	<fstream>
+
+1543685834 source:c:\users\samuel kim\documents\no\level.cpp
+	"Level.h"
+	<vector>
+
+1543423055 c:\users\samuel kim\documents\no\level.h
+	"SDL_Plotter.h"
+	"Block.h"
+	<fstream>
+	<vector>
+	"WaveAnimation.h"
+
+1542218735 c:\users\samuel kim\documents\no\platform.h
+	<vector>
+	"Block.h"
+	"Level.h"
+
+1542214752 source:c:\users\samuel kim\documents\no\platform.cpp
+	"Platform.h"
+
+1543424635 source:c:\users\samuel kim\documents\no\waveanimation.cpp
+	"WaveAnimation.h"
+	<cmath>
+
+1543423184 c:\users\samuel kim\documents\no\waveanimation.h
+	<vector>
+
+1542648863 source:c:\users\samuel kim\documents\no\textbox.cpp
+	"TextBox.h"
+	<cctype>
+
+1542648863 c:\users\samuel kim\documents\no\textbox.h
+	<string>
+	"Sprite.h"
+
+1542672053 source:c:\users\samuel kim\documents\no\test.cpp
+	<iostream>
+	<fstream>
+	"SDL_Plotter.h"
+	"Sprite.h"
+	"CollisionBox.h"
+	"Wave.h"
+	"Number.h"
+	"Video.h"
+	"Level.h"
+	"DrawingFunctions.h"
+
+1543287286 source:c:\users\samuel kim\documents\no\freezeanimation.cpp
+	"FreezeAnimation.h"
+
+1543287268 c:\users\samuel kim\documents\no\freezeanimation.h
+	<fstream>
+	"Sprite.h"
+	"Level.h"
+
+1543280639 source:c:\users\samuel kim\documents\no\sprite test.cpp
+	<iostream>
+	<fstream>
+	"SDL_Plotter.h"
+	<string>
+	"turtle.hpp"
+
+1543283915 c:\users\samuel kim\documents\no\turtle.hpp
+	<vector>
+	"SDL_Plotter.h"
+
+1543283878 source:c:\users\samuel kim\documents\no\scores.cpp
+	<iostream>
+	<fstream>
+	<ostream>
+	<string>
+	<cstdlib>
+	"Scores.h"
+
+1543283878 c:\users\samuel kim\documents\no\scores.h
+	<iostream>
+	<fstream>
+	<ostream>
+	<string>
+
+1541476375 source:c:\users\samuel kim\documents\no\helloworld.cpp
+	<iostream>
+
+1543283915 source:c:\users\samuel kim\documents\no\turtle.cpp
+	<iostream>
+	<iomanip>
+	<fstream>
+	"turtle.hpp"
+
+1543700015 source:c:\users\samuel kim\documents\no\shellcreeper.cpp
+	"Shellcreeper.h"
+	<cstdlib>
+	<cmath>
+
+1543699883 c:\users\samuel kim\documents\no\shellcreeper.h
+	<fstream>
+	"Sprite.h"
+	"SDL_Plotter.h"
+	"CollisionBox.h"
+	<vector>
+	"Level.h"
+	"EnemyState.h"
+	"Pipe.h"
+
+1543703282 source:c:\users\samuel kim\documents\no\plumber.cpp
+	"Plumber.h"
+
+1543702849 c:\users\samuel kim\documents\no\plumber.h
+	<fstream>
+	"Sprite.h"
+	"SDL_Plotter.h"
+	"CollisionBox.h"
+	<vector>
+	"Level.h"
+
+1543622740 c:\users\samuel kim\documents\no\enemystate.h
+
+1543693853 c:\users\samuel kim\documents\no\pipe.h
+	"CollisionBox.h"
+
+1543694461 source:c:\users\samuel kim\documents\no\pipe.cpp
+	"Pipe.h"
+

@@ -1,0 +1,16 @@
+Colors: 4
+t 96 208 224
+w 255 255 255
+b 64 64 255
+k 0 0 0
+Frames: 1
+ttttttt
+twwwwwb
+ttwwwbb
+tttwbbb
+tttkbbb
+ttkkkbb
+tkkkkkb
+ttttttt
+\end of frame
+

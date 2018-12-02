@@ -1,0 +1,25 @@
+Colors: 3
+w 255 255 255
+g 152 232 0
+d 56 104 0
+Frames: 1
+wggg............................
+gddddggggggggggggggggggggggggggg
+wgggdddddddddddddddddddddddddddd
+wwwwdggggggggggggggggggggggggggg
+wwwwdwwwwwwwwwwwwwwwwwwwwwwwwwww
+wgggdwwwwwwwwwwwwwwwwwwwwwwwwwww
+wgggdggggggggggggggggggggggggggg
+wgggdggggggggggggggggggggggggggg
+wgggdggggggggggggggggggggggggggg
+wgggdddddddddddddddddddddddddddd
+gddgdddddddddddddddddddddddddddd
+gddgdddddddddddddddddddddddddddd
+gddgdddddddddddddddddddddddddddd
+gddgdggggggggggggggggggggggggggg
+ggggdggggggggggggggggggggggggggg
+ggggdddddddddddddddddddddddddddd
+gddgdggggggggggggggggggggggggggg
+gggg............................
+\end of frame
+
