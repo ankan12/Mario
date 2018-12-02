@@ -267,7 +267,6 @@ Platform& Level::getPlatform(int index){
 
 void Level::addWaveAnimation(int platNumber, int startX){
 
-    cout << "Add waveAnimation" << endl;
     WaveAnimation wa(platNumber, startX);
 
     waveAnimations.push_back(wa);

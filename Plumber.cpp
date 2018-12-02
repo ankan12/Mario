@@ -117,11 +117,9 @@ void Plumber::solidCollisions(vector<CollisionBox>& solids, Level& level){
         CollisionBox& b = solids[i];
 
         if (cBox.hitHeadUnder(b)){
-            cout << "hit" << endl;
             yVelocity = 0;
             cBox.solidInteraction(b,90);
             if (b.type == "platform"){
-                cout << "Platform" << endl;
                 if (!sprite.mirrored()){
                     level.addWaveAnimation(b.ID, (x - b.get_x())/2);
                 }
@@ -143,7 +141,6 @@ void Plumber::solidCollisions(vector<CollisionBox>& solids, Level& level){
         }
 
         if (cBox.jumpedOn(b)){
-            cout << "Landed" << endl;
             falling = false;
             sprite.setCurrentFrame(0);
             yVelocity = 0;
@@ -198,7 +195,6 @@ void Plumber::updateLocation(){
         y += yVelocity;
 
         if (x < 0){
-            cout << x << endl;
             x = 800 + x;
             y -= 4;
             falling = true;

@@ -76,7 +76,6 @@ CollisionBox::CollisionBox(){
 
      if ((x < b.get_x() + b.getWidth()-1 && y < b.get_y() + b.getHeight()-1)
          && (x + width-1 > b.get_x() && y + height-1 > b.get_y())){
-        //cout<<"Touching"<<endl;
          return true;
 
          }
@@ -91,17 +90,11 @@ CollisionBox::CollisionBox(){
      }
      return false;
 
-  //  for (int y = past_y; y <= )
 
 }
 bool CollisionBox::hitHeadUnder(CollisionBox& b){
 
-//    cout << past_y << endl;
-//    cout << isTouching(b) << endl;
-//    cout << b.y << endl;
-
     if (isTouching(b) && (past_y > b.get_y() + b.getHeight()-1)){
-        cout<<"HitHeadUnder"<<endl;
         return true;
     }
     return false;
@@ -254,36 +247,3 @@ void createCollisionEvents(vector<CollisionEvent>& events,
     }
 }
 
-//void solidInteraction(CollisionEvent& event){
-//
-//    CollisionBox& c = event.collider;
-//    CollisionBox& box = event.collidee;
-//
-//    switch(event.collisionType){
-//
-//    case jumpedOn:
-//        while(c.isTouching(box)){
-//            c.moveToLocation(c.get_x(),c.get_y()-1);
-//        }
-//        return;
-//
-//    case hitHeadUnder:
-//        while(c.isTouching(box)){
-//            c.moveToLocation(c.get_x(),c.get_y()+1);
-//        }
-//        return;
-//
-//    case hitLeftOf:
-//        while(c.hitLeftOf(box)){
-//            c.moveToLocation(c.get_x()-1,c.get_y());
-//        }
-//        return;
-//
-//    case hitRightOf:
-//        while(c.hitRightOf(box)){
-//            c.moveToLocation(c.get_x()+1,c.get_y());
-//        }
-//        return;
-//    }
-//
-//}
