@@ -14,10 +14,24 @@ private:
     vector<int> digits;
     int scale;
 
-public:
+public: //what do these do?
 
+/*
+ * description: constructor for Number
+ * return: NA
+ * precondition: instance of Number
+ * postcondition: variables are set to input
+ *
+*/
     Number(char[], ifstream&);
 
+/*
+ * description: constructor for Number
+ * return: void
+ * precondition: instance of Number
+ * postcondition: variables are set to input
+ *
+*/
     void setNumber(int);
     int getNumber();
 

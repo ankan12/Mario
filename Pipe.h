@@ -7,6 +7,7 @@ using namespace std;
 
 struct Pipe{
 
+
     CollisionBox entrance;
 
     double exitX, exitY;
@@ -15,6 +16,13 @@ struct Pipe{
 
     string direction;
 
+/*
+ * description: sets location of the pipe
+ * return: void
+ * precondition: instance of pipe exists
+ * postcondition: location variables are set
+ *
+*/
     void assignToPipe(Pipe& pipe);
 
 };
