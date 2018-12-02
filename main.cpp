@@ -7,17 +7,22 @@
 #include "CollisionBox.h"
 #include "Wave.h"
 #include "Number.h"
-//#include "Video.h"
 #include "Level.h"
 #include "DrawingFunctions.h"
 #include "Block.h"
 #include "WaveAnimation.h"
+#include "Shellcreeper.h"
 #include <cstdlib>
+#include <cmath>
+#include "Plumber.h"
+#include <ctime>
+
 using namespace std;
 
 
 int main(int argc, char ** argv)
 {
+
     char key_pressed;
 
     const int screenWidth = 800, screenHeight = 400;
@@ -71,214 +76,199 @@ int main(int argc, char ** argv)
     bottomRightPipe.setLocation(800 - bottomRightPipe.getScaledWidth(0),
                                 bottomLeftPipe.get_y());
 
-    int square_x = 395,square_y = 150;
-    CollisionBox test(20,20,square_x,square_y);
-    bool jumping = false, hit_max_jump = false;
-    bool falling = true, touching_side_left = false, touching_side_right = false, hit_head = false;
-    int jump_measure;
-    // Platform Collision Boxes
-    CollisionBox top_left(350,16,0,110), top_right(350,16,450,110), center_middle(420,16,190,200),
-                 center_left(140,16,0,210), center_right(140,16,660,210), Screen_top (800,10,0,0),
-                 bottom_left(280,16,0,290), bottom_right(280,16,520,290), floor(800,30,0,370);
-    // Pipe Collision Boxes
-    CollisionBox top_left_pipe (98,110,0,0), top_right_pipe (98,110,702,0),
-                 bottom_left_pipe (65,64,0,306), bottom_right_pipe (65,64,735,306);
 
-    Sprite turtle("turtle.txt", inFile);
+
+    Plumber player("mario_sprite_sheet.txt", inFile, 2, 395, 150);
+
+    CollisionBox cPipe1, cPipe2, cPipe3, cPipe4, cFloor;
+    cPipe1.fitToSprite(spawnPipeLeft);
+    cPipe2.fitToSprite(spawnPipeRight);
+    cPipe3.fitToSprite(bottomLeftPipe);
+    cPipe4.fitToSprite(bottomRightPipe);
+
+    cFloor.fitToSprite(brickFloor);
+    cFloor.setWidth(800);
+
+    CollisionBox cCeiling(800,5,0,0);
+
+    vector<CollisionBox> solids;
+
+//    solids.push_back(cPipe1);
+//    solids.push_back(cPipe2);
+//    solids.push_back(cPipe3);
+//    solids.push_back(cPipe4);
+    solids.push_back(cFloor);
+    solids.push_back(cCeiling);
+
+    Pipe pipe0;
+    pipe0.direction = "right";
+    pipe0.entrance.resetAtLocation(cPipe4.get_x() - 2, cPipe4.get_y());
+    pipe0.entrance.setWidth(2);
+    pipe0.entrance.setHeight(cPipe4.getHeight());
+    pipe0.entranceX = cPipe4.get_x();
+    pipe0.entranceY = cPipe4.get_y() + 1;
+    pipe0.exitX = cPipe1.get_x() + cPipe1.getWidth();
+    pipe0.exitY = cPipe1.get_y();
+
+    Pipe pipe1;
+    pipe1.direction = "left";
+    pipe1.entrance.resetAtLocation(cPipe3.get_x() + cPipe3.getWidth(), cPipe3.get_y());
+    pipe1.entrance.setWidth(2);
+    pipe1.entrance.setHeight(cPipe3.getHeight());
+    pipe1.entranceX = cPipe3.get_x() + cPipe3.getWidth();
+    pipe1.entranceY = cPipe3.get_y() + 1;
+    pipe1.exitX = cPipe2.get_x();
+    pipe1.exitY = cPipe2.get_y();
+
+
+    for (int i = 0; i < level1.numOfPlatforms(); i++){
+        solids.push_back(level1.getPlatform(i).getCollisionBox());
+    }
+
+    vector<CollisionBox> creepBoxes;
+
+    vector<Shellcreeper> creepers;
+    int enemySpawnTimer = 0;
+    int enemies = 0;
+
+    Sprite pow("pow.txt", inFile);
+    pow.setScale(2);
+    pow.setLocation(400-16, 250);
+    CollisionBox powBox;
+    powBox.fitToSprite(pow);
+    powBox.type = "pow";
+    solids.push_back(powBox);
 
     while (!p.getQuit()){
 
-        WaveAnimation wa(0, 50);
-        wa.setSpeed_1sthalf(0.2);
-        wa.setSpeed_2ndhalf(0.2);
+        creepBoxes.clear();
+        for (int i = 0; i < creepers.size(); i++){
+            creepBoxes.push_back(creepers[i].getCBox());
+        }
 
-        vector<WaveAnimation> wAnimations;
+        if (enemySpawnTimer == 150 && enemies < 3){
+            Shellcreeper creeper("turtle.txt", inFile, 2, rand()%2, pipe0, pipe1);
+            creeper.getCBox().ID = creepers.size();
+            creepers.push_back(creeper);
+            creepBoxes.push_back(creeper.getCBox());
+            enemySpawnTimer = 0;
+            enemies++;
+        }
 
-        if (p.kbhit()){
-            switch(p.getKey()){
+        enemySpawnTimer++;
+
+        player.updateLocation();
+
+        if (player.getCBox().hitHeadUnder(powBox) && pow.getCurrentFrame() < 3){
+
+            for (int t = 0; t < 300; t++){
+
+                int randPlat = rand()%level1.numOfPlatforms();
+                int randX = rand()&level1.getPlatform(randPlat).numOfColumns();
+                level1.addWaveAnimation(randPlat,randX);
+
+            }
+
+            for (int i = 0; i < creepers.size(); i++){
+                creepers[i].setState(bumpedAndFalling);
+                creepers[i].setYVel(-2);
+            }
+
+            p.Sleep(10);
+            pow.nextFrame();
+            if (pow.getCurrentFrame() == 3){
+                for (int i = 0; i < solids.size(); i++){
+                    if (solids[i].type == "pow"){
+                        solids.erase(solids.begin() + i);
+                    }
+                }
             }
         }
-        p.clear();
+
+
+        player.solidCollisions(solids, level1);
+        if (!player.getDead()){
+            for (int i = 0; i < creepers.size(); i++){
+
+                CollisionBox& hBox = creepers[i].getHitBox();
+                CollisionBox& c = player.getCBox();
+
+                CollisionBox& b = creepers[i].getCBox();
+
+                if (c.hitHeadUnder(hBox)){
+                    creepers[i].setXVel(creepers[i].getXVel()*-1);
+                    creepers[i].setYVel(-2);
+                    creepers[i].getSprite().setCurrentFrame(8);
+                    creepers[i].setState(bumpedAndFalling);
+                }
+
+                if (c.isTouching(b)){
+
+                    if (creepers[i].getState() == bumpedAndGrounded){
+                        creepers[i].setYVel(-2);
+                        creepers[i].setXVel(player.getXVel()/2.0);
+                        creepers[i].setYAccel(0.2);
+                        creepers[i].setState(deadAndFalling);
+
+                    }
+                    if ( !player.getInvincible() && (creepers[i].getState() == grounded || creepers[i].getState() == aliveAndFalling) ){
+                        player.setYVel(-2);
+                        player.setXVel(0);
+                        //player.setYAccel(2);
+                        player.setFalling(true);
+                        player.getSprite().setCurrentFrame(6);
+                        player.setDead(true);
+                    }
+
+                }
+
+            }
+        }
+        for (int i = 0; i < creepers.size(); i++){
+
+            if (creepers[i].getState() == deadAndFalling && creepers[i].getY() > 400){
+                creepers[i].setState(deadAndInvisible);
+                creepers.erase(creepers.begin() + i);
+            }
+            creepers[i].updateLocation2();
+            creepers[i].solidCollisions2(solids);
+            //creepers[i].solidCollisions2(creepBoxes);
+            if (creepers[i].getState() == grounded){
+                for (int i = 0; i < creepBoxes.size(); i++){
+                    CollisionBox& b = creepBoxes[i];
+                    CollisionBox& cBox = creepers[i].getCBox();
+                    if (b.ID == cBox.ID){
+                        continue;
+                    }
+                    if (cBox.hitTheSideOf(b)){
+                        creepers[i].setState(turningAround);
+                        creepers[i].setXVel(creepers[i].getXVel()*-1);
+                    }
+                }
+            }
+        }
+
+
 
         // Draw Black
         drawBlackBackground(screenWidth, screenHeight, p);
 
-        // Draw Player
-        plotSquare(square_x,square_y,20,100,200,100,p);
-
-        // Test Falling
-        if (test.isTouching(floor) && !jumping){
-            falling = false;
-        }
-        else if (test.isTouching(top_left) && !jumping){
-            falling = false;
-        }
-        else if (test.isTouching(top_right) && !jumping){
-            falling = false;
-        }
-        else if (test.isTouching(center_middle) && !jumping){
-            falling = false;
-        }
-        else if (test.isTouching(center_left) && !jumping){
-            falling = false;
-        }
-        else if (test.isTouching(center_right) && !jumping){
-            falling = false;
-        }
-        else if (test.isTouching(bottom_left) && !jumping){
-            falling = false;
-        }
-        else if (test.isTouching(bottom_right) && !jumping){
-            falling = false;
-        }
-        else if(jumping){
-            falling = false;
-        }
-        else {
-            falling = true;
-        }
-
-        // Test Side Collision
-        if (test.hitTheSideOf(top_left)){
-            touching_side_right = false;
-            touching_side_left = true;
-        }
-        else if (test.hitTheSideOf(top_right)){
-            touching_side_right = true;
-            touching_side_left = false;
-        }
-        else if (test.hitTheSideOf(center_left)){
-            touching_side_right = false;
-            touching_side_left = true;
-        }
-        else if (test.hitTheSideOf(center_right)){
-            touching_side_right = true;
-            touching_side_left = false;
-        }
-        else if (test.hitTheSideOf(center_left)){
-            touching_side_right = false;
-            touching_side_left = true;
-        }
-        else if (test.hitTheSideOf(center_right)){
-            touching_side_right = true;
-            touching_side_left = false;
-        }
-        else if (test.hitTheSideOf(bottom_left)){
-            touching_side_right = false;
-            touching_side_left = true;
-        }
-        else if (test.hitTheSideOf(bottom_right)){
-            touching_side_right = true;
-            touching_side_left = false;
-        }
-        else if (test.hitTheSideOf(center_middle)){
-            touching_side_right = true;
-            touching_side_left = true;
-        }
-        else if (test.hitTheSideOf(top_left_pipe)){
-            touching_side_right = false;
-            touching_side_left = true;
-        }
-        else if (test.hitTheSideOf(top_right_pipe)){
-            touching_side_right = true;
-            touching_side_left = false;
-        }
-        else if (test.hitTheSideOf(bottom_left_pipe)){
-            touching_side_right = false;
-            touching_side_left = true;
-        }
-        else if (test.hitTheSideOf(bottom_right_pipe)){
-            touching_side_right = true;
-            touching_side_left = false;
-        }
-        else {
-            touching_side_right = false;
-            touching_side_left = false;
-        }
-
-        // Test Hit Head
-        if (test.hitHeadUnder(top_left)){
-            hit_head = true;
-        }
-        else if (test.hitHeadUnder(top_right)){
-            hit_head = true;
-        }
-        else if (test.hitHeadUnder(center_left)){
-            hit_head = true;
-        }
-        else if (test.hitHeadUnder(center_middle)){
-            hit_head = true;
-        }
-        else if (test.hitHeadUnder(center_right)){
-            hit_head = true;
-        }
-        else if (test.hitHeadUnder(bottom_left)){
-            hit_head = true;
-        }
-        else if (test.hitHeadUnder(bottom_right)){
-            hit_head = true;
-        }
-        else if (test.hitHeadUnder(Screen_top)) {
-            hit_head = true;
-        }
-        else {
-            hit_head = false;
-        }
-
         // Get User Input
+        p.kbhit();
         key_pressed = p.getKey();
+        player.onKeyPress(key_pressed);
 
-        // Side to Side Movement
-        if (!touching_side_right){
-            if (key_pressed == 'D'){
-                square_x += 2;
-            }
+        horizontalTile(brickFloor, 0, screenWidth, p);
+
+        for (int i = 0; i < creepers.size(); i++){
+//            if (!(creepers[i].getDead() && creepers[i].getY() > 350)){
+//                creepers[i].draw(p);
+//            }
+            creepers[i].draw2(p);
+//            creepers[i].getCBox().drawBox(p);
+//            creepers[i].getHitBox().drawBox(p);
+
         }
-        else square_x -= 2;
-
-        if (!touching_side_left){
-            if (key_pressed == 'A'){
-                square_x -= 2;
-            }
-        }
-        else square_x += 2;
-
-        // Jumping
-        if (!falling){
-            if(!jumping){
-                if (key_pressed == 'W'){
-                    jumping = true;
-                    square_y -= 4;
-                    jump_measure = 4;
-                }
-            }
-            if (jumping && !hit_max_jump){
-                square_y -= 3;
-                jump_measure += 3;
-                if (hit_head){
-                    hit_max_jump = true;
-                    jumping = false;
-                    square_y += 10;
-                }
-                else if (jump_measure >= 105){
-                    hit_max_jump = true;
-                    jumping = false;
-                }
-            }
-            if (jumping && hit_max_jump){
-                jump_measure -= 3;
-                if (jump_measure <= 0){
-                    hit_max_jump = false;
-                }
-            }
-        }
-        else if (falling){
-            square_y += 2;
-        }
-
-
-        // Drawing
-        test.moveToLocation(square_x,square_y);
 
         spawnPipeLeft.draw(p);
         spawnPipeRight.draw(p);
@@ -286,47 +276,24 @@ int main(int argc, char ** argv)
         bottomLeftPipe.draw(p);
         bottomRightPipe.draw(p);
 
-
-        horizontalTile(brickFloor, 0, screenWidth, p);
-
-        wa.setNextFrame(level1.getPlatform(0).getColLocations());
-
-        for (int w = 0; w < wAnimations.size(); w++){
-
-            WaveAnimation& wa = wAnimations[w];
-
-            if (wa.finished()){
-                wAnimations.erase(wAnimations.begin() + w);
-                continue;
-            }
-
-            Platform& p = level1.getPlatform(wa.platformNum());
-
-            wa.setNextFrame(p.getColLocations());
-
-        }
-
         level1.draw(p);
+        pow.draw(p);
 
-        // Debug
-        if (square_x <= 2){
-            square_x = 780;
-            square_y -= 4;
-        }
-        if (square_x >= 800){
-            square_x = 20;
-            square_y -= 4;
-        }
+        player.draw(p);
+
+        pipe0.entrance.drawBox(p);
+        pipe1.entrance.drawBox(p);
 
 
-        turtle.nextFrame(100);
-
-        turtle.draw(p);
+//        plotSquare(pipe0.entranceX, pipe0.entranceY, 2, 0, 0, 255, p);
+//        plotSquare(pipe0.exitX, pipe0.exitY, 2, 0, 255, 0, p);
+//        plotSquare(pip0.entranceX, pip0.entranceY, 2, 0, 0, 255, b);
+//        plotSquare(pip0.entranceX, pip0.entranceY, 2, 0, 0, 255, b);
 
         // Update Screen
         p.update();
 
-        p.Sleep(1);
+        p.Sleep(10);
 
     }
 

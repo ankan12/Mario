@@ -2,35 +2,77 @@
 #define COLLISIONBOX_H_INCLUDED
 
 #include "SDL_Plotter.h"
+#include <vector>
+#include "Sprite.h"
+
+using namespace std;
 
 class CollisionBox{
  private:
-    int x, y;
+    double x, y;
     int width, height;
-    int past_x, past_y;
+    double past_x, past_y;
+    bool solid;
+    double direction;
+
  public:
-    CollisionBox(int width, int height, int x, int y);
+     CollisionBox(int width, int height, double x, double y);
      CollisionBox();
+
+     string type;
+     int ID;
 
      int getWidth();
      int getHeight();
-     int get_x();
-     int get_y();
-     int get_past_x();
-     int get_past_y();
+     double get_x();
+     double get_y();
+     double get_past_x();
+     double get_past_y();
 
      void setWidth(int);
      void setHeight(int);
-     void moveToLocation(int,int);
-     void resetAtLocation(int,int);
+     void moveToLocation(double,double);
+     void resetAtLocation(double,double);
 
 
-     bool isTouching(const CollisionBox& b);
-     bool jumpedOn(const CollisionBox& b);
-     bool hitHeadUnder(const CollisionBox& b);
-     bool hitTheSideOf(const CollisionBox& b);
+     bool isTouching(CollisionBox& b);
+     bool jumpedOn(CollisionBox& b);
+     bool hitHeadUnder(CollisionBox& b);
+     bool hitTheSideOf(CollisionBox& b);
+
+     bool hitLeftOf(CollisionBox& b);
+     bool hitRightOf(CollisionBox& b);
+
+     void setSolid(bool);
+     bool getSolid();
+
+     void setDirection(int);
+     int getDirection();
+
+     bool solidInteraction(CollisionBox& b, double);
+
+     void fitToSprite(Sprite& sprite);
 
      //For debugging purposes
      void drawBox(SDL_Plotter& p);
+     void drawPastBox(SDL_Plotter& p);
  };
+
+ enum CollisionType {hitLeftOf, hitRightOf, jumpedOn, hitHeadUnder, none};
+
+ struct CollisionEvent{
+
+    CollisionType collisionType;
+
+    CollisionBox collider;
+
+    CollisionBox collidee;
+
+    CollisionEvent(CollisionBox&, CollisionBox&);
+
+ };
+
+void createCollisionEvents(vector<CollisionEvent>&,
+                           vector<CollisionBox>& boxes);
+
 #endif // COLLISIONBOX_H_INCLUDED
