@@ -4,6 +4,14 @@ using namespace std;
 
 const double PI = 3.14159;
 
+
+/*
+ * description: constructor for CollisionBox
+ * return: NA
+ * precondition: class instance exists
+ * postcondition: private variables are set to input
+ *
+*/
 CollisionBox::CollisionBox(){
     x = 0;
     y = 0;
@@ -17,6 +25,14 @@ CollisionBox::CollisionBox(){
     direction = 0;
 
 }
+
+/*
+ * description: default constructor for Block
+ * return: NA
+ * precondition: class instance exists
+ * postcondition: private variables are set
+ *
+*/
  CollisionBox::CollisionBox(int width, int height, double x, double y){
     past_x = 0;
     past_y = 0;
@@ -32,31 +48,101 @@ CollisionBox::CollisionBox(){
 
  }
 
+/*
+ * description: gets the value of width
+ * return: int
+ * precondition: class instance exists
+ * postcondition: nothing is changed
+ *
+*/
  int CollisionBox::getWidth(){
      return width;
  }
+
+/*
+ * description: gets the value of height
+ * return: int
+ * precondition: class instance exists
+ * postcondition: nothing is changed
+ *
+*/
  int CollisionBox::getHeight(){
      return height;
  }
+
+/*
+ * description: gets the value of x
+ * return: double
+ * precondition: class instance exists
+ * postcondition: nothing is changed
+ *
+*/
  double CollisionBox::get_x(){
      return x;
  }
+
+/*
+ * description: gets the value of y
+ * return: double
+ * precondition: class instance exists
+ * postcondition: nothing is changed
+ *
+*/
  double CollisionBox::get_y(){
      return y;
  }
+
+/*
+ * description: gets the value of past x
+ * return: double
+ * precondition: class instance exists
+ * postcondition: nothing is changed
+ *
+*/
  double CollisionBox::get_past_x(){
      return past_x;
  }
+
+/*
+ * description: gets the value of past y
+ * return: double
+ * precondition: class instance exists
+ * postcondition: nothing is changed
+ *
+*/
  double CollisionBox::get_past_y(){
      return past_y;
  }
 
+/*
+ * description: sets the value of width
+ * return: void
+ * precondition: class instance exists and int is passed in
+ * postcondition: width is changed
+ *
+*/
  void CollisionBox::setWidth(int width){
      this->width = width;
  }
+
+/*
+ * description: sets the value of height
+ * return: void
+ * precondition: class instance exists and int is passed in
+ * postcondition: Height is changed
+ *
+*/
  void CollisionBox::setHeight(int height){
      this->height = height;
  }
+
+/*
+ * description: sets the location to move to
+ * return: void
+ * precondition: class instance exists and two doubles are passed in
+ * postcondition: changes x and y
+ *
+*/
  void CollisionBox::moveToLocation(double x, double y){
      past_x = this->x;
      past_y = this->y;
@@ -65,6 +151,13 @@ CollisionBox::CollisionBox(){
      this->y = y;
  }
 
+/*
+ * description: sets the location to reset to
+ * return: void
+ * precondition: class instance exists and two doubles are passed in
+ * postcondition: changes x and y
+ *
+*/
  void CollisionBox::resetAtLocation(double x, double y){
      past_x = x;
      past_y = y;
@@ -72,6 +165,13 @@ CollisionBox::CollisionBox(){
      this->y = y;
  }
 
+/*
+ * description: determines if its touching a collision box
+ * return: bool
+ * precondition: class instance exists and a collision box is passed in
+ * postcondition: nothing is changed except boolean switches to true or false
+ *
+*/
  bool CollisionBox::isTouching(CollisionBox& b){
 
      if ((x < b.get_x() + b.getWidth()-1 && y < b.get_y() + b.getHeight()-1)
@@ -83,6 +183,13 @@ CollisionBox::CollisionBox(){
      return false;
  }
 
+/*
+ * description: determines if there was a hit on top of a collision box
+ * return: bool
+ * precondition: class instance exists and collision box passed in
+ * postcondition: nothing is changed except boolean switches to true or false
+ *
+*/
  bool CollisionBox::jumpedOn(CollisionBox& b){
 
      if (isTouching(b) && (past_y + height-1 < b.get_y())){
@@ -92,6 +199,14 @@ CollisionBox::CollisionBox(){
 
 
 }
+
+/*
+ * description: determines if there was a hit on under of a collision box
+ * return: bool
+ * precondition: class instance exists and collision box passed in
+ * postcondition: nothing is changed except boolean switches to true or false
+ *
+*/
 bool CollisionBox::hitHeadUnder(CollisionBox& b){
 
     if (isTouching(b) && (past_y > b.get_y() + b.getHeight()-1)){
@@ -99,10 +214,25 @@ bool CollisionBox::hitHeadUnder(CollisionBox& b){
     }
     return false;
 }
+
+/*
+ * description: determines if there was a hit on the side of a collision box
+ * return: bool
+ * precondition: class instance exists and collision box passed in
+ * postcondition: nothing is changed except boolean switches to true or false
+ *
+*/
 bool CollisionBox::hitTheSideOf(CollisionBox& b){
      return hitLeftOf(b) || hitRightOf(b);
 }
 
+/*
+ * description: determines if there was a hit on the left of a collision box
+ * return: bool
+ * precondition: class instance exists and collision box passed in
+ * postcondition: nothing is changed except boolean switches to true or false
+ *
+*/
 bool CollisionBox::hitLeftOf(CollisionBox& b){
 
     if (isTouching(b)){
@@ -114,6 +244,13 @@ bool CollisionBox::hitLeftOf(CollisionBox& b){
 
 }
 
+/*
+ * description: determines if there was a hit on the right of a collision box
+ * return: bool
+ * precondition: class instance exists and collision box passed in
+ * postcondition: nothing is changed except boolean switches to true or false
+ *
+*/
 bool CollisionBox::hitRightOf(CollisionBox& b){
 
     if (isTouching(b)){
@@ -125,28 +262,64 @@ bool CollisionBox::hitRightOf(CollisionBox& b){
 
 }
 
+
+/*
+ * description: sets the variable solid
+ * return: void
+ * precondition: class instance exists and bool is passed in
+ * postcondition: solid is set
+ *
+*/
 void CollisionBox::setSolid(bool solid){
 
     this->solid = solid;
 
 }
 
+/*
+ * description: gets the variable solid
+ * return: bool
+ * precondition: class instance exists
+ * postcondition: nothing is changed
+ *
+*/
 bool CollisionBox::getSolid(){
     return solid;
 }
 
+/*
+ * description: sets the variable direction
+ * return: void
+ * precondition: class instance exists and int is passed in
+ * postcondition: direction is set
+ *
+*/
 void CollisionBox::setDirection(int d){
 
     direction = d;
 
 }
 
+/*
+ * description: gets the variable direction
+ * return: int
+ * precondition: class instance exists
+ * postcondition: nothing is changed
+ *
+*/
 int CollisionBox::getDirection(){
 
     return direction;
 
 }
 
+/*
+ * description: determines if two solids are touching
+ * return: bool
+ * precondition: class instance exists and collision box and double are passed in
+ * postcondition: resets location and sets a boolean to true
+ *
+*/
 bool CollisionBox::solidInteraction(CollisionBox& b, double direction){
 
     if (!isTouching(b)){
@@ -164,6 +337,13 @@ bool CollisionBox::solidInteraction(CollisionBox& b, double direction){
 
 }
 
+/*
+ * description: scales box to sprite
+ * return: void
+ * precondition: class instance exists and sprite is passed in
+ * postcondition: resets size of collision box
+ *
+*/
 void CollisionBox::fitToSprite(Sprite& sprite){
 
     int cf = sprite.getCurrentFrame();
@@ -173,6 +353,13 @@ void CollisionBox::fitToSprite(Sprite& sprite){
 
 }
 
+/*
+ * description: draws the box (for debugging purposes)
+ * return: void
+ * precondition: class instance exists and plotter is passed in
+ * postcondition: draws box to screen
+ *
+*/
  void CollisionBox::drawBox(SDL_Plotter& p){
 
      for (int c = x; c < x + width; c++){
@@ -185,6 +372,13 @@ void CollisionBox::fitToSprite(Sprite& sprite){
      }
  }
 
+/*
+ * description: draws the past box (for debugging purposes)
+ * return: void
+ * precondition: class instance exists and plotter is passed in
+ * postcondition: draws box to screen
+ *
+*/
  void CollisionBox::drawPastBox(SDL_Plotter& p){
     for (int c = past_x; c < past_x + width; c++){
          p.plotPixel(c, past_y, 0, 0, 255);
@@ -222,28 +416,5 @@ CollisionEvent::CollisionEvent(CollisionBox& collider, CollisionBox& collidee){
 
 }
 
-void createCollisionEvents(vector<CollisionEvent>& events,
-                           vector<CollisionBox>& boxes){
 
-    events.clear();
-
-    for (int i = 0; i < boxes.size(); i++){
-
-
-        for (int j = 0; j < boxes.size(); j++){
-
-            if (i == j){
-                continue;
-            }
-
-            CollisionEvent event(boxes[i],boxes[j]);
-
-            if (event.collisionType != none){
-                events.push_back(event);
-            }
-
-        }
-
-    }
-}
 
