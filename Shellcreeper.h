@@ -56,15 +56,6 @@ public:
  * postcondition: all variables initialized to input
  *
 */
-    Shellcreeper(char[], ifstream&, int scale, int pipe);
-
-/*
- * description: constructor for the shellcreeper class
- * return: NA
- * precondition: instance of shellcreeper exists
- * postcondition: all variables initialized to input
- *
-*/
     Shellcreeper(char[], ifstream&, int scale, int pipe, Pipe& pipe0, Pipe& pipe1);
 
 /*
@@ -186,14 +177,6 @@ public:
 */
     Sprite& getSprite();
 
-/*
- * description: draws to the screen
- * return: void
- * precondition: instance of shellcreeper exists
- * postcondition: nothing is changed
- *
-*/
-    void draw(SDL_Plotter& p);
 
 /*
  * description: draws to the screen
@@ -229,44 +212,7 @@ public:
  * postcondition: sprite variables are set to as needed
  *
 */
-    void solidCollisions(vector<CollisionBox>& solids, Level& level); //is this defined and used because I dont see it
-
-/*
- * description: determins sprite action based on collision
- * return: void
- * precondition: instance of shellcreeper exists
- * postcondition: sprite variables are set to as needed
- *
-*/
     void solidCollisions2(vector<CollisionBox>& solids);
-
-/*
- * description: sets x and y
- * return: void
- * precondition: instance of shellcreeper exists
- * postcondition: x and y changed
- *
-*/
-    void updateLocation();
-
-/*
- * description: turns sprite around
- * return: void
- * precondition: instance of shellcreeper exists
- * postcondition: sprite is  turned on screen
- *
-*/
-    void turnAround(); //do we use this? dont see it defined
-
-
-// some of these don't exist in the cpp.......do we need them
-    void setExit(double x, double y);
-
-    bool getBumped();
-    void setBumped(bool);
-
-    bool getDead();
-    void setDead(bool);
 
 /*
  * description: sets state of class
