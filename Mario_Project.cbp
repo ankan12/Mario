@@ -48,7 +48,23 @@
 		<Unit filename="Constants.h" />
 		<Unit filename="DrawingFunctions.cpp" />
 		<Unit filename="DrawingFunctions.h" />
+		<Unit filename="Enemies.cpp" />
+		<Unit filename="Enemies.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="Enemy.cpp" />
+		<Unit filename="Enemy.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="EnemySpawner.cpp" />
+		<Unit filename="EnemySpawner.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="EnemyState.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="Fighterfly.cpp" />
+		<Unit filename="Fighterfly.h">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="FreezeAnimation.cpp" />
@@ -67,6 +83,10 @@
 		<Unit filename="Pipe.h">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
+		<Unit filename="Platform.cpp" />
+		<Unit filename="Platform.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="Plumber.cpp" />
 		<Unit filename="Plumber.h">
 			<Option target="&lt;{~None~}&gt;" />
@@ -78,6 +98,14 @@
 		<Unit filename="Scores.h" />
 		<Unit filename="Shellcreeper.cpp" />
 		<Unit filename="Shellcreeper.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="Sidestepper.cpp" />
+		<Unit filename="Sidestepper.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="Slipice.cpp" />
+		<Unit filename="Slipice.h">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="Sprite.cpp" />
@@ -103,11 +131,20 @@
 		<Unit filename="enemySpawnPipe2.txt" />
 		<Unit filename="enemySpawnPipe_processing.txt" />
 		<Unit filename="example_sprite" />
+		<Unit filename="fighterfly.txt" />
 		<Unit filename="finalPowerpoint.pptx" />
 		<Unit filename="fire.txt" />
 		<Unit filename="introVideo.txt" />
+		<Unit filename="leftBlue.txt" />
 		<Unit filename="leftIce.txt" />
+		<Unit filename="leftYellow.txt" />
 		<Unit filename="letters.txt" />
+		<Unit filename="level1enemies.txt" />
+		<Unit filename="level2enemies.txt" />
+		<Unit filename="level3enemies.txt" />
+		<Unit filename="level4enemies.txt" />
+		<Unit filename="level5enemies.txt" />
+		<Unit filename="life.txt" />
 		<Unit filename="main.cpp" />
 		<Unit filename="mario1.png" />
 		<Unit filename="mario2.png" />
@@ -125,13 +162,20 @@
 		<Unit filename="mb_new.wav" />
 		<Unit filename="mb_sc.wav" />
 		<Unit filename="mb_touch.wav" />
+		<Unit filename="middleBlue.txt" />
 		<Unit filename="middleIce.txt" />
+		<Unit filename="middleYellow.txt" />
 		<Unit filename="platform1.txt" />
 		<Unit filename="platform2.txt" />
 		<Unit filename="pow.txt" />
 		<Unit filename="redcrab.txt" />
 		<Unit filename="redturtle.txt" />
+		<Unit filename="rightBlue.txt" />
 		<Unit filename="rightIce.txt" />
+		<Unit filename="rightYellow.txt" />
+		<Unit filename="scores.txt" />
+		<Unit filename="sidestepper.txt" />
+		<Unit filename="slipice.txt" />
 		<Unit filename="sprite test.cpp">
 			<Option compile="0" />
 			<Option link="0" />

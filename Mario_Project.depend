@@ -373,7 +373,7 @@
 	<string.h>
 	<map>
 
-1543706859 source:c:\users\samuel kim\documents\no\main.cpp
+1543816241 source:c:\users\samuel kim\documents\no\main.cpp
 	<iostream>
 	<fstream>
 	"SDL_Plotter.h"
@@ -390,6 +390,13 @@
 	<cmath>
 	"Plumber.h"
 	<ctime>
+	"TextBox.h"
+	<sstream>
+	"EnemySpawner.h"
+	"Enemies.h"
+	"FreezeAnimation.h"
+	"Slipice.h"
+	"Scores.h"
 
 1541521393 c:\users\samuel kim\documents\no\sdl_plotter.h
 	<SDL.h>
@@ -410,29 +417,29 @@
 	<map>
 	"SDL_Plotter.h"
 
-1543700401 source:c:\users\samuel kim\documents\no\sprite.cpp
+1543743938 source:c:\users\samuel kim\documents\no\sprite.cpp
 	"Sprite.h"
 	<vector>
 	<iostream>
 
-1543287398 c:\users\samuel kim\documents\no\sprite.h
+1543743749 c:\users\samuel kim\documents\no\sprite.h
 	<fstream>
 	"SDL_Plotter.h"
 	<vector>
 
-1542227122 source:c:\users\samuel kim\documents\no\drawingfunctions.cpp
+1543709406 source:c:\users\samuel kim\documents\no\drawingfunctions.cpp
 	"DrawingFunctions.h"
 	"Sprite.h"
 
-1542178513 c:\users\samuel kim\documents\no\drawingfunctions.h
+1543709594 c:\users\samuel kim\documents\no\drawingfunctions.h
 	"SDL_Plotter.h"
 	"Sprite.h"
 
-1543691583 source:c:\users\samuel kim\documents\no\collisionbox.cpp
+1543789279 source:c:\users\samuel kim\documents\no\collisionbox.cpp
 	"CollisionBox.h"
 	<cmath>
 
-1543425458 c:\users\samuel kim\documents\no\collisionbox.h
+1543789006 c:\users\samuel kim\documents\no\collisionbox.h
 	"SDL_Plotter.h"
 	<vector>
 	"Sprite.h"
@@ -444,7 +451,7 @@
 	"Sprite.h"
 	"SDL_Plotter.h"
 
-1543283878 source:c:\users\samuel kim\documents\no\number.cpp
+1543710269 source:c:\users\samuel kim\documents\no\number.cpp
 	"Number.h"
 
 1543283878 c:\users\samuel kim\documents\no\number.h
@@ -452,11 +459,11 @@
 	"Sprite.h"
 	<vector>
 
-1542672161 source:c:\users\samuel kim\documents\no\video.cpp
+1543707524 source:c:\users\samuel kim\documents\no\video.cpp
 	"Video.h"
 	"DrawingFunctions.h"
 
-1541995801 c:\users\samuel kim\documents\no\video.h
+1543707524 c:\users\samuel kim\documents\no\video.h
 	<fstream>
 	"SDL_Plotter.h"
 
@@ -470,37 +477,39 @@
 	"Wave.h"
 	<fstream>
 
-1543685834 source:c:\users\samuel kim\documents\no\level.cpp
+1543813023 source:c:\users\samuel kim\documents\no\level.cpp
 	"Level.h"
 	<vector>
 
-1543423055 c:\users\samuel kim\documents\no\level.h
+1543810819 c:\users\samuel kim\documents\no\level.h
 	"SDL_Plotter.h"
 	"Block.h"
+	"Platform.h"
 	<fstream>
 	<vector>
 	"WaveAnimation.h"
+	"FreezeAnimation.h"
 
-1542218735 c:\users\samuel kim\documents\no\platform.h
+1543809342 c:\users\samuel kim\documents\no\platform.h
 	<vector>
-	"Block.h"
-	"Level.h"
+	"block.h"
+	"CollisionBox.h"
 
-1542214752 source:c:\users\samuel kim\documents\no\platform.cpp
+1543809412 source:c:\users\samuel kim\documents\no\platform.cpp
 	"Platform.h"
 
-1543424635 source:c:\users\samuel kim\documents\no\waveanimation.cpp
+1543707524 source:c:\users\samuel kim\documents\no\waveanimation.cpp
 	"WaveAnimation.h"
 	<cmath>
 
-1543423184 c:\users\samuel kim\documents\no\waveanimation.h
+1543707524 c:\users\samuel kim\documents\no\waveanimation.h
 	<vector>
 
-1542648863 source:c:\users\samuel kim\documents\no\textbox.cpp
+1543714065 source:c:\users\samuel kim\documents\no\textbox.cpp
 	"TextBox.h"
 	<cctype>
 
-1542648863 c:\users\samuel kim\documents\no\textbox.h
+1543714065 c:\users\samuel kim\documents\no\textbox.h
 	<string>
 	"Sprite.h"
 
@@ -519,10 +528,10 @@
 1543287286 source:c:\users\samuel kim\documents\no\freezeanimation.cpp
 	"FreezeAnimation.h"
 
-1543287268 c:\users\samuel kim\documents\no\freezeanimation.h
+1543812518 c:\users\samuel kim\documents\no\freezeanimation.h
 	<fstream>
 	"Sprite.h"
-	"Level.h"
+	"Platform.h"
 
 1543280639 source:c:\users\samuel kim\documents\no\sprite test.cpp
 	<iostream>
@@ -558,12 +567,12 @@
 	<fstream>
 	"turtle.hpp"
 
-1543700015 source:c:\users\samuel kim\documents\no\shellcreeper.cpp
+1543805815 source:c:\users\samuel kim\documents\no\shellcreeper.cpp
 	"Shellcreeper.h"
 	<cstdlib>
 	<cmath>
 
-1543699883 c:\users\samuel kim\documents\no\shellcreeper.h
+1543790964 c:\users\samuel kim\documents\no\shellcreeper.h
 	<fstream>
 	"Sprite.h"
 	"SDL_Plotter.h"
@@ -573,10 +582,10 @@
 	"EnemyState.h"
 	"Pipe.h"
 
-1543703282 source:c:\users\samuel kim\documents\no\plumber.cpp
+1543813318 source:c:\users\samuel kim\documents\no\plumber.cpp
 	"Plumber.h"
 
-1543702849 c:\users\samuel kim\documents\no\plumber.h
+1543812961 c:\users\samuel kim\documents\no\plumber.h
 	<fstream>
 	"Sprite.h"
 	"SDL_Plotter.h"
@@ -584,11 +593,88 @@
 	<vector>
 	"Level.h"
 
-1543622740 c:\users\samuel kim\documents\no\enemystate.h
+1543778889 c:\users\samuel kim\documents\no\enemystate.h
 
-1543693853 c:\users\samuel kim\documents\no\pipe.h
+1543707524 c:\users\samuel kim\documents\no\pipe.h
 	"CollisionBox.h"
 
-1543694461 source:c:\users\samuel kim\documents\no\pipe.cpp
+1543707524 source:c:\users\samuel kim\documents\no\pipe.cpp
 	"Pipe.h"
+
+1543813531 source:c:\users\samuel kim\documents\no\enemies.cpp
+	"Enemies.h"
+	<iostream>
+
+1543812699 c:\users\samuel kim\documents\no\enemies.h
+	"Enemy.h"
+	"Shellcreeper.h"
+	<vector>
+	"Pipe.h"
+	"CollisionBox.h"
+	"Sidestepper.h"
+	<fstream>
+	"Fighterfly.h"
+	"Slipice.h"
+	<fstream>
+
+1543781373 c:\users\samuel kim\documents\no\enemy.h
+	<string>
+
+1543787860 source:c:\users\samuel kim\documents\no\enemyspawner.cpp
+	"EnemySpawner.h"
+	<iostream>
+
+1543787817 c:\users\samuel kim\documents\no\enemyspawner.h
+	"Enemy.h"
+	<vector>
+	<fstream>
+
+1543781431 source:c:\users\samuel kim\documents\no\enemy.cpp
+	"Enemy.h"
+
+1543793333 c:\users\samuel kim\documents\no\sidestepper.h
+	<fstream>
+	"Sprite.h"
+	"SDL_Plotter.h"
+	"CollisionBox.h"
+	<vector>
+	"Level.h"
+	"EnemyState.h"
+	"Pipe.h"
+
+1543798065 source:c:\users\samuel kim\documents\no\sidestepper.cpp
+	"Sidestepper.h"
+	<cstdlib>
+	<cmath>
+
+1543804238 c:\users\samuel kim\documents\no\fighterfly.h
+	<fstream>
+	"Sprite.h"
+	"SDL_Plotter.h"
+	"CollisionBox.h"
+	<vector>
+	"Level.h"
+	"EnemyState.h"
+	"Pipe.h"
+
+1543804840 source:c:\users\samuel kim\documents\no\fighterfly.cpp
+	"Fighterfly.h"
+	"Fighterfly.h"
+	<cstdlib>
+	<cmath>
+
+1543811895 c:\users\samuel kim\documents\no\slipice.h
+	<fstream>
+	"Sprite.h"
+	"SDL_Plotter.h"
+	"CollisionBox.h"
+	<vector>
+	"Level.h"
+	"EnemyState.h"
+	"Pipe.h"
+
+1543812539 source:c:\users\samuel kim\documents\no\slipice.cpp
+	"Slipice.h"
+	<cstdlib>
+	<cmath>
 

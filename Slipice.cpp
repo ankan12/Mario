@@ -1,9 +1,9 @@
-#include "Shellcreeper.h"
+#include "Slipice.h"
 #include <cstdlib>
 #include <cmath>
 using namespace std;
 
-Shellcreeper::Shellcreeper(char filename[], ifstream& inFile, int scale, int pipe, Pipe& pipe0, Pipe& pipe1){
+Slipice::Slipice(char filename[], ifstream& inFile, int scale, int pipe, Pipe& pipe0, Pipe& pipe1){
 
     sprite.loadImage(filename, inFile);
     sprite.setScale(scale);
@@ -43,58 +43,75 @@ Shellcreeper::Shellcreeper(char filename[], ifstream& inFile, int scale, int pip
         sprite.setMirrored(true);
     }
 
+    selfDestruct = false;
+    deadTimer = 0;
+
+    platNumber = -1;
+
 }
 
-double Shellcreeper::getX(){
+double Slipice::getX(){
     return x;
 }
-double Shellcreeper::getY(){
+double Slipice::getY(){
     return y;
 }
-double Shellcreeper::getXVel(){
+double Slipice::getXVel(){
     return xVelocity;
 }
-double Shellcreeper::getYVel(){
+double Slipice::getYVel(){
     return yVelocity;
 }
-double Shellcreeper::getYAccel(){
+double Slipice::getYAccel(){
     return yAccel;
 }
 
-void Shellcreeper::setX(double x){
+void Slipice::setX(double x){
     this->x = x;
 }
-void Shellcreeper::setY(double y){
+void Slipice::setY(double y){
     this->y = y;
 }
-void Shellcreeper::setXVel(double xVelocity){
+void Slipice::setXVel(double xVelocity){
     this->xVelocity = xVelocity;
 }
-void Shellcreeper::setYVel(double yVelocity){
+void Slipice::setYVel(double yVelocity){
     this->yVelocity = yVelocity;
 }
-void Shellcreeper::setYAccel(double yAccel){
+void Slipice::setYAccel(double yAccel){
     this->yAccel = yAccel;
 }
 
-void Shellcreeper::setFalling(bool falling){
+void Slipice::setFalling(bool falling){
     this->falling = falling;
 }
-bool Shellcreeper::isFalling(){
+bool Slipice::isFalling(){
     return falling;
 }
 
-Sprite& Shellcreeper::getSprite(){
+Sprite& Slipice::getSprite(){
     return sprite;
 }
 
-void Shellcreeper::draw(SDL_Plotter& p){
+void Slipice::draw(SDL_Plotter& p){
 
     if (state == deadAndInvisible){
         return;
     }
-
     int cf = sprite.getCurrentFrame();
+
+    if (selfDestruct){
+
+        if (a > 5){
+            a = 0;
+            sprite.setCurrentFrame(cf+1);
+            if (sprite.getCurrentFrame() == 5){
+                state = deadAndInvisible;
+                return;
+            }
+        }
+
+    }
 
     switch (state){
 
@@ -105,83 +122,59 @@ void Shellcreeper::draw(SDL_Plotter& p){
         }
         break;
 
-    case grounded:
-        if (a > 1){
-            sprite.setCurrentFrame(cf+1);
-            if (sprite.getCurrentFrame() > 3){
-                sprite.setCurrentFrame(0);
-            }
+    case grounded:{
+        if (cf != 0){
+            sprite.setCurrentFrame(0);
             a = 0;
         }
+
+        int r = rand() % 200;
+
+        if (r == 0 && platNumber != -1){
+            selfDestruct = true;
+            state = turningAround;
+            a = 0;
+        }
+
         break;
-
+    }
     case bumpedAndFalling:
-
-        if (sprite.mirrored()){
-            sprite.setMirrored(false);
-        }
-
-        if (cf != 8){
-            sprite.setCurrentFrame(8);
-            a = 0;
-        }
         break;
 
     case bumpedAndGrounded:
-        if (a > 3){
-            a = 0;
-            if (cf == 15){
-                sprite.setCurrentFrame(0);
-                state = grounded;
-                if (xVelocity > 0){
-                    sprite.setMirrored(false);
-                }
-                else{
-                    sprite.setMirrored(true);
-                }
-            }
-            else{
-                sprite.setCurrentFrame(cf+1);
-            }
-        }
         break;
 
     case turningAround:
-
-        if (a > 2){
-            a = 0;
-            if (cf == 7){
-                sprite.setCurrentFrame(0);
-                state = grounded;
-                if (sprite.mirrored()){
-                    sprite.setMirrored(false);
-                }
-                else{
-                    sprite.setMirrored(true);
-                }
-
-            }
-            else{
-                sprite.setCurrentFrame(cf + 1);
-            }
-        }
         break;
 
     case deadAndFalling:
-        if (cf != 12){
-            sprite.setCurrentFrame(12);
+        if (a > 5){
+
+            a = 0;
+
+            int f = cf+1;
+
+            if (f > 8){
+                state = deadAndInvisible;
+                break;
+            }
+
+            sprite.setCurrentFrame(cf+1);
+
         }
         break;
 
     case enteringPipe:
         if (cf != 0){
             sprite.setCurrentFrame(0);
+            a = 0;
         }
         break;
 
     case exitingPipe:
         if (cf != 0){
             sprite.setCurrentFrame(0);
+            a = 0;
         }
         break;
 
@@ -192,14 +185,15 @@ void Shellcreeper::draw(SDL_Plotter& p){
     sprite.setLocation(x, y);
     sprite.draw(p);
     a += animationSpeed;
+    cout << "a: " << a << endl;
 
 }
 
-CollisionBox& Shellcreeper::getCBox(){
+CollisionBox& Slipice::getCBox(){
     return cBox;
 }
 
-void Shellcreeper::solidCollisions(vector<CollisionBox>& solids){
+void Slipice::solidCollisions(vector<CollisionBox>& solids){
 
     if (!(state == aliveAndFalling || state == grounded || state == bumpedAndFalling)){
         return;
@@ -222,6 +216,13 @@ void Shellcreeper::solidCollisions(vector<CollisionBox>& solids){
             yVelocity = 0;
             groundStart = b.get_x();
             groundEnd = b.get_x() + b.getWidth();
+
+            if (b.type == "platform"){
+                platNumber = b.ID;
+            }
+            else{
+                platNumber = -1;
+            }
 
             switch (state){
 
@@ -329,7 +330,12 @@ void Shellcreeper::solidCollisions(vector<CollisionBox>& solids){
 
 }
 
-void Shellcreeper::updateLocation(){
+void Slipice::updateLocation(){
+
+    if (selfDestruct){
+        return;
+    }
+
     switch (state){
     case aliveAndFalling:
 
@@ -421,18 +427,9 @@ void Shellcreeper::updateLocation(){
         break;
 
     case bumpedAndFalling:
-        if (yVelocity < 5){
-            yVelocity += yAccel;
-        }
-        y += yVelocity;
         break;
 
     case bumpedAndGrounded:
-
-        if (yVelocity != 0){
-            yVelocity = 0;
-        }
-
         break;
 
     case deadAndFalling:
@@ -441,6 +438,11 @@ void Shellcreeper::updateLocation(){
         }
         x += xVelocity;
         y += yVelocity;
+
+        if (y > 400){
+            state = deadAndInvisible;
+        }
+
         break;
 
     case deadAndInvisible:
@@ -450,6 +452,7 @@ void Shellcreeper::updateLocation(){
         if (xVelocity != 0){
             xVelocity = 0;
         }
+        deadTimer++;
         break;
 
     default:
@@ -472,26 +475,26 @@ void Shellcreeper::updateLocation(){
             }
         }
 
+
+
     cBox.moveToLocation(x, y);
     hurtBox.moveToLocation(x, y + cBox.getHeight());
 
 }
 
-
-CollisionBox& Shellcreeper::getHurtBox(){
-
+CollisionBox& Slipice::getHurtBox(){
     return hurtBox;
 }
 
-void Shellcreeper::setState(EnemyState state){
+void Slipice::setState(EnemyState state){
     this->state = state;
 }
 
-EnemyState Shellcreeper::getState(){
+EnemyState Slipice::getState(){
     return state;
 }
 
-void Shellcreeper::printState(){
+void Slipice::printState(){
 
     switch(state){
     case grounded:
@@ -521,4 +524,12 @@ void Shellcreeper::printState(){
 
     }
 
+}
+
+int Slipice::getDeadTimer(){
+    return deadTimer;
+}
+
+bool Slipice::getSelfDestruct(){
+    return selfDestruct;
 }

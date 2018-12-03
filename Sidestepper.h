@@ -1,5 +1,5 @@
-#ifndef SHELLCREEPER_H_INCLUDED
-#define SHELLCREEPER_H_INCLUDED
+#ifndef SIDESTEPPER_H_INCLUDED
+#define SIDESTEPPER_H_INCLUDED
 
 #include <fstream>
 #include "Sprite.h"
@@ -12,7 +12,7 @@
 
 using namespace std;
 
-class Shellcreeper{
+class Sidestepper{
 
 private:
     double x, y;
@@ -41,9 +41,11 @@ private:
 
     double distanceInPipe;
 
+    int angerCounter;
+
 public:
 
-    Shellcreeper(char[], ifstream&, int scale, int pipe, Pipe& pipe0, Pipe& pipe1);
+    Sidestepper(char[], ifstream&, int scale, int pipe, Pipe& pipe0, Pipe& pipe1);
 
     double getX();
     double getY();
@@ -87,6 +89,12 @@ public:
 
     void printState();
 
+    int getSpeedFactor();
+    void setSpeedFactor(int);
+
+    int getAngerCounter();
+    void setAngerCounter(int);
+
 };
 
-#endif // SHELLCREEPER_H_INCLUDED
+#endif // SIDESTEPPER_H_INCLUDED

@@ -72,7 +72,6 @@ class CollisionBox{
 
  };
 
-void createCollisionEvents(vector<CollisionEvent>&,
-                           vector<CollisionBox>& boxes);
+void removeCollisionBox(vector<CollisionBox>& cBoxes, string type);
 
 #endif // COLLISIONBOX_H_INCLUDED

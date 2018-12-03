@@ -41,3 +41,18 @@ void horizontalTile(Sprite& sprite, int startX, int endX, SDL_Plotter& p){
     sprite.draw(p);
 
 }
+
+void drawLives(Sprite& sprite, int x, int y, int numOfLives, SDL_Plotter& p){
+
+    for (int c = 0; c < numOfLives; c++){
+
+        sprite.setLocation(x, y);
+        sprite.draw(p);
+        x += sprite.getScaledWidth(0);
+        if (c == 5){
+            x = 0;
+            y += sprite.getScaledHeight(0);
+        }
+
+    }
+}

@@ -34,6 +34,11 @@ Plumber::Plumber(char filename[], ifstream& inFile, int scale, int x, int y){
 
     invincibleTimer = 0;
 
+    fist.setWidth(5);
+    fist.setHeight(2);
+
+    onIce = false;
+
 }
 
 double Plumber::getX(){
@@ -150,6 +155,13 @@ void Plumber::solidCollisions(vector<CollisionBox>& solids, Level& level){
             cBox.solidInteraction(b,-90);
             groundStart = b.get_x();
             groundEnd = b.get_x()+b.getWidth();
+
+            if (b.type == "platform"){
+                if (level.getPlatform(b.ID).isFrozen()){
+                    onIce = true;
+                }
+            }
+
         }
 
 
@@ -162,19 +174,7 @@ void Plumber::updateLocation(){
 
     if (dead && y > 400){
         dead = false;
-        x = 395;
-        y = 150;
-        cBox.resetAtLocation(x, y);
-        falling = true;
-        xVelocity = 0.0;
-        yVelocity = 0.0;
-        yAccel = 0.05;
-
-        groundStart = 0;
-        groundEnd= 800;
-
-        sprite.setCurrentFrame(0);
-
+        placeCharacterInCenter();
         invincible = true;
 
     }
@@ -187,6 +187,7 @@ void Plumber::updateLocation(){
             (cBox.get_x() > groundEnd)) && !falling){
 
             falling = true;
+            onIce = false;
 
             sprite.setCurrentFrame(5);
 
@@ -209,6 +210,13 @@ void Plumber::updateLocation(){
             falling = true;
         }
         cBox.moveToLocation(x, y);
+
+        if (sprite.mirrored()){
+            fist.moveToLocation(cBox.get_x() + cBox.getWidth() - fist.getWidth() , cBox.get_y());
+        }
+        else{
+            fist.moveToLocation(cBox.get_x(), cBox.get_y());
+        }
 }
 
 void Plumber::onKeyPress(char key_pressed){
@@ -221,13 +229,20 @@ void Plumber::onKeyPress(char key_pressed){
         if (!falling){
             sprite.setCurrentFrame(0);
         }
-        xVelocity = 0;
+        if (!onIce){
+            xVelocity = 0;
+        }
     }
 
     // Side to Side Movement
     if (key_pressed == 'D'){
 
-        xVelocity = 2;
+        if (onIce){
+            xVelocity += 0.01;
+        }
+        else{
+            xVelocity = 2;
+        }
 
         if(!sprite.mirrored()){
             sprite.setMirrored(true);
@@ -244,7 +259,12 @@ void Plumber::onKeyPress(char key_pressed){
 
     if (key_pressed == 'A'){
 
-        xVelocity = -2;;
+        if (onIce){
+            xVelocity -= 0.01;
+        }
+        else{
+            xVelocity = -2;
+        }
 
         if (sprite.mirrored()){
             sprite.setMirrored(false);
@@ -264,6 +284,7 @@ void Plumber::onKeyPress(char key_pressed){
         sprite.setCurrentFrame(5);
         yVelocity = -3.5;
         falling = true;
+        onIce = false;
     }
 }
 
@@ -285,4 +306,24 @@ void Plumber::setInvincible(bool value){
 
 bool Plumber::getInvincible(){
     return invincible;
+}
+
+void Plumber::placeCharacterInCenter(){
+
+    x = 395;
+    y = 150;
+    cBox.resetAtLocation(x, y);
+    falling = true;
+    xVelocity = 0.0;
+    yVelocity = 0.0;
+    yAccel = 0.05;
+
+    groundStart = 0;
+    groundEnd= 800;
+
+    sprite.setCurrentFrame(0);
+}
+
+CollisionBox& Plumber::getFist(){
+    return fist;
 }
