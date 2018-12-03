@@ -3,7 +3,7 @@
 
 #include <fstream>
 #include "Sprite.h"
-#include "Level.h"
+#include "Platform.h"
 
 class FreezeAnimation{
 

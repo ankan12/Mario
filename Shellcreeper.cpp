@@ -18,8 +18,8 @@ Shellcreeper::Shellcreeper(char filename[], ifstream& inFile, int scale, int pip
 
     cBox.fitToSprite(sprite);
     cBox.type = "enemy";
-    hitBox.setWidth(cBox.getWidth());
-    hitBox.setHeight(24);
+    hurtBox.setWidth(cBox.getWidth());
+    hurtBox.setHeight(24);
 
     this->pipe0.assignToPipe(pipe0);
     this->pipe1.assignToPipe(pipe1);
@@ -196,6 +196,7 @@ Sprite& Shellcreeper::getSprite(){
     return sprite;
 }
 
+
 /*
  * description: draws to the screen
  * return: void
@@ -203,7 +204,11 @@ Sprite& Shellcreeper::getSprite(){
  * postcondition: nothing is changed
  *
 */
+void Shellcreeper::draw(SDL_Plotter& p){
+=======
+
 void Shellcreeper::draw2(SDL_Plotter& p){
+
 
     if (state == deadAndInvisible){
         return;
@@ -248,8 +253,7 @@ void Shellcreeper::draw2(SDL_Plotter& p){
             if (cf == 15){
                 sprite.setCurrentFrame(0);
                 state = grounded;
-                if (xVelocity == 0){
-                }
+              
                 if (xVelocity > 0){
                     sprite.setMirrored(false);
                 }
@@ -323,23 +327,23 @@ CollisionBox& Shellcreeper::getCBox(){
     return cBox;
 }
 
-/*
+
+  /*
  * description: determins sprite action based on collision
  * return: void
  * precondition: instance of shellcreeper exists
  * postcondition: sprite variables are set to as needed
  *
 */
+void Shellcreeper::solidCollisions(vector<CollisionBox>& solids){
+
+
 void Shellcreeper::solidCollisions2(vector<CollisionBox>& solids){
     Music sc("mb_sc.wav"); //initialize sound for shell creeper spawning
 
+
     if (!(state == aliveAndFalling || state == grounded || state == bumpedAndFalling)){
         return;
-    }
-
-    if (state == aliveAndFalling){
-    }
-    if (state == enteringPipe){
     }
 
     for (int i = 0; i < solids.size(); i++){
@@ -382,6 +386,11 @@ void Shellcreeper::solidCollisions2(vector<CollisionBox>& solids){
 
             xVelocity = 0.75  * speedFactor;
 
+            if (state == grounded){
+                state = turningAround;
+                return;
+            }
+
             switch(state){
 
             case aliveAndFalling:
@@ -407,6 +416,11 @@ void Shellcreeper::solidCollisions2(vector<CollisionBox>& solids){
             cBox.solidInteraction(b, 0);
 
             xVelocity = -0.75 * speedFactor;
+
+            if (state == grounded){
+                state = turningAround;
+                return;
+            }
 
             switch(state){
 
@@ -437,7 +451,9 @@ void Shellcreeper::solidCollisions2(vector<CollisionBox>& solids){
     }
 
     if (cBox.isTouching(pipe0.entrance)){
+
         sc.playSound(); //play spawn sound
+
         pipeThatIAmIn.assignToPipe(pipe0);
         state = enteringPipe;
         speedFactor += 0.2;
@@ -448,6 +464,7 @@ void Shellcreeper::solidCollisions2(vector<CollisionBox>& solids){
 
     if (cBox.isTouching(pipe1.entrance)){
         sc.playSound(); //play spawn sound
+
         pipeThatIAmIn.assignToPipe(pipe1);
         state = enteringPipe;
         speedFactor += 0.2;
@@ -458,6 +475,7 @@ void Shellcreeper::solidCollisions2(vector<CollisionBox>& solids){
 
 }
 
+
 /*
  * description: this function updates the location variables
  * return: void
@@ -465,8 +483,10 @@ void Shellcreeper::solidCollisions2(vector<CollisionBox>& solids){
  * postcondition: variables are set
  *
 */
-void Shellcreeper::updateLocation2(){
+void Shellcreeper::updateLocation(){
+
     Music sc("mb_sc.wav"); //initialize sound for shell creeper spawning
+
 
     switch (state){
     case aliveAndFalling:
@@ -497,6 +517,7 @@ void Shellcreeper::updateLocation2(){
     case exitingPipe:
         if (distanceInPipe == -1){
             sc.playSound(); //play spawn sound
+
 
             if (pipeThatIAmIn.direction == "right"){
                 x = pipeThatIAmIn.exitX - cBox.getWidth();
@@ -553,7 +574,6 @@ void Shellcreeper::updateLocation2(){
         }
 
         distanceInPipe += pipeSpeed;
-
 
         if (distanceInPipe > cBox.getWidth()){
             distanceInPipe = -1;
@@ -614,9 +634,10 @@ void Shellcreeper::updateLocation2(){
         }
 
     cBox.moveToLocation(x, y);
-    hitBox.moveToLocation(x, y + cBox.getHeight());
+    hurtBox.moveToLocation(x, y + cBox.getHeight());
 
 }
+
 
 /*
  * description: gets collision box and passes by reference
@@ -625,9 +646,10 @@ void Shellcreeper::updateLocation2(){
  * postcondition: HitBox is passed by reference
  *
 */
-CollisionBox& Shellcreeper::getHitBox(){
+CollisionBox& Shellcreeper::getHurtBox(){
 
-    return hitBox;
+
+    return hurtBox;
 }
 
 /*

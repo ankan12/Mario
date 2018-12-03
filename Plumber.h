@@ -29,6 +29,10 @@ private:
 
     CollisionBox cBox;
 
+    CollisionBox fist;
+
+    bool onIce;
+
 public:
 
 /*
@@ -239,6 +243,10 @@ public:
  *
 */
     bool getInvincible();
+
+    void placeCharacterInCenter();
+
+    CollisionBox& getFist();
 
 };
 

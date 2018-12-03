@@ -12,12 +12,6 @@
 
 using namespace std;
 
-static bool enemyExitedPipe = false;
-
-static vector<bool> queueUpdated;
-
-static int totalEnemiesInPipe = 0;
-
 class Shellcreeper{
 
 private:
@@ -34,7 +28,7 @@ private:
     double speedFactor;
 
     CollisionBox cBox;
-    CollisionBox hitBox;
+    CollisionBox hurtBox;
 
     Pipe pipe0, pipe1;
     Pipe pipeThatIAmIn;
@@ -49,6 +43,7 @@ private:
 
 public:
 
+
 /*
  * description: constructor for the shellcreeper class
  * return: NA
@@ -56,6 +51,7 @@ public:
  * postcondition: all variables initialized to input
  *
 */
+
     Shellcreeper(char[], ifstream&, int scale, int pipe, Pipe& pipe0, Pipe& pipe1);
 
 /*
@@ -178,14 +174,18 @@ public:
     Sprite& getSprite();
 
 
-/*
+ /*
  * description: draws to the screen
  * return: void
  * precondition: instance of shellcreeper exists
  * postcondition: nothing is changed
  *
 */
-    void draw2(SDL_Plotter& p);
+    void draw(SDL_Plotter& p);
+
+
+
+
 
 /*
  * description: gets collision box and passes by reference
@@ -196,6 +196,17 @@ public:
 */
     CollisionBox& getCBox();
 
+    CollisionBox& getHurtBox();
+/*
+ * description: determins sprite action based on collision
+ * return: void
+ * precondition: instance of shellcreeper exists
+ * postcondition: sprite variables are set to as needed
+ *
+*/
+    void solidCollisions(vector<CollisionBox>& solids);
+
+
 /*
  * description: gets collision box and passes by reference
  * return: Collision box
@@ -205,14 +216,6 @@ public:
 */
     CollisionBox& getHitBox();
 
-/*
- * description: determins sprite action based on collision
- * return: void
- * precondition: instance of shellcreeper exists
- * postcondition: sprite variables are set to as needed
- *
-*/
-    void solidCollisions2(vector<CollisionBox>& solids);
 
 /*
  * description: sets state of class
@@ -239,7 +242,7 @@ public:
  * postcondition: variables are set
  *
 */
-    void updateLocation2();
+    void updateLocation();
 
 
 /*

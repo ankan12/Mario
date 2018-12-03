@@ -2,6 +2,7 @@
 #include <vector>
 
 
+
 /*
  * description: constructor for Platform
  * return: NA
@@ -176,6 +177,7 @@ void Platform::setFrozen(){
  * postcondition: Nothing is changed
  *
 */
+
 Level::Level(){
 }
 
@@ -200,6 +202,21 @@ void Level::draw(SDL_Plotter& p){
         Platform& p = platforms[wa.platformNum()];
 
         wa.setNextFrame(p.getColLocations());
+
+    }
+
+    for (int f = 0; f < freezeAnimations.size(); f++){
+
+        FreezeAnimation& fa = freezeAnimations[f];
+
+        if (fa.finished()){
+            freezeAnimations.erase(freezeAnimations.begin() + f);
+            continue;
+        }
+
+        Platform& p = platforms[fa.getPlatformNumber()];
+
+        fa.setNextFrame(p);
 
     }
 
@@ -394,6 +411,34 @@ void Level::placePlatform(int x, int y, int numOfBlocks){
 
 }
 
+
+void Level::clearPlatforms(){
+    platforms.clear();
+}
+
+void Level::replaceBlocks(int sizeChange){
+
+    vector<Platform> oldPlatforms;
+
+    for (int i = 0; i < numOfPlatforms(); i++){
+        oldPlatforms.push_back(platforms[i]);
+    }
+
+    platforms.clear();
+
+    for (int i = 0; i < oldPlatforms.size(); i++){
+
+        Platform& p = oldPlatforms[i];
+        int numOfBlocks = p.numOfBlocks();
+        int x = p.get_x();
+        int y = p.get_y();
+        placePlatform(x, y, numOfBlocks + sizeChange);
+
+    }
+
+}
+
+
 /*
  * description: gets the number of platforms
  * return: int
@@ -401,6 +446,7 @@ void Level::placePlatform(int x, int y, int numOfBlocks){
  * postcondition: nothing is changed
  *
 */
+
 int Level::numOfPlatforms(){
 
     return platforms.size();
@@ -435,6 +481,49 @@ void Level::addWaveAnimation(int platNumber, int startX){
 
 }
 
+
+void Level::givePlatformIcicles(int platNumber){
+
+    Platform& p = platforms[platNumber];
+
+    leftBlueSprite.copyPixelsOnto(p.getBlock(0).getWave().getSprite());
+
+    for (int i = 1; i < p.numOfBlocks()-1; i++){
+
+        midBlueSprite.copyPixelsOnto(p.getBlock(i).getWave().getSprite());
+
+    }
+
+    int i = p.numOfBlocks()-1;
+
+    rightBlueSprite.copyPixelsOnto(p.getBlock(i).getWave().getSprite());
+
+    p.setBlue();
+
+}
+
+void Level::setLeftBlueSprite(char filename[], ifstream& inFile, int scale){
+    leftBlueSprite.loadImage(filename, inFile);
+    leftBlueSprite.setScale(scale);
+}
+void Level::setMidBlueSprite(char filename[], ifstream& inFile, int scale){
+    midBlueSprite.loadImage(filename, inFile);
+    midBlueSprite.setScale(scale);
+}
+void Level::setRightBlueSprite(char filename[], ifstream& inFile, int scale){
+    rightBlueSprite.loadImage(filename, inFile);
+    rightBlueSprite.setScale(scale);
+}
+
+void Level::addFreezeAnimation(char left[], char mid[], char right[], ifstream& inFile, int scale, int platNumber, int startX){
+
+    FreezeAnimation fa(left, mid, right, inFile, 2, startX);
+    fa.setPlatformNumber(platNumber);
+
+    freezeAnimations.push_back(fa);
+
+    platforms[platNumber].setFrozen();
+
 /*
  * description: adds the freeze animation
  * return: void
@@ -443,5 +532,6 @@ void Level::addWaveAnimation(int platNumber, int startX){
  *
 */
 void Level::addFreezeAnimation(int platNumber, int startX){
+
 
 }

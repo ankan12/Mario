@@ -416,5 +416,10 @@ CollisionEvent::CollisionEvent(CollisionBox& collider, CollisionBox& collidee){
 
 }
 
-
-
+void removeCollisionBox(vector<CollisionBox>& cBoxes, string type){
+    for (int i = 0; i < cBoxes.size(); i++){
+        if (cBoxes[i].type == type){
+            cBoxes.erase(cBoxes.begin() + i);
+        }
+    }
+}

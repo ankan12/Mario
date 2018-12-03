@@ -271,4 +271,7 @@ class CollisionBox{
  };
 
 
+void removeCollisionBox(vector<CollisionBox>& cBoxes, string type);
+
+
 #endif // COLLISIONBOX_H_INCLUDED

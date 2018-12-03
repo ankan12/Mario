@@ -3,124 +3,12 @@
 
 #include "SDL_Plotter.h"
 #include "Block.h"
+#include "Platform.h"
 #include <fstream>
 #include <vector>
 #include "WaveAnimation.h"
-class Platform{
 
-private:
-
-    int x, y;
-
-    vector<Block> blocks;
-    vector<int> columnLocations;
-
-    CollisionBox cBox;
-
-    bool frozen;
-
-public:
-
-/*
- * description: constructor for Platform
- * return: NA
- * precondition: class instance exists
- * postcondition: private variables are set to input
- *
-*/
-    Platform(int x, int y);
-
-/*
- * description: gets and passes box by reference
- * return: Block
- * precondition: class instance exists and int passed in
- * postcondition: block is passed by reference
- *
-*/
-    Block& getBlock(int index);
-
-/*
- * description: gets the number of blocks
- * return: int
- * precondition: class instance exists
- * postcondition: nothing is changed
- *
-*/
-    int numOfBlocks();
-
-/*
- * description: gets the number of columns
- * return: int
- * precondition: class instance exists
- * postcondition: nothing is changed
- *
-*/
-    int numOfColumns();
-
-/*
- * description: gets x variable
- * return: int
- * precondition: class instance exists
- * postcondition: nothing is changed
- *
-*/
-    int get_x();
-
-/*
- * description: gets y variable
- * return: int
- * precondition: class instance exists
- * postcondition: nothing is changed
- *
-*/
-    int get_y();
-
-/*
- * description: adds a block to save pixels into
- * return: void
- * precondition: class instance exists and header files are linked
- * postcondition: sprite has been added
- *
-*/
-    void addBlock(Sprite& sprite);
-
-/*
- * description: gets column locations by reference
- * return: vector<int>
- * precondition: class instance exists and header files linked
- * postcondition: column locations passed by reference into vector<int>
- *
-*/
-    vector<int>& getColLocations();
-
-/*
- * description: gets collision box by reference
- * return: CollisionBox
- * precondition: class instance exists and header files linked
- * postcondition: collision box passed by reference
- *
-*/
-    CollisionBox& getCollisionBox();
-
-/*
- * description: gets the state of frozen
- * return: bool
- * precondition: class instance exists
- * postcondition: nothing is changed
- *
-*/
-    bool isFrozen();
-
-/*
- * description: sets the variable frozen
- * return: void
- * precondition: class instance exists and header files linked
- * postcondition: frozen variable set
- *
-*/
-    void setFrozen();
-
-};
+#include "FreezeAnimation.h"
 
 class Level{
 
@@ -130,6 +18,11 @@ private:
     Sprite leftEdgeSprite;
     Sprite rightEdgeSprite;
     vector<WaveAnimation> waveAnimations;
+    vector<FreezeAnimation> freezeAnimations;
+
+    Sprite leftBlueSprite;
+    Sprite midBlueSprite;
+    Sprite rightBlueSprite;
 
 public:
 
@@ -248,7 +141,20 @@ public:
  * postcondition: freeze animation is added
  *
 */
-    void addFreezeAnimation(int platNumber, int startX);
+    void addFreezeAnimation(char[], char[], char[], ifstream&, int scale, int platNumber, int startX);
+
+    void clearPlatforms();
+
+    void replaceBlocks(int sizeChange);
+
+    void givePlatformIcicles(int platNumber);
+
+    void setLeftBlueSprite(char[], ifstream&, int scale);
+    void setMidBlueSprite(char[], ifstream&, int scale);
+    void setRightBlueSprite(char[], ifstream&, int scale);
+
+
+
 
 };
 
