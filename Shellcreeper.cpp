@@ -362,7 +362,7 @@ void Shellcreeper::updateLocation2(){
 
     case exitingPipe:
         if (distanceInPipe == -1){
-            sc.playSound() //play sound once when exiting pipe
+            sc.playSound(); //play sound once when exiting pipe
             if (pipeThatIAmIn.direction == "right"){
                 x = pipeThatIAmIn.exitX - cBox.getWidth();
                 y = pipeThatIAmIn.exitY;
