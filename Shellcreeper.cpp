@@ -1,6 +1,8 @@
 #include "Shellcreeper.h"
 #include <cstdlib>
 #include <cmath>
+#include "Music.h"
+
 using namespace std;
 
 Shellcreeper::Shellcreeper(char filename[], ifstream& inFile, int scale, int pipe, Pipe& pipe0, Pipe& pipe1){
@@ -202,6 +204,7 @@ CollisionBox& Shellcreeper::getCBox(){
 }
 
 void Shellcreeper::solidCollisions2(vector<CollisionBox>& solids){
+    Music sc("mb_sc.wav"); //initialize music file
 
     if (!(state == aliveAndFalling || state == grounded || state == bumpedAndFalling)){
         return;
@@ -307,6 +310,7 @@ void Shellcreeper::solidCollisions2(vector<CollisionBox>& solids){
     }
 
     if (cBox.isTouching(pipe0.entrance)){
+        sc.playSound(); //play sound when entering a pipe
         pipeThatIAmIn.assignToPipe(pipe0);
         state = enteringPipe;
         speedFactor += 0.2;
@@ -316,6 +320,7 @@ void Shellcreeper::solidCollisions2(vector<CollisionBox>& solids){
     }
 
     if (cBox.isTouching(pipe1.entrance)){
+        sc.playSound(); //play sound when entering a pipe
         pipeThatIAmIn.assignToPipe(pipe1);
         state = enteringPipe;
         speedFactor += 0.2;
@@ -327,6 +332,8 @@ void Shellcreeper::solidCollisions2(vector<CollisionBox>& solids){
 }
 
 void Shellcreeper::updateLocation2(){
+    Music sc("mb_sc.wav"); //initialize music file
+
     switch (state){
     case aliveAndFalling:
 
@@ -355,6 +362,7 @@ void Shellcreeper::updateLocation2(){
 
     case exitingPipe:
         if (distanceInPipe == -1){
+            sc.playSound() //play sound once when exiting pipe
             if (pipeThatIAmIn.direction == "right"){
                 x = pipeThatIAmIn.exitX - cBox.getWidth();
                 y = pipeThatIAmIn.exitY;
