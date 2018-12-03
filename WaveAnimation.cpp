@@ -5,6 +5,13 @@ const double PI = 3.14159;
 
 using namespace std;
 
+/*
+ * description: constructor for waveAnimation
+ * return: NA
+ * precondition: class instance exists
+ * postcondition: private variables are set
+ *
+*/
 WaveAnimation::WaveAnimation(int platformNumber, int startX){
 
     a = 0.0;
@@ -19,6 +26,13 @@ WaveAnimation::WaveAnimation(int platformNumber, int startX){
 
 }
 
+/*
+ * description: creates the wave behavior for right wave
+ * return: double
+ * precondition: wave exists, passed an int
+ * postcondition: wave behavior is enacted on screen
+ *
+*/
 double WaveAnimation::rightWave(int x){
 
     int c = a - height/2.0;
@@ -31,6 +45,13 @@ double WaveAnimation::rightWave(int x){
 
 }
 
+/*
+ * description: creates the wave behavior for left wave
+ * return: double
+ * precondition: wave exists, passed an int
+ * postcondition: wave behavior is enacted on screen
+ *
+*/
 double WaveAnimation::leftWave(int x){
 
     int c = a - height/2.0;
@@ -43,6 +64,13 @@ double WaveAnimation::leftWave(int x){
 
 }
 
+/*
+ * description: calculates the y value for the x
+ * return: double
+ * precondition: instance of class exists, is passed int
+ * postcondition: returns a double thats the corresponding y for the x
+ *
+*/
 double WaveAnimation::y(int x){
 
     if (a <= height/2.0){
@@ -77,6 +105,13 @@ double WaveAnimation::y(int x){
 
 }
 
+/*
+ * description: sets up the next frame of the wave
+ * return: bool
+ * precondition: height and instances of class exist
+ * postcondition: returns false when animation is done
+ *
+*/
 bool WaveAnimation::setNextFrame(vector<int>& columnLocations){
 
     if (a >= distance){
@@ -99,18 +134,39 @@ bool WaveAnimation::setNextFrame(vector<int>& columnLocations){
 
 }
 
+/*
+ * description: sets speed for half of the wave
+ * return: void
+ * precondition: wave exists
+ * postcondition: wave speed is set
+ *
+*/
 void WaveAnimation::setSpeed_1sthalf(double speed){
 
     speed_1sthalf = speed;
 
 }
 
+/*
+ * description: sets speed for other half of the wave
+ * return: void
+ * precondition: wave exists
+ * postcondition: wave speed is set
+ *
+*/
 void WaveAnimation::setSpeed_2ndhalf(double speed){
 
     speed_2ndhalf = speed;
 
 }
 
+/*
+ * description: tells program when the wave animation is done executing
+ * return: bool
+ * precondition: wave exists
+ * postcondition: nothing is changed
+ *
+*/
 bool WaveAnimation::finished(){
 
     if (a >= distance){
@@ -121,24 +177,52 @@ bool WaveAnimation::finished(){
 
 }
 
+/*
+ * description: returns platform number
+ * return: int
+ * precondition: wave exists
+ * postcondition: nothing is changed
+ *
+*/
 int WaveAnimation::platformNum(){
 
     return platformNumber;
 
 }
 
+/*
+ * description: sets the distance of the wave
+ * return: void
+ * precondition: wave exists, passed a double
+ * postcondition: wave distance is set
+ *
+*/
 void WaveAnimation::setDistance(double distance){
 
     this->distance = distance;
 
 }
 
+/*
+ * description: sets the width of the wave
+ * return: void
+ * precondition: wave exists, passed a double
+ * postcondition: wave width is set
+ *
+*/
 void WaveAnimation::setWaveWidth(double w){
 
     this->w = w;
 
 }
 
+/*
+ * description: sets the wave height
+ * return: void
+ * precondition: wave exists
+ * postcondition: height is set
+ *
+*/
 void WaveAnimation::setHeight(double height){
 
     this->height = height;

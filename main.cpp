@@ -1,5 +1,3 @@
-
-
 #include <iostream>
 #include <fstream>
 #include "SDL_Plotter.h"
@@ -16,6 +14,7 @@
 #include <cmath>
 #include "Plumber.h"
 #include <ctime>
+
 #include "TextBox.h"
 #include <sstream>
 #include "EnemySpawner.h"
@@ -27,8 +26,19 @@ using namespace std;
 
 void createLevel(Level& level);
 
+#include "Music.h"
+
+using namespace std;
+
+
 int main(int argc, char ** argv)
 {
+    Music die("mb_die.wav");
+    Music coin("mb_coin.wav");
+    Music touch("mb_touch.wav");
+    bgMusic bg("bg_music.wav", 1000);
+
+    bg.playMusic();
 
     char key_pressed;
 
@@ -339,12 +349,15 @@ int main(int argc, char ** argv)
                     allEnemies.bumpEnemy(hurtBox.ID);
                 }
 
+
                 if (c.isTouching(hitBox)){
                     cout << "touched" << endl;
+                    touch.playSound();
 
                     if (allEnemies.stateOfEnemy(hitBox.ID) == bumpedAndGrounded){
                         allEnemies.kickEnemyIfBumped(hitBox.ID, player.getXVel()/2.0);
                         score += 800;
+  
                     }
 
                     else if ( !player.getInvincible() && (allEnemies.stateOfEnemy(hitBox.ID) == grounded || allEnemies.stateOfEnemy(hitBox.ID) == aliveAndFalling) ){
@@ -354,6 +367,9 @@ int main(int argc, char ** argv)
                         player.getSprite().setCurrentFrame(6);
                         player.setDead(true);
                         lives--;
+
+                        die.playSound();
+
                     }
 
                 }
@@ -439,7 +455,7 @@ int main(int argc, char ** argv)
 
         p.update();
 
-        p.Sleep(10);
+        p.Sleep(2);
 
     }
 

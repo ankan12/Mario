@@ -4,7 +4,13 @@
 
 using namespace std;
 
-
+/*
+ * description: determines if something color contains color values
+ * return: bool
+ * precondition: class instance exists
+ * postcondition: nothing is changed
+ *
+*/
 bool Color::isEqualTo(const Color& color){
 
     if (r == color.r && g == color.g && b == color.b){
@@ -14,6 +20,13 @@ bool Color::isEqualTo(const Color& color){
 
 }
 
+/*
+ * description: constructor for sprite class
+ * return: NA
+ * precondition: class instance exists
+ * postcondition: private variables set
+ *
+*/
 Sprite::Sprite(){
     x = 0;
     y = 0;
@@ -26,6 +39,13 @@ Sprite::Sprite(){
     isMirrored = false;
 }
 
+/*
+ * description: constructor for sprite class
+ * return: NA
+ * precondition: class instance exists
+ * postcondition: private variables set to input
+ *
+*/
 Sprite::Sprite(char filename[], ifstream& inFile){
     x = 0;
     y = 0;
@@ -41,18 +61,39 @@ Sprite::Sprite(char filename[], ifstream& inFile){
 
 }
 
+/*
+ * description: sets the x value
+ * return: void
+ * precondition: class instance exists and int passed in
+ * postcondition: set_x is set
+ *
+*/
 void Sprite::set_x(int x){
 
     this->x = x;
 
 }
 
+/*
+ * description: sets the y value
+ * return: void
+ * precondition: class instance exists and int passed in
+ * postcondition: set_y is set
+ *
+*/
 void Sprite::set_y(int y){
 
     this->y = y;
 
 }
 
+/*
+ * description: sets the location of the sprite on the screen
+ * return: void
+ * precondition: class instance exists and two ints passed in
+ * postcondition: x and y of location are set
+ *
+*/
 void Sprite::setLocation(int x, int y){
 
     set_x(x);
@@ -60,24 +101,52 @@ void Sprite::setLocation(int x, int y){
 
 }
 
+/*
+ * description: gets the value of x
+ * return: Int
+ * precondition: class instance exists
+ * postcondition: nothing is changed
+ *
+*/
 int Sprite::get_x(){
 
     return x;
 
 }
 
+/*
+ * description: gets the value of y
+ * return: Int
+ * precondition: class instance exists
+ * postcondition: nothing is created
+ *
+*/
 int Sprite::get_y(){
 
     return y;
 
 }
 
+/*
+ * description: gets the current frame number
+ * return: int
+ * precondition: class instance exists
+ * postcondition: nothing is changed
+ *
+*/
 int Sprite::getCurrentFrame(){
 
     return currentFrame;
 
 }
 
+/*
+ * description: loads the next frame
+ * return: void
+ * precondition: class instance exists
+ * postcondition: nothing is changed
+ *
+*/
 void Sprite::nextFrame(){
 
     currentFrame++;
@@ -88,6 +157,13 @@ void Sprite::nextFrame(){
 
 }
 
+/*
+ * description: loads next frame with a delay
+ * return: void
+ * precondition: class instance exists
+ * postcondition: nothing is changed
+ *
+*/
 void Sprite::nextFrame(int wait){
 
 
@@ -100,41 +176,52 @@ void Sprite::nextFrame(int wait){
 
 }
 
+/*
+ * description: sets the current frame
+ * return: void
+ * precondition: class instance exists
+ * postcondition: frame number is set
+ *
+*/
 void Sprite::setCurrentFrame(int currentFrame){
 
     this->currentFrame = currentFrame % totalFrames;
 
 }
 
+/*
+ * description: gets the scale for the sprites
+ * return: int
+ * precondition: class instance exists
+ * postcondition: nothing is changed
+ *
+*/
 int Sprite::getScale(){
 
     return scale;
 
 }
 
+/*
+ * description: sets the scale for sprites
+ * return: void
+ * precondition: class instance exists
+ * postcondition: scale variable is set
+ *
+*/
 void Sprite::setScale(int scale){
 
     this->scale = scale;
 
 }
 
-void plotSquare(int x, int y, int scale, Color color, SDL_Plotter& p){
-
-    for (int c = 0; c < scale; c++){
-
-        for (int c2 = 0; c2 < scale; c2++){
-
-            int r, g, b;
-            r = color.r;
-            g = color.g;
-            b = color.b;
-
-            p.plotPixel(x + c2, y + c, r, g, b);
-
-        }
-    }
-}
-
+/*
+ * description: this function draws a square
+ * return: void
+ * precondition: class instance exists and three ints, a Color, and a SDL are passed in
+ * postcondition: nothing is changed
+ *
+*/
 void Sprite::plotSquare(int x, int y, int scale, Color color, SDL_Plotter& p){
 
     for (int c = 0; c < scale; c++){
@@ -164,6 +251,13 @@ void Sprite::plotSquare(int x, int y, int scale, Color color, SDL_Plotter& p){
     }
 }
 
+/*
+ * description: loads the image for the sprite
+ * return: void
+ * precondition: class instance exists
+ * postcondition: sprite saved into vectors
+ *
+*/
 void Sprite::loadImage(char filename[], ifstream& inFile){
 
     inFile.open(filename);
@@ -264,6 +358,13 @@ void Sprite::loadImage(char filename[], ifstream& inFile){
 
 }
 
+/*
+ * description: gets the color from characters
+ * return: Color
+ * precondition: class instance exists
+ * postcondition: saves data into arrays
+ *
+*/
 Color Sprite::colorFromCharacter(char input){
 
 
@@ -286,6 +387,13 @@ Color Sprite::colorFromCharacter(char input){
     return colors[index];
 }
 
+/*
+ * description: sets the offSet variable for sprites
+ * return: void
+ * precondition: class instance exists and three ints are passed in
+ * postcondition: sets the offset for frameNumber
+ *
+*/
 void Sprite::setOffset(int frameNumber, int x, int y){
 
     if (pixels.empty()){
@@ -297,23 +405,59 @@ void Sprite::setOffset(int frameNumber, int x, int y){
 
 }
 
+/*
+ * description: gets the height variable
+ * return: int
+ * precondition: class instance exists and int is passed in
+ * postcondition: private variables set
+ *
+*/
 int Sprite::getHeight(int frameNumber){
     return pixels[frameNumber].size();
 }
+
+/*
+ * description: gets the width variable
+ * return: int
+ * precondition: class instance exists and int is passed in
+ * postcondition: private variables set
+ *
+*/
 int Sprite::getWidth(int frameNumber){
     return pixels[frameNumber][0].size();
 }
 
+/*
+ * description: determines if the sprite is mirrored or not
+ * return: void
+ * precondition: class instance exists and bool is passed in
+ * postcondition: changes a bool variable
+ *
+*/
 void Sprite::setMirrored(bool input){
     isMirrored = input;
 }
 
+/*
+ * description: gets the pixels for the frame in rows and columns
+ * return: Color
+ * precondition: class instance exists and three ints are passed in
+ * postcondition: returns the colors of the frame
+ *
+*/
 Color Sprite::getPixel(int frameNumber, int col, int row){
 
     return pixels[frameNumber][row][col];
 
 }
 
+/*
+ * description: gets the numbers of pixels in a frame
+ * return: int
+ * precondition: class instance exists and int is passed in
+ * postcondition: nothing is changed
+ *
+*/
 int Sprite::pixelsInFrame(int frameNumber){
 
     int f = frameNumber;
@@ -328,6 +472,13 @@ int Sprite::pixelsInFrame(int frameNumber){
 
 }
 
+/*
+ * description: draws input to the screen
+ * return: void
+ * precondition: class instance exists and SDL is passed in
+ * postcondition: input drawn on screen
+ *
+*/
 void Sprite::draw(SDL_Plotter& p){
 
     if (pixels.empty()){
@@ -364,24 +515,52 @@ void Sprite::draw(SDL_Plotter& p){
 
 }
 
+/*
+ * description: returns the offset frame number
+ * return: Point
+ * precondition: class instance exists and int passed in
+ * postcondition: nothing is changed
+ *
+*/
 Point Sprite::getOffset(int frameNumber){
 
     return offset[frameNumber];
 
 }
 
+/*
+ * description: gets the state of the mirrored variable
+ * return: bool
+ * precondition: class instance exists
+ * postcondition: nothing is changed
+ *
+*/
 bool Sprite::mirrored(){
 
     return isMirrored;
 
 }
 
+/*
+ * description: gets the amount of total frames
+ * return: int
+ * precondition: class instance exists
+ * postcondition: nothing is changed
+ *
+*/
 int Sprite::getTotalFrames(){
 
     return pixels.size();
 
 }
 
+/*
+ * description: copies pixels into another sprite by reference
+ * return: void
+ * precondition: class instance exists and sprite is passed in
+ * postcondition: passes sprites by reference
+ *
+*/
 void Sprite::copyPixelsOnto(Sprite& sprite){
 
     if (pixels.empty()){
@@ -424,24 +603,54 @@ void Sprite::copyPixelsOnto(Sprite& sprite){
     }
 }
 
+
+/*
+ * description: sets the xCrop variable
+ * return: void
+ * precondition: class instance exists and int is passed in
+ * postcondition: changes dimensions of the sprites
+ *
+*/
 void Sprite::set_xCrop(int xCrop){
 
     this->xCrop = xCrop;
 
 }
 
+/*
+ * description: sets the yCrop variable
+ * return: void
+ * precondition: class instance exists and int is passed in
+ * postcondition: changes y dimensions
+ *
+*/
 void Sprite::set_yCrop(int yCrop){
 
     this->yCrop = yCrop;
 
 }
 
+/*
+ * description: gets the scaled width
+ * return: int
+ * precondition: class instance exists and int is passed in
+ * postcondition: nothing is changed
+ *
+*/
 int Sprite::getScaledWidth(int frameNumber){
 
     return pixels[frameNumber][0].size() * scale;
 
 }
 
+
+/*
+ * description: gets the scaled height
+ * return: int
+ * precondition: class instance exists and bool is passed in
+ * postcondition: nothing is changed
+ *
+*/
 int Sprite::getScaledHeight(int frameNumber){
 
     return pixels[frameNumber].size() * scale;

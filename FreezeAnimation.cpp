@@ -1,5 +1,13 @@
 #include "FreezeAnimation.h"
 
+
+/*
+ * description: constructor for freeze animation
+ * return: NA
+ * precondition: instance of FreezeAnimation exists
+ * postcondition: variables set to input
+ *
+*/
 FreezeAnimation::FreezeAnimation(char left[], char middle[], char right[],
                                  ifstream& inFile, int scale, int startBlock){
 
@@ -18,6 +26,13 @@ FreezeAnimation::FreezeAnimation(char left[], char middle[], char right[],
 
 }
 
+/*
+ * description: function that sets the next frame
+ * return: void
+ * precondition: instance of FreezeAnimation
+ * postcondition: platform returned by reference
+ *
+*/
 void FreezeAnimation::setNextFrame(Platform& platform){
 
     if (hasFinished){
@@ -52,18 +67,39 @@ void FreezeAnimation::setNextFrame(Platform& platform){
     }
 }
 
+/*
+ * description: function that returns boolean
+ * return: bool
+ * precondition: instance of FreezeAnimation
+ * postcondition: returns a bool
+ *
+*/
 bool FreezeAnimation::finished(){
 
     return hasFinished;
 
 }
 
+/*
+ * description: sets the platform number
+ * return: void
+ * precondition: instance of FreezeAnimation
+ * postcondition: platform number is sent
+ *
+*/
 void FreezeAnimation::setPlatformNumber(int platformNumber){
 
     this->platformNumber = platformNumber;
 
 }
 
+/*
+ * description: returns the platform number
+ * return: int
+ * precondition: instance of FreezeAnimation
+ * postcondition: nothing is changed
+ *
+*/
 int FreezeAnimation::getPlatformNumber(){
 
     return platformNumber;
