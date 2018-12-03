@@ -1,5 +1,12 @@
 #include "Pipe.h"
 
+/*
+ * description: sets location of the pipe
+ * return: void
+ * precondition: instance of pipe exists
+ * postcondition: location variables are set
+ *
+*/
 void Pipe::assignToPipe(Pipe& pipe){
 
     CollisionBox& e = pipe.entrance;
