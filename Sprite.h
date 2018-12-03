@@ -104,6 +104,8 @@ public:
     int getScaledWidth(int frameNumber);
     int getScaledHeight(int frameNumber);
 
+    void shiftRGBvalues(int r, int g, int b);
+
 };
 
 #endif // SPRITE_H_INCLUDED

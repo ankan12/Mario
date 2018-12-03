@@ -447,3 +447,22 @@ int Sprite::getScaledHeight(int frameNumber){
     return pixels[frameNumber].size() * scale;
 
 }
+
+void Sprite::shiftRGBvalues(int r, int g, int b){
+
+    int cf = getCurrentFrame();
+
+    for (int y = 0; y < pixels[cf].size(); y++){
+
+        for (int x = 0; x < pixels[cf][y].size(); x++){
+
+            Color& c = pixels[cf][y][x];
+            c.r += r;
+            c.g += g;
+            c.b += b;
+
+        }
+
+    }
+
+}

@@ -1,0 +1,27 @@
+2
+fighterfly 0
+fighterfly 1
+fighterfly 0
+fighterfly 1
+fighterfly 0
+fighterfly 1
+fighterfly 0
+fighterfly 1
+fighterfly 0
+fighterfly 1
+fighterfly 0
+fighterfly 1
+fighterfly 0
+fighterfly 1
+fighterfly 0
+fighterfly 1
+fighterfly 0
+fighterfly 1
+fighterfly 0
+fighterfly 1
+
+endOfPhase -1
+
+shellcreeper 0
+
+endOfPhase -1

@@ -3,47 +3,11 @@
 
 #include "SDL_Plotter.h"
 #include "Block.h"
+#include "Platform.h"
 #include <fstream>
 #include <vector>
 #include "WaveAnimation.h"
-class Platform{
-
-private:
-
-    int x, y;
-
-    vector<Block> blocks;
-    vector<int> columnLocations;
-
-    CollisionBox cBox;
-
-    bool frozen;
-
-public:
-
-    Platform(int x, int y);
-
-    Block& getBlock(int index);
-
-    int numOfBlocks();
-
-    int numOfColumns();
-
-    int get_x();
-
-    int get_y();
-
-    void addBlock(Sprite& sprite);
-
-    vector<int>& getColLocations();
-
-    CollisionBox& getCollisionBox();
-
-    bool isFrozen();
-
-    void setFrozen();
-
-};
+#include "FreezeAnimation.h"
 
 class Level{
 
@@ -53,6 +17,11 @@ private:
     Sprite leftEdgeSprite;
     Sprite rightEdgeSprite;
     vector<WaveAnimation> waveAnimations;
+    vector<FreezeAnimation> freezeAnimations;
+
+    Sprite leftBlueSprite;
+    Sprite midBlueSprite;
+    Sprite rightBlueSprite;
 
 public:
 
@@ -76,7 +45,17 @@ public:
     Platform& getPlatform(int index);
 
     void addWaveAnimation(int platNumber, int startX);
-    void addFreezeAnimation(int platNumber, int startX);
+    void addFreezeAnimation(char[], char[], char[], ifstream&, int scale, int platNumber, int startX);
+
+    void clearPlatforms();
+
+    void replaceBlocks(int sizeChange);
+
+    void givePlatformIcicles(int platNumber);
+
+    void setLeftBlueSprite(char[], ifstream&, int scale);
+    void setMidBlueSprite(char[], ifstream&, int scale);
+    void setRightBlueSprite(char[], ifstream&, int scale);
 
 };
 

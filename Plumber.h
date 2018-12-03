@@ -29,6 +29,10 @@ private:
 
     CollisionBox cBox;
 
+    CollisionBox fist;
+
+    bool onIce;
+
 public:
     Plumber(char[], ifstream&, int scale, int x, int y);
 
@@ -64,6 +68,10 @@ public:
 
     void setInvincible(bool);
     bool getInvincible();
+
+    void placeCharacterInCenter();
+
+    CollisionBox& getFist();
 
 };
 

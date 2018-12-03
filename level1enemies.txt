@@ -1,0 +1,24 @@
+3
+shellcreeper 0
+shellcreeper 1
+shellcreeper 0
+shellcreeper 1
+
+endOfPhase -1
+
+shellcreeper 0
+shellcreeper 0
+shellcreeper 0
+shellcreeper 1
+shellcreeper 1
+sidestepper 1
+
+endOfPhase -1
+
+sidestepper 0
+sidestepper 0
+
+sidestepper 1
+sidestepper 1
+
+endOfPhase -1

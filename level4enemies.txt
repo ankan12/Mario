@@ -1,0 +1,42 @@
+3
+sidestepper 0
+sidestepper 0
+sidestepper 0
+sidestepper 0
+sidestepper 0
+sidestepper 0
+fighterfly 1
+fighterfly 1
+fighterfly 1
+fighterfly 1
+fighterfly 1
+fighterfly 1
+fighterfly 1
+fighterfly 1
+
+endOfPhase -1
+
+shellcreeper 0
+shellcreeper 1
+shellcreeper 0
+shellcreeper 1
+shellcreeper 0
+shellcreeper 1
+slipice 0
+
+endOfPhase -1
+
+sidestepper 0
+sidestepper 1
+sidestepper 0
+sidestepper 1
+slipice 0
+slipice 1
+sidestepper 0
+sidestepper 1
+sidestepper 0
+sidestepper 1
+slipice 0
+slipice 1
+
+endOfPhase -1

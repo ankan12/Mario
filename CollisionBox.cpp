@@ -229,61 +229,10 @@ CollisionEvent::CollisionEvent(CollisionBox& collider, CollisionBox& collidee){
 
 }
 
-void createCollisionEvents(vector<CollisionEvent>& events,
-                           vector<CollisionBox>& boxes){
-
-    events.clear();
-
-    for (int i = 0; i < boxes.size(); i++){
-
-
-        for (int j = 0; j < boxes.size(); j++){
-
-            if (i == j){
-                continue;
-            }
-
-            CollisionEvent event(boxes[i],boxes[j]);
-
-            if (event.collisionType != none){
-                events.push_back(event);
-            }
-
+void removeCollisionBox(vector<CollisionBox>& cBoxes, string type){
+    for (int i = 0; i < cBoxes.size(); i++){
+        if (cBoxes[i].type == type){
+            cBoxes.erase(cBoxes.begin() + i);
         }
-
     }
 }
-
-//void solidInteraction(CollisionEvent& event){
-//
-//    CollisionBox& c = event.collider;
-//    CollisionBox& box = event.collidee;
-//
-//    switch(event.collisionType){
-//
-//    case jumpedOn:
-//        while(c.isTouching(box)){
-//            c.moveToLocation(c.get_x(),c.get_y()-1);
-//        }
-//        return;
-//
-//    case hitHeadUnder:
-//        while(c.isTouching(box)){
-//            c.moveToLocation(c.get_x(),c.get_y()+1);
-//        }
-//        return;
-//
-//    case hitLeftOf:
-//        while(c.hitLeftOf(box)){
-//            c.moveToLocation(c.get_x()-1,c.get_y());
-//        }
-//        return;
-//
-//    case hitRightOf:
-//        while(c.hitRightOf(box)){
-//            c.moveToLocation(c.get_x()+1,c.get_y());
-//        }
-//        return;
-//    }
-//
-//}

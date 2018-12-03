@@ -1,9 +1,10 @@
-#include "Shellcreeper.h"
+#include "Fighterfly.h"
+#include "Fighterfly.h"
 #include <cstdlib>
 #include <cmath>
 using namespace std;
 
-Shellcreeper::Shellcreeper(char filename[], ifstream& inFile, int scale, int pipe, Pipe& pipe0, Pipe& pipe1){
+Fighterfly::Fighterfly(char filename[], ifstream& inFile, int scale, int pipe, Pipe& pipe0, Pipe& pipe1){
 
     sprite.loadImage(filename, inFile);
     sprite.setScale(scale);
@@ -29,66 +30,67 @@ Shellcreeper::Shellcreeper(char filename[], ifstream& inFile, int scale, int pip
 
     pipeSpeed =  0.3;
 
-    speedFactor = 1;
+    speedFactor = 1.0;
+    startingSpeed = 0.5;
 
     setState(exitingPipe);
 
     if (pipe == 0){
         pipeThatIAmIn.assignToPipe(pipe0);
-        xVelocity = 0.75;
+        xVelocity = startingSpeed;
     }
     else{
         pipeThatIAmIn.assignToPipe(pipe1);
-        xVelocity = -0.75;
+        xVelocity = -startingSpeed;
         sprite.setMirrored(true);
     }
 
 }
 
-double Shellcreeper::getX(){
+double Fighterfly::getX(){
     return x;
 }
-double Shellcreeper::getY(){
+double Fighterfly::getY(){
     return y;
 }
-double Shellcreeper::getXVel(){
+double Fighterfly::getXVel(){
     return xVelocity;
 }
-double Shellcreeper::getYVel(){
+double Fighterfly::getYVel(){
     return yVelocity;
 }
-double Shellcreeper::getYAccel(){
+double Fighterfly::getYAccel(){
     return yAccel;
 }
 
-void Shellcreeper::setX(double x){
+void Fighterfly::setX(double x){
     this->x = x;
 }
-void Shellcreeper::setY(double y){
+void Fighterfly::setY(double y){
     this->y = y;
 }
-void Shellcreeper::setXVel(double xVelocity){
+void Fighterfly::setXVel(double xVelocity){
     this->xVelocity = xVelocity;
 }
-void Shellcreeper::setYVel(double yVelocity){
+void Fighterfly::setYVel(double yVelocity){
     this->yVelocity = yVelocity;
 }
-void Shellcreeper::setYAccel(double yAccel){
+void Fighterfly::setYAccel(double yAccel){
     this->yAccel = yAccel;
 }
 
-void Shellcreeper::setFalling(bool falling){
+void Fighterfly::setFalling(bool falling){
     this->falling = falling;
 }
-bool Shellcreeper::isFalling(){
+bool Fighterfly::isFalling(){
     return falling;
 }
 
-Sprite& Shellcreeper::getSprite(){
+Sprite& Fighterfly::getSprite(){
     return sprite;
 }
 
-void Shellcreeper::draw(SDL_Plotter& p){
+void Fighterfly::draw(SDL_Plotter& p){
 
     if (state == deadAndInvisible){
         return;
@@ -99,18 +101,22 @@ void Shellcreeper::draw(SDL_Plotter& p){
     switch (state){
 
     case aliveAndFalling:
-        if (cf != 0){
-            sprite.setCurrentFrame(0);
+        if (a > 1){
             a = 0;
+            sprite.setCurrentFrame(cf+1);
+
+            if (sprite.getCurrentFrame() == 6){
+                sprite.setCurrentFrame(1);
+            }
+
         }
         break;
 
     case grounded:
-        if (a > 1){
-            sprite.setCurrentFrame(cf+1);
-            if (sprite.getCurrentFrame() > 3){
-                sprite.setCurrentFrame(0);
-            }
+        if (a > 2){
+            sprite.setCurrentFrame(1);
+            state = aliveAndFalling;
+            yVelocity = -3;
             a = 0;
         }
         break;
@@ -121,55 +127,45 @@ void Shellcreeper::draw(SDL_Plotter& p){
             sprite.setMirrored(false);
         }
 
-        if (cf != 8){
-            sprite.setCurrentFrame(8);
+        if (cf != 7){
+            sprite.setCurrentFrame(7);
             a = 0;
         }
         break;
 
     case bumpedAndGrounded:
-        if (a > 3){
+
+        if (a > 30){
             a = 0;
-            if (cf == 15){
-                sprite.setCurrentFrame(0);
-                state = grounded;
-                if (xVelocity > 0){
-                    sprite.setMirrored(false);
-                }
-                else{
-                    sprite.setMirrored(true);
-                }
+            state = grounded;
+            sprite.setCurrentFrame(0);
+        }
+
+        if (((int)a) % 2 == 0){
+
+            if (cf == 6){
+                sprite.setCurrentFrame(7);
             }
             else{
-                sprite.setCurrentFrame(cf+1);
+                sprite.setCurrentFrame(6);
             }
+
         }
-        break;
 
     case turningAround:
-
-        if (a > 2){
-            a = 0;
-            if (cf == 7){
-                sprite.setCurrentFrame(0);
-                state = grounded;
-                if (sprite.mirrored()){
-                    sprite.setMirrored(false);
-                }
-                else{
-                    sprite.setMirrored(true);
-                }
-
-            }
-            else{
-                sprite.setCurrentFrame(cf + 1);
-            }
-        }
         break;
 
     case deadAndFalling:
-        if (cf != 12){
-            sprite.setCurrentFrame(12);
+        if (a > 1){
+            a = 0;
+
+            if (cf == 6){
+                sprite.setCurrentFrame(7);
+            }
+            else{
+                sprite.setCurrentFrame(6);
+            }
+
         }
         break;
 
@@ -195,11 +191,11 @@ void Shellcreeper::draw(SDL_Plotter& p){
 
 }
 
-CollisionBox& Shellcreeper::getCBox(){
+CollisionBox& Fighterfly::getCBox(){
     return cBox;
 }
 
-void Shellcreeper::solidCollisions(vector<CollisionBox>& solids){
+void Fighterfly::solidCollisions(vector<CollisionBox>& solids){
 
     if (!(state == aliveAndFalling || state == grounded || state == bumpedAndFalling)){
         return;
@@ -243,7 +239,7 @@ void Shellcreeper::solidCollisions(vector<CollisionBox>& solids){
         if (cBox.hitRightOf(b)){
             cBox.solidInteraction(b, 180);
 
-            xVelocity = 0.75  * speedFactor;
+            xVelocity = startingSpeed  * speedFactor;
 
             if (state == grounded){
                 state = turningAround;
@@ -274,7 +270,7 @@ void Shellcreeper::solidCollisions(vector<CollisionBox>& solids){
         if (cBox.hitLeftOf(b)){
             cBox.solidInteraction(b, 0);
 
-            xVelocity = -0.75 * speedFactor;
+            xVelocity = -startingSpeed * speedFactor;
 
             if (state == grounded){
                 state = turningAround;
@@ -310,26 +306,28 @@ void Shellcreeper::solidCollisions(vector<CollisionBox>& solids){
     }
 
     if (cBox.isTouching(pipe0.entrance)){
+        cout << "entering pipe 0" << endl;
         pipeThatIAmIn.assignToPipe(pipe0);
         state = enteringPipe;
         speedFactor += 0.2;
-        xVelocity = 0.75 * speedFactor;
+        xVelocity = startingSpeed * speedFactor;
         sprite.setMirrored(false);
         cBox.type = "ignore";
     }
 
     if (cBox.isTouching(pipe1.entrance)){
+        cout << "entering pipe 1" << endl;
         pipeThatIAmIn.assignToPipe(pipe1);
         state = enteringPipe;
         speedFactor += 0.2;
-        xVelocity = -0.75 * speedFactor;
+        xVelocity = -startingSpeed * speedFactor;
         sprite.setMirrored(true);
         cBox.type = "ignore";
     }
 
 }
 
-void Shellcreeper::updateLocation(){
+void Fighterfly::updateLocation(){
     switch (state){
     case aliveAndFalling:
 
@@ -345,8 +343,6 @@ void Shellcreeper::updateLocation(){
         if (yVelocity != 0){
             yVelocity = 0;
         }
-
-        x += xVelocity;
 
         if (x > groundEnd || x + cBox.getWidth() < groundStart){
             state = aliveAndFalling;
@@ -394,12 +390,12 @@ void Shellcreeper::updateLocation(){
                 x = pipeThatIAmIn.entranceX - cBox.getWidth();
                 y = pipeThatIAmIn.entranceY;
                 cBox.resetAtLocation(x, y);
-                xVelocity = 0.75 * speedFactor;
+                xVelocity = startingSpeed * speedFactor;
             }
             else {
                 x = pipeThatIAmIn.entranceX;
                 y = pipeThatIAmIn.entranceY;
-                xVelocity = -0.75 * speedFactor;
+                xVelocity = -startingSpeed * speedFactor;
             }
 
             distanceInPipe = 0;
@@ -478,20 +474,20 @@ void Shellcreeper::updateLocation(){
 }
 
 
-CollisionBox& Shellcreeper::getHurtBox(){
+CollisionBox& Fighterfly::getHurtBox(){
 
     return hurtBox;
 }
 
-void Shellcreeper::setState(EnemyState state){
+void Fighterfly::setState(EnemyState state){
     this->state = state;
 }
 
-EnemyState Shellcreeper::getState(){
+EnemyState Fighterfly::getState(){
     return state;
 }
 
-void Shellcreeper::printState(){
+void Fighterfly::printState(){
 
     switch(state){
     case grounded:
@@ -522,3 +518,4 @@ void Shellcreeper::printState(){
     }
 
 }
+
