@@ -1,105 +1,63 @@
-#include "Music.h"
-#include "SDL_mixer.h"
+#include "Music.h" //include header file for music to make objects and methods
+#include <string> //include string for name
+#include <SDL2/SDL.h> //include for INIT
+#include <SDL2/SDL_mixer.h> //include for chunk and music objects
 
 using namespace std;
 
-
-Music::Music(void) {
-	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
-
-	vMusic.loadMusic("md_die");
-	vMusic.loadMusic("md_coin");
-	vMusic.loadMusic("md_jump");
-	vMusic.loadMusic("md_new");
-	vMusic.loadMusic("md_sc");
-	vMusic.loadMusic("md_touch");
-
-
-	setVolume(100);
-	this->currentMusic = mNOTHING;
+Music::Music() { //default constructor
+    name = "mb_die.wav"; //set to die sound
+    volume = 100; //and standard vol 100
 }
 
-Music::~Music(void) {
-	for(int i = 0; i < vMusic.size(); i++) {
-		Mix_FreeMusic(vMusic[i]);
-	}
-
-	vMusic.clear();
-
-	for(int j = 0; j < vChunk.size(); j++) {
-		Mix_FreeChunk(vChunk[j]);
-	}
-
-	vChunk.clear();
+Music::Music(string localName) { //construct with string
+    name = localName; //set name to parameter
+    volume = 100; //default vol of 100
 }
 
-
-	if(currentMusic != eNew || forceChange) {
-		StopMusic();
-		currentMusic = eNew;
-		PlayMusic();
-	}
+Music::Music(string localName, int localVolume) { //constructor with string and int
+    name = localName; //set name to parameter
+    volume = localVolume; //set volume to parameter
 }
 
-void Music::PlayMusic() {
-	if(currentMusic != mNOTHING) {
-		Mix_PlayMusic(vMusic[currentMusic - 1], -1);
-		musicStopped = false;
-	} else {
-		StopMusic();
-	}
+Music::setName(string localName) { //modifier for name
+    name = localName; //set name to parameter
 }
 
-void Music::PlayMusic(eMusic musicID) {
-	if(musicID != mNOTHING) {
-		Mix_PlayMusic(vMusic[musicID - 1], -1);
-		musicStopped = false;
-		currentMusic = musicID;
-	} else {
-		StopMusic();
-		currentMusic = mNOTHING;
-	}
+Music::setVolume(int localVolume) { //modifier for volume
+    volume = localVolume; //set volume to parameter
 }
 
-void Music::StopMusic() {
-	if(!musicStopped) {
-		Mix_HaltMusic();
-		musicStopped = true;
-	}
+void Music::playSound() { //function to play sound
+	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048); //open audio
+
+    Mix_Chunk *sound = Mix_LoadWAV(name.c_str()); //create a chunk of file
+
+    Mix_VolumeChunk(sound, volume); //set volume to the variable
+
+    Mix_PlayChannel(-1, sound, 0); //plays the sound
 }
 
-void Music::PauseMusic() {
-	if(Mix_PausedMusic() == 1) {
-		Mix_ResumeMusic();
-		musicStopped = false;
-	} else {
-		Mix_PauseMusic();
-		musicStopped = true;
-	}
+bgMusic::bgMusic() { //default constructor
+    name = "mb_die.wav"; //set to die sound
+    loops = 0; //set loops to default once
 }
 
-
-void Music::PlayChunk(eChunk chunkID) {
-	Mix_VolumeChunk(vChunk[chunkID], iVolume);
-	Mix_PlayChannel(-1, vChunk[chunkID], 0);
+bgMusic::bgMusic(string localName) { //construct with string
+    name = localName; //set name to parameter
+    loops = 0; //set loops to default once
 }
 
-
-Mix_Music* Music::loadMusic(string fileName) {
-	fileName = "files/sounds/" + fileName + ".wav";
-	return Mix_LoadMUS(fileName.c_str());
+bgMusic::bgMusic(string localName, int localLoops) { //constructor with string and int
+    name = localName; //set name to parameter
+    loops = localLoops; //set volume to parameter
 }
 
-Mix_Chunk* Music::loadChunk(string fileName) {
-	fileName = "files/sounds/" + fileName + ".wav";
-	return Mix_LoadWAV(fileName.c_str());
+void bgMusic::playMusic() {
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048); //open audio
+
+    Mix_Music *bgSound = Mix_LoadMUS(name.c_str()); //create a music file
+
+    Mix_PlayMusic(bgSound, loops); //play the music with # of loops
 }
 
-int Music::getVolume() {
-	return iVolume;
-}
-
-void Music::setVolume(int iVolume) {
-	this->iVolume = iVolume;
-	Mix_VolumeMusic(iVolume);
-}

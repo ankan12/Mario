@@ -2,9 +2,23 @@
 
 using namespace std;
 
+/*
+ * description: default constructor for the wave class
+ * return: NA
+ * precondition: instance of wave exists
+ * postcondition: all variables initialized
+ *
+*/
 Wave::Wave(){
 }
 
+/*
+ * description: constructor for the wave class
+ * return: NA
+ * precondition: instance of wave exists
+ * postcondition: all variables initialized to input
+ *
+*/
 Wave::Wave(char filename[], ifstream& inFile){
 
     sprite.loadImage(filename, inFile);
@@ -13,12 +27,26 @@ Wave::Wave(char filename[], ifstream& inFile){
 
 }
 
+/*
+ * description: this function gets and passes a sprite by reference
+ * return: sprite
+ * precondition: wave and sprite exist
+ * postcondition: sprite passed by reference
+ *
+*/
 Sprite& Wave::getSprite(){
 
     return sprite;
 
 }
 
+/*
+ * description: sets the location of the sprite
+ * return: void
+ * precondition: instance of wave exists and sprite exists
+ * postcondition: sprite x and y are set
+ *
+*/
 void Wave::setSpriteLocation(int x, int y){
 
     sprite.set_x(x);
@@ -26,6 +54,13 @@ void Wave::setSpriteLocation(int x, int y){
 
 }
 
+/*
+ * description: draws the sprite
+ * return: void
+ * precondition: instance of wave exists
+ * postcondition: picture is drawn on the screen
+ *
+*/
 void Wave::draw(SDL_Plotter& p){
 
     if (columnLocations.empty()){
@@ -67,12 +102,26 @@ void Wave::draw(SDL_Plotter& p){
 
 }
 
+/*
+ * description: sets the y for the columns
+ * return: void
+ * precondition: instance of wave exists
+ * postcondition: y variable set
+ *
+*/
 void Wave::offsetColumn(int columnNumber, int y){
 
     columnLocations[sprite.getCurrentFrame()][columnNumber] = y;
 
 }
 
+/*
+ * description: resets the column x and y
+ * return: void
+ * precondition: instance of wave exists
+ * postcondition: location variables reset
+ *
+*/
 void Wave::resetColumnLocations(){
 
     if (sprite.getTotalFrames() == 0){
@@ -93,6 +142,13 @@ void Wave::resetColumnLocations(){
 
 }
 
+/*
+ * description: returns the column locations
+ * return: int
+ * precondition: instance of wave exists
+ * postcondition: nothing is changed
+ *
+*/
 int Wave::numberOfColumns(int frameNumber){
 
     return columnLocations[frameNumber].size();
