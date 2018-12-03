@@ -398,9 +398,16 @@
 	"Slipice.h"
 	"Scores.h"
 
-1541521393 c:\users\samuel kim\documents\no\sdl_plotter.h
-	<SDL.h>
-	<SDL_mixer.h>
+1543826245 c:\users\samuel kim\documents\no\sdl_plotter.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_mixer.h>
+	<string.h>
+	<iostream>
+	<string>
+	<string.h>
+	<map>
+	<SDL2/SDL.h>
+	<SDL2/SDL_mixer.h>
 	<string.h>
 	<iostream>
 	<string>
