@@ -1,8 +1,6 @@
 #include "Shellcreeper.h"
 #include <cstdlib>
 #include <cmath>
-#include "Music.h"
-
 using namespace std;
 
 Shellcreeper::Shellcreeper(char filename[], ifstream& inFile, int scale, int pipe, Pipe& pipe0, Pipe& pipe1){
@@ -136,6 +134,7 @@ void Shellcreeper::draw2(SDL_Plotter& p){
                 sprite.setCurrentFrame(0);
                 state = grounded;
                 if (xVelocity == 0){
+                    cout << "000000000000" << endl;
                 }
                 if (xVelocity > 0){
                     sprite.setMirrored(false);
@@ -204,15 +203,16 @@ CollisionBox& Shellcreeper::getCBox(){
 }
 
 void Shellcreeper::solidCollisions2(vector<CollisionBox>& solids){
-    Music sc("mb_sc.wav"); //initialize music file
 
     if (!(state == aliveAndFalling || state == grounded || state == bumpedAndFalling)){
         return;
     }
 
     if (state == aliveAndFalling){
+        cout << "aliveAndFalling" << endl;
     }
     if (state == enteringPipe){
+        cout << "AAAAAAAAAAAAAH" << endl;
     }
 
     for (int i = 0; i < solids.size(); i++){
@@ -220,6 +220,7 @@ void Shellcreeper::solidCollisions2(vector<CollisionBox>& solids){
         CollisionBox& b = solids[i];
 
         if (cBox.type == b.type && cBox.ID == b.ID){
+            cout << "myself" << endl;
             continue;
         }
 
@@ -228,6 +229,7 @@ void Shellcreeper::solidCollisions2(vector<CollisionBox>& solids){
         }
 
         if (cBox.jumpedOn(b) && state != grounded){
+            cout << "creeper landed" << endl;
             cBox.solidInteraction(b, -90);
             yVelocity = 0;
             groundStart = b.get_x();
@@ -310,7 +312,7 @@ void Shellcreeper::solidCollisions2(vector<CollisionBox>& solids){
     }
 
     if (cBox.isTouching(pipe0.entrance)){
-        sc.playSound(); //play sound when entering a pipe
+        cout << "entering pipe 0" << endl;
         pipeThatIAmIn.assignToPipe(pipe0);
         state = enteringPipe;
         speedFactor += 0.2;
@@ -320,7 +322,7 @@ void Shellcreeper::solidCollisions2(vector<CollisionBox>& solids){
     }
 
     if (cBox.isTouching(pipe1.entrance)){
-        sc.playSound(); //play sound when entering a pipe
+        cout << "entering pipe 1" << endl;
         pipeThatIAmIn.assignToPipe(pipe1);
         state = enteringPipe;
         speedFactor += 0.2;
@@ -332,8 +334,6 @@ void Shellcreeper::solidCollisions2(vector<CollisionBox>& solids){
 }
 
 void Shellcreeper::updateLocation2(){
-    Music sc("mb_sc.wav"); //initialize music file
-
     switch (state){
     case aliveAndFalling:
 
@@ -362,7 +362,7 @@ void Shellcreeper::updateLocation2(){
 
     case exitingPipe:
         if (distanceInPipe == -1){
-            sc.playSound(); //play sound once when exiting pipe
+            cout << "exiting" << endl;
             if (pipeThatIAmIn.direction == "right"){
                 x = pipeThatIAmIn.exitX - cBox.getWidth();
                 y = pipeThatIAmIn.exitY;
@@ -391,10 +391,12 @@ void Shellcreeper::updateLocation2(){
             cBox.resetAtLocation(x, y);
             cBox.type = "enemy";
         }
+        cout << "distance: " << distanceInPipe;
         break;
 
     case enteringPipe:
         if (distanceInPipe == -1){
+            cout << "entered pipe - 1" << endl;
             if (pipeThatIAmIn.direction == "right"){
                 x = pipeThatIAmIn.entranceX - cBox.getWidth();
                 y = pipeThatIAmIn.entranceY;
@@ -418,7 +420,9 @@ void Shellcreeper::updateLocation2(){
         }
 
         distanceInPipe += pipeSpeed;
+        cout << "distance increased: " << distanceInPipe << endl;
 
+        printState();
 
         if (distanceInPipe > cBox.getWidth()){
             distanceInPipe = -1;
