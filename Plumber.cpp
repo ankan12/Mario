@@ -3,6 +3,9 @@
 
 using namespace std;
 
+Music newLife("mb_new.wav"); //load music files for player
+Music jump("mb_jump.wav");
+Music walking("walking.wav", 30);
 
 /*
  * description: constructor for Plumber
@@ -297,6 +300,7 @@ void Plumber::updateLocation(){
 
     if (dead && y > 400){
         dead = false;
+        newLife.playSound(); //play new life sound
         x = 395;
         y = 150;
         cBox.resetAtLocation(x, y);
@@ -365,6 +369,16 @@ void Plumber::onKeyPress(char key_pressed){
         xVelocity = 0;
     }
 
+    int counter = 0; //counter variable
+
+    while((key_pressed == 'D' || key_pressed == 'A') && !falling && counter < 9000) {
+        counter++; //created to delay the walking sound effect
+    }
+
+    if((key_pressed == 'D' || key_pressed == 'A') && !falling) {
+        walking.playSound(); //play walking when A or D pressed and not in air
+    }
+
     // Side to Side Movement
     if (key_pressed == 'D'){
 
@@ -402,6 +416,7 @@ void Plumber::onKeyPress(char key_pressed){
 
 
     if (key_pressed == 'W'&& !falling){
+        jump.playSound();
         sprite.setCurrentFrame(5);
         yVelocity = -3.5;
         falling = true;
