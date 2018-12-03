@@ -3,6 +3,14 @@
 #include <cmath>
 using namespace std;
 
+
+/*
+ * description: constructor for the shellcreeper class
+ * return: NA
+ * precondition: instance of shellcreeper exists
+ * postcondition: all variables initialized to input
+ *
+*/
 Shellcreeper::Shellcreeper(char filename[], ifstream& inFile, int scale, int pipe, Pipe& pipe0, Pipe& pipe1){
 
     sprite.loadImage(filename, inFile);
@@ -45,49 +53,156 @@ Shellcreeper::Shellcreeper(char filename[], ifstream& inFile, int scale, int pip
 
 }
 
+/*
+ * description: returns x
+ * return: double
+ * precondition: instance of shellcreeper exists
+ * postcondition: nothing is changed
+ *
+*/
 double Shellcreeper::getX(){
     return x;
 }
+
+/*
+ * description: returns y
+ * return: double
+ * precondition: instance of shellcreeper exists
+ * postcondition: nothing is changed
+ *
+*/
 double Shellcreeper::getY(){
     return y;
 }
+
+/*
+ * description: returns x velocity
+ * return: double
+ * precondition: instance of shellcreeper exists
+ * postcondition: nothing is changed
+ *
+*/
 double Shellcreeper::getXVel(){
     return xVelocity;
 }
+
+/*
+ * description: returns y velocity
+ * return: double
+ * precondition: instance of shellcreeper exists
+ * postcondition: nothing is changed
+ *
+*/
 double Shellcreeper::getYVel(){
     return yVelocity;
 }
+
+/*
+ * description: returns y acceleration
+ * return: double
+ * precondition: instance of shellcreeper exists
+ * postcondition: nothing is changed
+ *
+*/
 double Shellcreeper::getYAccel(){
     return yAccel;
 }
 
+/*
+ * description: sets x
+ * return: void
+ * precondition: instance of shellcreeper exists
+ * postcondition: x is set
+ *
+*/
 void Shellcreeper::setX(double x){
     this->x = x;
 }
+
+/*
+ * description: sets y
+ * return: void
+ * precondition: instance of shellcreeper exists
+ * postcondition: y is set
+ *
+*/
 void Shellcreeper::setY(double y){
     this->y = y;
 }
+
+/*
+ * description: sets x velocity
+ * return: void
+ * precondition: instance of shellcreeper exists
+ * postcondition: x velocity is set
+ *
+*/
 void Shellcreeper::setXVel(double xVelocity){
     this->xVelocity = xVelocity;
 }
+
+/*
+ * description: sets y velocity
+ * return: void
+ * precondition: instance of shellcreeper exists
+ * postcondition: y velocity is set
+ *
+*/
 void Shellcreeper::setYVel(double yVelocity){
     this->yVelocity = yVelocity;
 }
+
+/*
+ * description: sets y acceleration
+ * return: void
+ * precondition: instance of shellcreeper exists
+ * postcondition: y velocity is set
+ *
+*/
 void Shellcreeper::setYAccel(double yAccel){
     this->yAccel = yAccel;
 }
 
+/*
+ * description: sets boolean Falling
+ * return: void
+ * precondition: instance of shellcreeper exists
+ * postcondition: falling boolean is set
+ *
+*/
 void Shellcreeper::setFalling(bool falling){
     this->falling = falling;
 }
+
+/*
+ * description: returns falling boolean
+ * return: bool
+ * precondition: instance of shellcreeper exists
+ * postcondition: nothing is changed
+ *
+*/
 bool Shellcreeper::isFalling(){
     return falling;
 }
 
+/*
+ * description: gets sprite by reference
+ * return: sprite
+ * precondition: instance of shellcreeper exists
+ * postcondition: sprite is returned
+ *
+*/
 Sprite& Shellcreeper::getSprite(){
     return sprite;
 }
 
+/*
+ * description: draws to the screen
+ * return: void
+ * precondition: instance of shellcreeper exists
+ * postcondition: nothing is changed
+ *
+*/
 void Shellcreeper::draw2(SDL_Plotter& p){
 
     if (state == deadAndInvisible){
@@ -134,7 +249,6 @@ void Shellcreeper::draw2(SDL_Plotter& p){
                 sprite.setCurrentFrame(0);
                 state = grounded;
                 if (xVelocity == 0){
-                    cout << "000000000000" << endl;
                 }
                 if (xVelocity > 0){
                     sprite.setMirrored(false);
@@ -198,10 +312,24 @@ void Shellcreeper::draw2(SDL_Plotter& p){
 
 }
 
+/*
+ * description: gets collision box and passes by reference
+ * return: Collision box
+ * precondition: instance of shellcreeper exists
+ * postcondition: CBox is passed by reference
+ *
+*/
 CollisionBox& Shellcreeper::getCBox(){
     return cBox;
 }
 
+/*
+ * description: determins sprite action based on collision
+ * return: void
+ * precondition: instance of shellcreeper exists
+ * postcondition: sprite variables are set to as needed
+ *
+*/
 void Shellcreeper::solidCollisions2(vector<CollisionBox>& solids){
 
     if (!(state == aliveAndFalling || state == grounded || state == bumpedAndFalling)){
@@ -209,10 +337,8 @@ void Shellcreeper::solidCollisions2(vector<CollisionBox>& solids){
     }
 
     if (state == aliveAndFalling){
-        cout << "aliveAndFalling" << endl;
     }
     if (state == enteringPipe){
-        cout << "AAAAAAAAAAAAAH" << endl;
     }
 
     for (int i = 0; i < solids.size(); i++){
@@ -220,7 +346,6 @@ void Shellcreeper::solidCollisions2(vector<CollisionBox>& solids){
         CollisionBox& b = solids[i];
 
         if (cBox.type == b.type && cBox.ID == b.ID){
-            cout << "myself" << endl;
             continue;
         }
 
@@ -229,7 +354,6 @@ void Shellcreeper::solidCollisions2(vector<CollisionBox>& solids){
         }
 
         if (cBox.jumpedOn(b) && state != grounded){
-            cout << "creeper landed" << endl;
             cBox.solidInteraction(b, -90);
             yVelocity = 0;
             groundStart = b.get_x();
@@ -312,7 +436,6 @@ void Shellcreeper::solidCollisions2(vector<CollisionBox>& solids){
     }
 
     if (cBox.isTouching(pipe0.entrance)){
-        cout << "entering pipe 0" << endl;
         pipeThatIAmIn.assignToPipe(pipe0);
         state = enteringPipe;
         speedFactor += 0.2;
@@ -322,7 +445,6 @@ void Shellcreeper::solidCollisions2(vector<CollisionBox>& solids){
     }
 
     if (cBox.isTouching(pipe1.entrance)){
-        cout << "entering pipe 1" << endl;
         pipeThatIAmIn.assignToPipe(pipe1);
         state = enteringPipe;
         speedFactor += 0.2;
@@ -333,6 +455,13 @@ void Shellcreeper::solidCollisions2(vector<CollisionBox>& solids){
 
 }
 
+/*
+ * description: this function updates the location variables
+ * return: void
+ * precondition: instance of shellcreeper exists
+ * postcondition: variables are set
+ *
+*/
 void Shellcreeper::updateLocation2(){
     switch (state){
     case aliveAndFalling:
@@ -362,7 +491,6 @@ void Shellcreeper::updateLocation2(){
 
     case exitingPipe:
         if (distanceInPipe == -1){
-            cout << "exiting" << endl;
             if (pipeThatIAmIn.direction == "right"){
                 x = pipeThatIAmIn.exitX - cBox.getWidth();
                 y = pipeThatIAmIn.exitY;
@@ -391,12 +519,10 @@ void Shellcreeper::updateLocation2(){
             cBox.resetAtLocation(x, y);
             cBox.type = "enemy";
         }
-        cout << "distance: " << distanceInPipe;
         break;
 
     case enteringPipe:
         if (distanceInPipe == -1){
-            cout << "entered pipe - 1" << endl;
             if (pipeThatIAmIn.direction == "right"){
                 x = pipeThatIAmIn.entranceX - cBox.getWidth();
                 y = pipeThatIAmIn.entranceY;
@@ -420,9 +546,7 @@ void Shellcreeper::updateLocation2(){
         }
 
         distanceInPipe += pipeSpeed;
-        cout << "distance increased: " << distanceInPipe << endl;
 
-        printState();
 
         if (distanceInPipe > cBox.getWidth()){
             distanceInPipe = -1;
@@ -487,20 +611,47 @@ void Shellcreeper::updateLocation2(){
 
 }
 
-
+/*
+ * description: gets collision box and passes by reference
+ * return: Collision box
+ * precondition: instance of shellcreeper exists
+ * postcondition: HitBox is passed by reference
+ *
+*/
 CollisionBox& Shellcreeper::getHitBox(){
 
     return hitBox;
 }
 
+/*
+ * description: sets state of class
+ * return: void
+ * precondition: instance of shellcreeper exists
+ * postcondition: variables are set
+ *
+*/
 void Shellcreeper::setState(EnemyState state){
     this->state = state;
 }
 
+/*
+ * description: returns enemy state
+ * return: EnemyState
+ * precondition: instance of shellcreeper exists
+ * postcondition: nothing is changed
+ *
+*/
 EnemyState Shellcreeper::getState(){
     return state;
 }
 
+/*
+ * description: prints the state of the class
+ * return: void
+ * precondition: instance of shellcreeper exists
+ * postcondition: nothing is changed
+ *
+*/
 void Shellcreeper::printState(){
 
     switch(state){
