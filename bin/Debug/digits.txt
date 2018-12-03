@@ -1,0 +1,83 @@
+Colors: 1
+w 255 255 255
+Frames: 10
+  www
+ w  ww
+ww   ww.
+ww   ww
+ww   ww
+ ww  w
+  www
+\end of frame
+  ww
+ www
+  ww
+  ww
+  ww
+  ww
+wwwwww.
+\end of frame
+ wwwww
+ww   ww
+    www
+  wwww
+ wwww
+www
+wwwwwww.
+\end of frame
+ wwwwww.
+    ww
+   ww
+  wwww
+     ww
+ww   ww
+ wwwww
+\end of frame
+   www
+  wwww
+ ww ww
+ww  ww
+wwwwwww.
+    ww
+    ww
+\end of frame
+wwwwww
+ww
+wwwwww
+     ww.
+     ww
+ww   ww
+ wwwww
+\end of frame
+  wwww
+ ww
+ww
+wwwwww
+ww   ww.
+ww   ww
+ wwwww
+\end of frame
+wwwwwww.
+ww   ww
+    ww
+   ww
+  ww
+  ww
+  ww
+\end of frame
+ wwww
+ww   w
+www  w
+ wwww
+w    ww.
+w    ww
+ wwwww
+\end of frame
+ wwwww
+ww   ww.
+ww   ww
+ wwwwww
+     ww
+    ww
+ wwww
+\end of frame

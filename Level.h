@@ -1,9 +1,22 @@
+/*Authors:
+Anupama Kannan
+Brandon Alcaraz
+Miranda Montroy
+Samuel Kim
+Thomas Cho
+*Assignment Title: Mario Bros.
+*Assignment Description: Recreate Mario Bros.
+*Due Date 12/2/2018
+*Date Created 11/4/2018
+*Date Last Modified 12/2/2018
+*/
 #ifndef LEVEL_H_INCLUDED
 #define LEVEL_H_INCLUDED
 
 #include "SDL_Plotter.h"
 #include "Block.h"
 #include "Platform.h"
+
 #include <fstream>
 #include <vector>
 #include "WaveAnimation.h"

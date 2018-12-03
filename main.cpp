@@ -1,3 +1,16 @@
+/*Authors:
+Anupama Kannan
+Brandon Alcaraz
+Miranda Montroy
+Samuel Kim
+Thomas Cho
+*Assignment Title: Mario Bros.
+*Assignment Description: Recreate Mario Bros.
+*Due Date 12/2/2018
+*Date Created 11/4/2018
+*Date Last Modified 12/2/2018
+*/
+
 #include <iostream>
 #include <fstream>
 #include "SDL_Plotter.h"
@@ -22,6 +35,7 @@
 #include "FreezeAnimation.h"
 #include "Slipice.h"
 #include "Scores.h"
+#include "Music.h"
 using namespace std;
 
 void createLevel(Level& level);
@@ -63,26 +77,7 @@ int main(int argc, char ** argv)
     brickFloor.set_y(screenHeight - brickFloor.getScaledHeight(0));
 
     Level level1;
-    level1.setBlockSprite("blueBlock.txt", inFile, 2);
-
-    cout << spawnPipeLeft.get_y() +
-                         spawnPipeLeft.getScaledHeight(0) << endl;
-
-    level1.placePlatform(0, spawnPipeLeft.get_y() +
-                         spawnPipeLeft.getScaledHeight(0), 25);
-
-    level1.placePlatform(800 - 25 * 14, level1.getPlatform(0).get_y(), 25);
-
-    cout << (200 -level1.getPlatform(0).get_y()) << endl;
-
-    level1.placePlatform(400 - 15 * 14, 200, 30);
-
-    level1.placePlatform(0, 290, 20);
-    level1.placePlatform(800 - 20 * 14, 290, 20);
-
-    level1.placePlatform(0, 210, 10);
-    level1.placePlatform(800 - 10 * 14, 210, 10);
-
+    level1.setBlockSprite("blueBlock.txt",inFile,2);
     createLevel(level1);
 
     Sprite bottomLeftPipe("bottomPipe.txt", inFile);
@@ -115,10 +110,6 @@ int main(int argc, char ** argv)
 
     vector<CollisionBox> solids;
 
-//    solids.push_back(cPipe1);
-//    solids.push_back(cPipe2);
-//    solids.push_back(cPipe3);
-//    solids.push_back(cPipe4);
     solids.push_back(cFloor);
     solids.push_back(cCeiling);
 
@@ -201,7 +192,9 @@ int main(int argc, char ** argv)
     p.update();
     while (p.getKey() != 'X'){
         p.kbhit();
-        p.Sleep(5);
+        if (p.getQuit()){
+            return 1;
+        }
     }
 
     while (!p.getQuit()){
@@ -262,10 +255,10 @@ int main(int argc, char ** argv)
                 p.update();
                 while (!p.getQuit()){
                     p.kbhit();
-                    p.Sleep(5);
+                    if (p.getQuit()){
+                        return 1;
+                    }
                 }
-
-                break;
             }
 
             if (level > 5){
@@ -351,13 +344,13 @@ int main(int argc, char ** argv)
 
 
                 if (c.isTouching(hitBox)){
-                    cout << "touched" << endl;
+
                     touch.playSound();
 
                     if (allEnemies.stateOfEnemy(hitBox.ID) == bumpedAndGrounded){
                         allEnemies.kickEnemyIfBumped(hitBox.ID, player.getXVel()/2.0);
                         score += 800;
-  
+
                     }
 
                     else if ( !player.getInvincible() && (allEnemies.stateOfEnemy(hitBox.ID) == grounded || allEnemies.stateOfEnemy(hitBox.ID) == aliveAndFalling) ){
@@ -367,8 +360,63 @@ int main(int argc, char ** argv)
                         player.getSprite().setCurrentFrame(6);
                         player.setDead(true);
                         lives--;
-
                         die.playSound();
+
+                        if (lives == 0){
+
+                            drawBlackBackground(800,400,p);
+                            TextBox gameOver("letters.txt",inFile);
+                            gameOver.setLocation(350,50);
+                            gameOver.setScale(2);
+                            gameOver.setText("Game over");
+                            gameOver.draw(p);
+                            gameOver.setLocation(250,100);
+                            gameOver.setText("press x to keep playing");
+                            gameOver.draw(p);
+                            gameOver.setLocation(250,150);
+                            gameOver.setText("Score");
+                            gameOver.draw(p);
+                            Number halfScore("digits.txt",inFile);
+                            halfScore.setScale(2);
+                            halfScore.setLocation(350,150);
+                            halfScore.setNumber(score);
+                            halfScore.draw(p);
+                            p.update();
+                            while(p.getKey() != 'X'){
+                                p.kbhit();
+                                if (p.getQuit()){
+                                    return 1;
+                                }
+                            }
+                            int originalScore = score;
+                            score /= 2;
+                            for (int c = originalScore; c >= score; c-=(originalScore-score)/100 ){
+                                if (c < score){
+                                    c = score;
+                                }
+                                p.clear();
+                                drawBlackBackground(800,400,p);
+                                gameOver.setLocation(350,50);
+                                gameOver.setScale(2);
+                                gameOver.setText("Game over");
+                                gameOver.draw(p);
+                                gameOver.setLocation(250,100);
+                                gameOver.setText("press x to keep playing");
+                                gameOver.draw(p);
+                                gameOver.setLocation(250,150);
+                                gameOver.setText("Score");
+                                gameOver.draw(p);
+                                halfScore.setNumber(c);
+                                halfScore.draw(p);
+                                p.update();
+                                p.Sleep(2);
+                            }
+
+                            p.Sleep(1000);
+
+                            lives = 10;
+
+                        }
 
                     }
 
@@ -422,6 +470,11 @@ int main(int argc, char ** argv)
         player.onKeyPress(key_pressed);
         if (key_pressed == ' '){
             nextLevel = true;
+        }
+        if (key_pressed == 'P'){
+            removeCollisionBox(solids,"pow");
+            solids.push_back(powBox);
+            pow.setCurrentFrame(0);
         }
 
         horizontalTile(brickFloor, 0, screenWidth, p);

@@ -1,3 +1,15 @@
+/*Authors:
+Anupama Kannan
+Brandon Alcaraz
+Miranda Montroy
+Samuel Kim
+Thomas Cho
+*Assignment Title: Mario Bros.
+*Assignment Description: Recreate Mario Bros.
+*Due Date 12/2/2018
+*Date Created 11/4/2018
+*Date Last Modified 12/2/2018
+*/
 #include "Sidestepper.h"
 #include <cstdlib>
 #include <cmath>
@@ -45,6 +57,7 @@ Sidestepper::Sidestepper(char filename[], ifstream& inFile, int scale, int pipe,
 
     angerCounter = 0;
 
+    maxSpeed = 5;
 }
 
 double Sidestepper::getX(){
@@ -357,6 +370,9 @@ void Sidestepper::solidCollisions(vector<CollisionBox>& solids){
         pipeThatIAmIn.assignToPipe(pipe0);
         state = enteringPipe;
         speedFactor += 0.2;
+        if (speedFactor>maxSpeed){
+            speedFactor = maxSpeed;
+        }
         xVelocity = 0.75 * speedFactor;
         sprite.setMirrored(false);
         cBox.type = "ignore";
@@ -366,6 +382,9 @@ void Sidestepper::solidCollisions(vector<CollisionBox>& solids){
         pipeThatIAmIn.assignToPipe(pipe1);
         state = enteringPipe;
         speedFactor += 0.2;
+        if (speedFactor>maxSpeed){
+            speedFactor = maxSpeed;
+        }
         xVelocity = -0.75 * speedFactor;
         sprite.setMirrored(true);
         cBox.type = "ignore";
@@ -374,8 +393,6 @@ void Sidestepper::solidCollisions(vector<CollisionBox>& solids){
 }
 
 void Sidestepper::updateLocation(){
-    printState();
-    cout << cBox.ID << endl;
 
     switch (state){
     case aliveAndFalling:

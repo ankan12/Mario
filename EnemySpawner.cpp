@@ -1,3 +1,15 @@
+/*Authors:
+Anupama Kannan
+Brandon Alcaraz
+Miranda Montroy
+Samuel Kim
+Thomas Cho
+*Assignment Title: Mario Bros.
+*Assignment Description: Recreate Mario Bros.
+*Due Date 12/2/2018
+*Date Created 11/4/2018
+*Date Last Modified 12/2/2018
+*/
 #include "EnemySpawner.h"
 #include <iostream>
 using namespace std;
@@ -28,8 +40,6 @@ void EnemySpawner::readFile(char filename[], ifstream& inFile){
     currentEnemy = 0;
 
     inFile.close();
-
-    cout << "Read file" << endl;
 
 }
 

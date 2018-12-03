@@ -1,0 +1,15 @@
+Colors: 4
+w 255 255 255
+b 0 0 0
+g 136 136 0
+y 255 160 0
+Frames: 1
+wwwbwwwb
+wwwbwwwb
+yyybyyyb
+yyygyyyg
+yyygyyyg
+yyybyyyb
+gggbgggb
+gggbgggb
+\end of frame
