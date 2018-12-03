@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /*
  * SDL_Plotter.h
  * Version 2.1
@@ -119,7 +118,7 @@ public:
 };
 
 #endif /* SDL_PLOTTER_H_ */
-=======
+
 /*
  * SDL_Plotter.h
  * Version 2.1
@@ -515,4 +514,3 @@ void SDL_Plotter::getMouseLocation(int& x, int& y){
 
 
 #endif /* SDL_PLOTTER_H_ */
->>>>>>> 0ad47aeaf7a2f2a7a99a04167fe4a12a68af9a8c
