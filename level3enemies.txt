@@ -7,18 +7,6 @@ fighterfly 0
 fighterfly 1
 fighterfly 0
 fighterfly 1
-fighterfly 0
-fighterfly 1
-fighterfly 0
-fighterfly 1
-fighterfly 0
-fighterfly 1
-fighterfly 0
-fighterfly 1
-fighterfly 0
-fighterfly 1
-fighterfly 0
-fighterfly 1
 
 endOfPhase -1
 

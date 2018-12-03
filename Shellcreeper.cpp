@@ -1,6 +1,19 @@
+/*Authors:
+Anupama Kannan
+Brandon Alcaraz
+Miranda Montroy
+Samuel Kim
+Thomas Cho
+*Assignment Title: Mario Bros.
+*Assignment Description: Recreate Mario Bros.
+*Due Date 12/2/2018
+*Date Created 11/4/2018
+*Date Last Modified 12/2/2018
+*/
 #include "Shellcreeper.h"
 #include <cstdlib>
 #include <cmath>
+#include "Music.h"
 using namespace std;
 
 
@@ -205,9 +218,6 @@ Sprite& Shellcreeper::getSprite(){
  *
 */
 void Shellcreeper::draw(SDL_Plotter& p){
-=======
-
-void Shellcreeper::draw2(SDL_Plotter& p){
 
 
     if (state == deadAndInvisible){
@@ -248,12 +258,12 @@ void Shellcreeper::draw2(SDL_Plotter& p){
         break;
 
     case bumpedAndGrounded:
-        if (a > 3){
+        if (a > 6){
             a = 0;
             if (cf == 15){
                 sprite.setCurrentFrame(0);
                 state = grounded;
-              
+
                 if (xVelocity > 0){
                     sprite.setMirrored(false);
                 }
@@ -337,8 +347,6 @@ CollisionBox& Shellcreeper::getCBox(){
 */
 void Shellcreeper::solidCollisions(vector<CollisionBox>& solids){
 
-
-void Shellcreeper::solidCollisions2(vector<CollisionBox>& solids){
     Music sc("mb_sc.wav"); //initialize sound for shell creeper spawning
 
 

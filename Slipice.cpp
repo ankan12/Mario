@@ -1,3 +1,15 @@
+/*Authors:
+Anupama Kannan
+Brandon Alcaraz
+Miranda Montroy
+Samuel Kim
+Thomas Cho
+*Assignment Title: Mario Bros.
+*Assignment Description: Recreate Mario Bros.
+*Due Date 12/2/2018
+*Date Created 11/4/2018
+*Date Last Modified 12/2/2018
+*/
 #include "Slipice.h"
 #include <cstdlib>
 #include <cmath>
@@ -128,7 +140,7 @@ void Slipice::draw(SDL_Plotter& p){
             a = 0;
         }
 
-        int r = rand() % 200;
+        int r = rand() % 1000;
 
         if (r == 0 && platNumber != -1){
             selfDestruct = true;
@@ -185,7 +197,6 @@ void Slipice::draw(SDL_Plotter& p){
     sprite.setLocation(x, y);
     sprite.draw(p);
     a += animationSpeed;
-    cout << "a: " << a << endl;
 
 }
 
