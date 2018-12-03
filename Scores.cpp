@@ -10,6 +10,13 @@
 
 #include "Scores.h"
 
+/*
+ * description: constructor for Score file
+ * return: NA
+ * precondition: instance of Score
+ * postcondition: initialized the variables
+ *
+*/
 Score::Score() {
     scoreFile.open("scores.txt");
     if(!scoreFile){
@@ -32,7 +39,13 @@ Score::Score() {
     scoreFile.close();
 }
 
-
+/*
+ * description: sets the score
+ * return: void
+ * precondition: instance of Score and two variables are passed in
+ * postcondition: score is set
+ *
+*/
 void Score::setScore(int s, int num) {
     switch (num){
         case 1:{
@@ -58,6 +71,13 @@ void Score::setScore(int s, int num) {
     }
 }
 
+/*
+ * description: sets the name
+ * return: void
+ * precondition: instance of Score
+ * postcondition: sets the name variable
+ *
+*/
 void Score::setName(string n, int num) {
     switch (num){
         case 1:{
@@ -84,6 +104,13 @@ void Score::setName(string n, int num) {
 
 }
 
+/*
+ * description: gets the score
+ * return: int
+ * precondition: instance of Score and one int is passed in
+ * postcondition: nothing is changed
+ *
+*/
 int Score::getScore(int num){
     switch (num){
         case 1:{
@@ -104,6 +131,13 @@ int Score::getScore(int num){
     }
 }
 
+/*
+ * description: gets the name
+ * return: string
+ * precondition: instance of Score and int passed in
+ * postcondition: nothing is changed
+ *
+*/
 string Score::getName(int num){
     switch (num){
         case 1:{
@@ -124,6 +158,13 @@ string Score::getName(int num){
     }
 }
 
+/*
+ * description: changes the scores
+ * return: void
+ * precondition: instance of Score
+ * postcondition: name and score are set
+ *
+*/
 void Score::changeScore(int s, string n){
     if (s > hscore1){
         // Lower Scores
@@ -185,6 +226,13 @@ void Score::changeScore(int s, string n){
     }
 }
 
+/*
+ * description: stores the scores
+ * return: void
+ * precondition: instance of Score
+ * postcondition: scores are set into a file
+ *
+*/
 void Score::storeScores() {
     scoreFile.open("scores.txt");
     if (!scoreFile){
