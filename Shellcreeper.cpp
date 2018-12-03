@@ -331,6 +331,7 @@ CollisionBox& Shellcreeper::getCBox(){
  *
 */
 void Shellcreeper::solidCollisions2(vector<CollisionBox>& solids){
+    Music sc("mb_sc.wav"); //initialize sound for shell creeper spawning
 
     if (!(state == aliveAndFalling || state == grounded || state == bumpedAndFalling)){
         return;
@@ -436,6 +437,7 @@ void Shellcreeper::solidCollisions2(vector<CollisionBox>& solids){
     }
 
     if (cBox.isTouching(pipe0.entrance)){
+        sc.playSound(); //play spawn sound
         pipeThatIAmIn.assignToPipe(pipe0);
         state = enteringPipe;
         speedFactor += 0.2;
@@ -445,6 +447,7 @@ void Shellcreeper::solidCollisions2(vector<CollisionBox>& solids){
     }
 
     if (cBox.isTouching(pipe1.entrance)){
+        sc.playSound(); //play spawn sound
         pipeThatIAmIn.assignToPipe(pipe1);
         state = enteringPipe;
         speedFactor += 0.2;
@@ -463,6 +466,8 @@ void Shellcreeper::solidCollisions2(vector<CollisionBox>& solids){
  *
 */
 void Shellcreeper::updateLocation2(){
+    Music sc("mb_sc.wav"); //initialize sound for shell creeper spawning
+
     switch (state){
     case aliveAndFalling:
 
@@ -491,6 +496,8 @@ void Shellcreeper::updateLocation2(){
 
     case exitingPipe:
         if (distanceInPipe == -1){
+            sc.playSound(); //play spawn sound
+
             if (pipeThatIAmIn.direction == "right"){
                 x = pipeThatIAmIn.exitX - cBox.getWidth();
                 y = pipeThatIAmIn.exitY;
@@ -681,5 +688,4 @@ void Shellcreeper::printState(){
         return;
 
     }
-
 }
